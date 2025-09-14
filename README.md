@@ -1,10 +1,10 @@
 # Photograph - Sistema para Fotógrafos
 
-`CURSO`
+`Análise e Desenvolvimento de Sistemas - PUC Minas`
 
-`DISCIPLINA`
+`Desenvolvimento de aplicação web front-end`
 
-`SEMESTRE`
+`2º semestre/2025`
 
 Descrever resumidamente, em um ou dois parágrafos, o projeto desenvolvido.
 
