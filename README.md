@@ -10,8 +10,8 @@ Descrever resumidamente, em um ou dois parágrafos, o projeto desenvolvido.
 
 ## Integrantes
 
-- Yago Rodrigues de Moraes
 - Yuri Jardim Silva
+- Yago Rodrigues de Moraes
 - Gustavo Santiago Barbosa
 - D'Angeles Lé Pereira de Lima
 - Ariana da Cunha Ferreira Paz de Lima
