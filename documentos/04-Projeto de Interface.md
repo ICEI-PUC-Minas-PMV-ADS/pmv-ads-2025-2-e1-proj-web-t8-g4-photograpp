@@ -9,7 +9,7 @@ O fluxograma apresentado nas figura 1 e 2 apresentam o fluxo de interação dos 
 Figura 1 - User Flow do fotógrafo
 
 ![Photograpp---User-Flow---Cliente](https://github.com/user-attachments/assets/a07fa8d2-e1f1-413e-80a1-58d6ed0e9725)
-Figura 1 - User Flow do cliente
+Figura 2 - User Flow do cliente
 
 [Adicione aqui o diagrama de fluxo de usuário da sua aplicação.] 
 
