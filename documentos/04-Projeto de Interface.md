@@ -3,7 +3,7 @@
 
 ## User Flow
 
-O fluxograma apresentado nas figura 1 e 2 apresentam o fluxo de interação dos usuários pelas telas do sistema. As telas serão detalhadas na sessão protótipo que se segue. Para visualizar o fluxograma completo, acesse: [Photograpp - User Flow].(https://www.figma.com/board/VgYIv3lfbpj9n7BhTV3FiY/Photograpp---User-Flow---Sitemap?t=wSHVSKqpA183ZLfN-1)
+O fluxograma apresentado nas figura 1 e 2 apresentam o fluxo de interação dos usuários pelas telas do sistema. As telas serão detalhadas na sessão protótipo que se segue. Para visualizar o fluxograma completo, acesse: [Photograpp - User Flow](https://www.figma.com/board/VgYIv3lfbpj9n7BhTV3FiY/Photograpp---User-Flow---Sitemap?t=wSHVSKqpA183ZLfN-1)
 
 ![Photograpp---User-Flow----Fotógrafo](https://github.com/user-attachments/assets/69f6b353-1dc9-4e5e-b8d7-0b869f310bc1)
 Figura 1 - User Flow do fotógrafo
