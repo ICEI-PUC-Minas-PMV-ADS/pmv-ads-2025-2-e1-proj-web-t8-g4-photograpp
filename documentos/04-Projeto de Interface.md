@@ -3,7 +3,13 @@
 
 ## User Flow
 
-Fluxo de usuário (User Flow) é uma técnica que permite ao desenvolvedor mapear todo fluxo de navegação do usuário na aplicação. Essa técnica funciona para alinhar os caminhos e as possíveis ações que o usuário pode fazer junto com os membros de sua equipe.
+O fluxograma apresentado nas figura 1 e 2 apresentam o fluxo de interação dos usuários pelas telas do sistema. As telas serão detalhadas na sessão protótipo que se segue. Para visualizar o fluxograma completo, acesse: [Photograpp - User Flow].(https://www.figma.com/board/VgYIv3lfbpj9n7BhTV3FiY/Photograpp---User-Flow---Sitemap?t=wSHVSKqpA183ZLfN-1)
+
+![Photograpp---User-Flow----Fotógrafo](https://github.com/user-attachments/assets/69f6b353-1dc9-4e5e-b8d7-0b869f310bc1)
+Figura 1 - User Flow do fotógrafo
+
+![Photograpp---User-Flow---Cliente](https://github.com/user-attachments/assets/a07fa8d2-e1f1-413e-80a1-58d6ed0e9725)
+Figura 1 - User Flow do cliente
 
 [Adicione aqui o diagrama de fluxo de usuário da sua aplicação.] 
 
