@@ -1,6 +1,9 @@
 # Introdução
 
-[Aqui a equipe deve criar um texto descritivo com a visão geral do problema abordado, apresentando o ambiente e as situações envolvidas no problema.]
+O mercado brasileiro de produção fotográfica está em constante expansão, e os profissionais da área buscam, cada vez mais, formas eficazes de atender a essa demanda. O setor é composto majoritariamente por pequenas empresas. Segundo o Serviço Brasileiro de Apoio às Micro e Pequenas Empresas, “os Microempreendedores Individuais (MEIs) e Microempresas (MEs), juntos, representam a grande maioria das empresas do setor, 98,85% do mercado de fotografia no Brasil” (SEBRAE, 2024).
+No entanto, os fotógrafos enfrentam dificuldades em sua rotina de trabalho, como o gerenciamento de agenda, a administração das tarefas e finanças, a elaboração de contratos e a divulgação de seus serviços para a expansão da carteira de clientes. O número elevado de tarefas administrativas, aliado ao uso de ferramentas descentralizadas, compromete a produtividade do profissional.
+Nesse contexto, surge a necessidade de unificar diversas ferramentas administrativas em um só lugar, proporcionando melhor rendimento ao reduzir a dependência de sistemas fragmentados e garantindo mais autonomia, eficiência e agilidade para o fotógrafo.
+
 
 ## Problema
 [Aqui a equipe deve fornecer uma descrição detalhada do problema a ser resolvido. Não é o momento adequado para abordar questões técnicas relacionadas ao desenvolvimento da aplicação. O objetivo é compreender e comunicar de maneira precisa qual é o desafio ou necessidade que motiva a criação da aplicação.]
