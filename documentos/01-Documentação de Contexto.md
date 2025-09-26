@@ -13,6 +13,7 @@ Apesar do crescimento, os fotógrafos enfrentam diversos **desafios em sua rotin
 - Divulgação de serviços para ampliar a carteira de clientes  
 
 O elevado número de tarefas administrativas, aliado ao uso de ferramentas descentralizadas, compromete a produtividade do profissional.  
+
 Nesse contexto, surge a necessidade de **unificar diversas ferramentas administrativas em um só lugar**, proporcionando:
 
 - Redução da dependência de sistemas fragmentados  
@@ -21,8 +22,7 @@ Nesse contexto, surge a necessidade de **unificar diversas ferramentas administr
 
 ---
 
-
-## Problema
+# Problema
 
 Entre as principais dificuldades enfrentadas pelos fotógrafos, destacam-se:
 
@@ -32,7 +32,9 @@ Entre as principais dificuldades enfrentadas pelos fotógrafos, destacam-se:
 4. Comunicação falha com clientes, gerando possíveis prejuízos e atrasos nas entregas  
 5. Baixo ou nenhum controle sobre documentação de contratos e fluxo de caixa (entradas e saídas)  
 
-## Objetivos
+---
+
+# Objetivos
 
 ## Geral
 Desenvolver um sistema web que centralize todo o fluxo de trabalho de fotógrafos:  
@@ -50,7 +52,7 @@ agendamentos, CRM, contratos, tarefas e pipeline de produção.
 
 ---
 
-## Justificativa
+# Justificativa
 
 A relevância da fotografia se dá pela nossa necessidade de registrar momentos, pessoas, lugares, eventos, objetos e animais, criando histórias.  
 Uma vez registrados, esses momentos podem ser acessados e relembrados.  
@@ -75,9 +77,8 @@ Nesse sentido, todas essas tarefas, sendo executadas por uma só pessoa em diver
 
 ---
 
-## Público-Alvo
+# Público-Alvo
 
 - Fotógrafos independentes (freelancers, MEIs)  
 - Estúdios de fotografia de pequeno porte  
 - Clientes de fotografia que precisam acompanhar contratos, prazos e selecionar imagens  
-
