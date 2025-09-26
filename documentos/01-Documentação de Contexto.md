@@ -1,15 +1,36 @@
 # Introdução
 
-O mercado brasileiro de produção fotográfica está em constante expansão, e os profissionais da área buscam, cada vez mais, formas eficazes de atender a essa demanda. O setor é composto majoritariamente por pequenas empresas. Segundo o Serviço Brasileiro de Apoio às Micro e Pequenas Empresas, “os Microempreendedores Individuais (MEIs) e Microempresas (MEs), juntos, representam a grande maioria das empresas do setor, 98,85% do mercado de fotografia no Brasil” (SEBRAE, 2024).
-No entanto, os fotógrafos enfrentam dificuldades em sua rotina de trabalho, como o gerenciamento de agenda, a administração das tarefas e finanças, a elaboração de contratos e a divulgação de seus serviços para a expansão da carteira de clientes. O número elevado de tarefas administrativas, aliado ao uso de ferramentas descentralizadas, compromete a produtividade do profissional.
-Nesse contexto, surge a necessidade de unificar diversas ferramentas administrativas em um só lugar, proporcionando melhor rendimento ao reduzir a dependência de sistemas fragmentados e garantindo mais autonomia, eficiência e agilidade para o fotógrafo.
+O mercado brasileiro de produção fotográfica está em constante expansão, e os profissionais da área buscam, cada vez mais, formas eficazes de atender a essa demanda.  
+O setor é composto **majoritariamente por pequenas empresas**. Segundo o Serviço Brasileiro de Apoio às Micro e Pequenas Empresas:
+
+> “Os Microempreendedores Individuais (MEIs) e Microempresas (MEs), juntos, representam a grande maioria das empresas do setor: **98,85% do mercado de fotografia no Brasil**” (SEBRAE, 2024).
+
+Apesar do crescimento, os fotógrafos enfrentam diversos **desafios em sua rotina de trabalho**, como:
+
+- Gerenciamento de agenda  
+- Administração de tarefas e finanças  
+- Elaboração de contratos  
+- Divulgação de serviços para ampliar a carteira de clientes  
+
+O elevado número de tarefas administrativas, aliado ao uso de ferramentas descentralizadas, compromete a produtividade do profissional.  
+Nesse contexto, surge a necessidade de **unificar diversas ferramentas administrativas em um só lugar**, proporcionando:
+
+- Redução da dependência de sistemas fragmentados  
+- Mais autonomia  
+- Maior eficiência e agilidade para o fotógrafo  
+
+---
 
 
 ## Problema
-[Aqui a equipe deve fornecer uma descrição detalhada do problema a ser resolvido. Não é o momento adequado para abordar questões técnicas relacionadas ao desenvolvimento da aplicação. O objetivo é compreender e comunicar de maneira precisa qual é o desafio ou necessidade que motiva a criação da aplicação.]
 
-Este link pode ajudar a equipe a entender mais sobre definição do problema: [Objetivos, Problema de pesquisa e Justificativa.](https://medium.com/@versioparole/objetivos-problema-de-pesquisa-e-justificativa-c98c8233b9c3)
+Entre as principais dificuldades enfrentadas pelos fotógrafos, destacam-se:
 
+1. Conflitos de agenda e agendamentos duplicados  
+2. Dificuldade em controlar o ciclo de serviço (da captação ao pós-venda)  
+3. Perda de tempo com burocracias administrativas  
+4. Comunicação falha com clientes, gerando possíveis prejuízos e atrasos nas entregas  
+5. Baixo ou nenhum controle sobre documentação de contratos e fluxo de caixa (entradas e saídas)  
 
 ## Objetivos
 
