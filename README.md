@@ -6,7 +6,7 @@
 
 `2º semestre/2025`
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto desenvolvido.
+O projeto consiste no desenvolvimento de um sistema web integrado para fotógrafos, que centraliza todo o fluxo de trabalho em um único ambiente — incluindo agendamentos, CRM, contratos, tarefas, pipeline de produção e controle financeiro básico — com o objetivo de reduzir a fragmentação de ferramentas, evitar conflitos de agenda, otimizar a comunicação com clientes e aumentar a eficiência na gestão do negócio. Além de facilitar a rotina administrativa do fotógrafo, a plataforma também oferece aos clientes um espaço dedicado para acompanhar contratos, prazos e selecionar imagens, promovendo mais organização, agilidade e liberdade criativa para o profissional.
 
 ## Integrantes
 
