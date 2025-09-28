@@ -28,7 +28,6 @@
 > **Link Útil**:
 > - [Como escrever boas histórias de usuário](https://medium.com/vertice/como-escrever-boas-users-stories-hist%C3%B3rias-de-usu%C3%A1rios-b29c75043fac)
 
-[Utilize o modelo de tabela abaixo para apresentar as histórias de usuários.]
 
 |EU COMO... `QUEM`   | QUERO/PRECISO ... `O QUE` |PARA ... `PORQUE`                 |
 |--------------------|---------------------------|----------------------------------|
@@ -38,10 +37,10 @@
 | Fotógrafo          | preciso organizar e acompanhar todas as etapas da minha prestação de serviço | para garantir entregas com excelência e dentro dos prazos estabelecidos |
 | Fotógrafo          | preciso que meu cliente esteja ciente das datas agendadas, prazos acordados, bem como das tarefas que o cliente precisa realizar | para que eu consiga entregar meu trabalho no prazo e com excelência |
 | Fotógrafo          | preciso saber quais fotos meu cliente gostou, quais fotos extras ele deseja comprar e quais descartou | para otimizar meu trabalho e editar apenas o que será pago |
-| Fotógrafo          | ...                       | ...                              |
-| Fotógrafo          | ...                       | ...                              |
-| Cliente            | ...                       | ...                              |
-| Cliente            | ...                       | ...                              |
+| Fotógrafo          | preciso de uma página online para divulgar meu trabalho, apresentar meus pacotes e permitir que o cliente solicite meus serviços de forma simples | para agilizar a contratação e receber todas as informações necessárias para elaborar orçamentos e contratos |
+| Fotógrafo          | preciso de um controle financeiro básico preciso de um controle financeiro básico que registre entradas e saídas | para garantir a saúde do meu negócio e ter clareza sobre minhas finanças |
+| Cliente            | preciso acompanhar o serviço contratado, verificando tarefas que devo realizar, datas acordadas, termos do contrato e prazos de entrega | para ter clareza e segurança sobre o serviço |
+| Cliente            | quero informar ao fotógrafo quais fotos gostei, quais desejo editar e quais descartar | para receber apenas as fotos selecionadas conforme minha escolha |
 
 ## Requisitos do Projeto
 
