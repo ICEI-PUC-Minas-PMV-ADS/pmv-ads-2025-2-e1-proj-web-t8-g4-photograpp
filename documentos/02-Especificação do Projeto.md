@@ -2,20 +2,34 @@
 
 ## Perfis de Usuários
 
-[Enumere e faça o detalhamento dos perfis de usuários. Utilize o modelo de tabela abaixo para sintetizá-los.]
+<table>
+<tbody>
+<tr align=center>
+<th colspan="2">Perfil - Fotógrafo </th>
+</tr>
+<tr>
+<td width="150px"><b>Descrição</b></td>
+<td width="600px">Profissional que precisa gerenciar agenda, contratos, tarefas, clientes e entregas.</td>
+</tr>
+<tr>
+<td><b>Necessidades</b></td>
+<td>Organizar contratos, receber alertas de conflito, centralizar contatos, destacar serviços em página online.</td>
+</tr>
+</tbody>
+</table>
 
 <table>
 <tbody>
 <tr align=center>
-<th colspan="2">Perfil Nome </th>
+<th colspan="2">Perfil - Cliente </th>
 </tr>
 <tr>
 <td width="150px"><b>Descrição</b></td>
-<td width="600px">...</td>
+<td width="600px">Pessoa física/jurídica que contrata os serviços fotográficos.</td>
 </tr>
 <tr>
 <td><b>Necessidades</b></td>
-<td>...</td>
+<td>Visualizar prazos, acessar contrato, escolher fotos, acompanhar status do serviço, contratar pacotes.</td>
 </tr>
 </tbody>
 </table>
@@ -23,11 +37,55 @@
 
 ## Histórias de Usuários
 
-[Apresente aqui as histórias de usuários que são relevantes para o projeto da solução.]
+### Historia 1
+Cláudio Augusto - FOTÓGRAFO INDEPENDENTE
+Dores: Perde muito tempo com tarefas administrativas.
+Dificuldade em manter controle dos contratos e cadastros dos clientes.
+Ansiedade em relação a atrasos na entrega de fotos.
+Dificuldade de apresentar seus serviços para clientes
 
-> **Link Útil**:
-> - [Como escrever boas histórias de usuário](https://medium.com/vertice/como-escrever-boas-users-stories-hist%C3%B3rias-de-usu%C3%A1rios-b29c75043fac)
+NECESSIDADES: Centralizar agendamentos e tarefas em um só lugar.
+Organizar clientes, contratos e pagamentos sem depender de planilhas dispersas.
+Acompanhar prazos para não comprometer entregas.
+Ter uma página pública para divulgar seu trabalho.
 
+OBJETIVO AO USAR A APLICAÇÃO WEB:
+Ganhar tempo para focar na fotografia, mantendo a gestão simples e organizada.
+--------------------
+### Historia 2
+Clarissa Delfim - DONA DE UM PEQUENO ESTÚDIO DE FOTOGRAFIAS
+DORES: 
+- Dificuldade em acompanhar o fluxo de serviços do estúdio.
+- Frequentemente se depara com agendas conflitantes
+- Precisa saber com mais clareza quais fotos o cliente escolheu para editar
+- Precisa de controle financeiro
+
+NECESSIDADES:
+- Gerenciar tarefas de forma clara.
+- Controlar a agenda do estúdio e evitar choques de horários.
+- Saber a preferência do cliente
+- Ter uma visão financeira consolidada (entradas, saídas, pacotes vendidos).
+
+OBJETIVO AO USAR A APLICAÇÃO WEB:
+Estruturar o estúdio como um pequeno negócio, com maior controle e eficiência.
+--------------------
+### Historia 3
+Ana Paula - CLIENTE QUE CONTRATOU UM ENSAIO
+DORES:
+- Insegurança sobre quando receberá as fotos.
+- Dificuldade em se comunicar com o fotógrafo sobre detalhes.
+- Falta de transparência em tarefas, pagamentos e pacotes.
+- Dificuldade de comunicar quais fotos gostou
+
+NECESSIDADES:
+- Acompanhar o status do ensaio contratado.
+- Ter clareza sobre os termos do contrato e prazos de entrega das fotos.
+- Ter clareza de suas tarefas como cliente.
+- Visualizar as fotos feitas e escolher quais comprará.
+
+OBJETIVO AO USAR A APLICAÇÃO WEB:
+Ter confiança e praticidade na relação com o fotógrafo, com informações acessíveis em tempo real.
+--------------------
 
 |EU COMO... `QUEM`   | QUERO/PRECISO ... `O QUE` |PARA ... `PORQUE`                 |
 |--------------------|---------------------------|----------------------------------|
@@ -44,11 +102,7 @@
 
 ## Requisitos do Projeto
 
-[Com base nas Histórias de Usuários, enumere os requisitos da solução. Lembre-se que cada requisito deve corresponder a uma, e somente uma, característica alvo da solução. Além disso, certifique-se de que todos os aspectos capturados nas Histórias de Usuário foram cobertos.]
-
 ### Requisitos Funcionais
-
-[Utilize o modelo de tabela abaixo para apresentar os requisitos funcionais]
 
 |ID    | Descrição                | Prioridade |
 |-------|---------------------------------|----|
@@ -68,8 +122,6 @@
 **Prioridade: Alta / Média / Baixa. 
 
 ### Requisitos não Funcionais
-
-[Utilize o modelo de tabela abaixo para apresentar os requisitos não-funcionais]
 
 |ID      | Descrição               |Prioridade |
 |--------|-------------------------|----|
