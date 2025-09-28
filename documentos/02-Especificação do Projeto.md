@@ -32,8 +32,16 @@
 
 |EU COMO... `QUEM`   | QUERO/PRECISO ... `O QUE` |PARA ... `PORQUE`                 |
 |--------------------|---------------------------|----------------------------------|
-| ...                | ...                       | ...                              |
-| ...                | ...                       | ...                              |
+| Fotógrafo          | quero cadastrar meus clientes | para manter histórico de contatos e contratos, para facilitar recontratações e comunicações |
+| Fotógrafo          | quero agendar sessões com verificação de conflito de horários | para evitar dupla reserva |
+| Fotógrafo          | quero gerar e armazenar contratos por cliente | para formalizar acordos e prazos |
+| Fotógrafo          | preciso organizar e acompanhar todas as etapas da minha prestação de serviço | para garantir entregas com excelência e dentro dos prazos estabelecidos |
+| Fotógrafo          | preciso que meu cliente esteja ciente das datas agendadas, prazos acordados, bem como das tarefas que o cliente precisa realizar | para que eu consiga entregar meu trabalho no prazo e com excelência |
+| Fotógrafo          | preciso saber quais fotos meu cliente gostou, quais fotos extras ele deseja comprar e quais descartou | para otimizar meu trabalho e editar apenas o que será pago |
+| Fotógrafo          | ...                       | ...                              |
+| Fotógrafo          | ...                       | ...                              |
+| Cliente            | ...                       | ...                              |
+| Cliente            | ...                       | ...                              |
 
 ## Requisitos do Projeto
 
@@ -45,8 +53,18 @@
 
 |ID    | Descrição                | Prioridade |
 |-------|---------------------------------|----|
-| RF-01 |  ...                    | ...   | 
-|  ...  |  ...                    | ...   |
+| RF-01 |  O sistema deve permitir cadastro e edição de clientes com histórico de contratos. | Alta  | 
+| RF-02 |  O sistema deve permitir o cadastro de fotógrafos com informações pessoais e serviços. | Alta  |
+| RF-03 |  O sistema deve permitir o agendamento de sessões fotográficas, verificando conflitos. | Alta  |
+| RF-04 |  O sistema deve gerar contratos digitais (PDF) vinculados a clientes e serviços. | Alta  |
+| RF-05 |  O sistema deve disponibilizar um pipeline Kanban para acompanhamento dos trabalhos com possibilidade de designar prazos e responsáveis pelas tarefas. | Alta  |
+| RF-06 |  O sistema deve permitir criação de tarefas/checklists vinculados ao evento. | Média |
+| RF-07 |  O sistema deve ter uma galeria online para seleção de fotos pelo cliente. | Alta  |
+| RF-08 |  O sistema deve enviar notificações automáticas de prazos e lembretes. | Média |
+| RF-09 |  O sistema deve permitir que o cliente acesse uma página personalizada do serviço contratado. | Alta  |
+| RF-10 |  O sistema deve gerar relatórios de agenda e faturamento por período | Média |
+| RF-11 |  O sistema deve disponibilizar uma página online de divulgação do fotógrafo e seus serviços | Baixa |
+| RF-12 |  O sistema deve permitir um controle de caixa básico | Média |
 
 **Prioridade: Alta / Média / Baixa. 
 
@@ -56,8 +74,13 @@
 
 |ID      | Descrição               |Prioridade |
 |--------|-------------------------|----|
-| RNF-01 |  ...                    | ...   | 
-| ...    |  ...                    | ...   | 
+| RNF-01 |  O sistema deve ser compatível com os principais navegadores (Chrome, Edge, Firefox, Safari) | Alta  | 
+| RNF-02 |  O sistema deve ser responsivo, garantindo adaptação a diferentes tamanhos de tela e dispositivos móveis | Alta  | 
+| RNF-03 |  O sistema deve garantir acessibilidade (WCAG 2.1) | Média | 
+| RNF-04 |  O sistema deve ter tempo de upload de fotos inferior a 5s por imagem (em média 5MB). | Alta  | 
+| RNF-05 |  O sistema deve permitir download rápido de galerias (até 2s por foto). | Alta  | 
+| RNF-06 |  O sistema deve suportar formatos JPEG, PNG e RAW*** | Alta  | 
+| RNF-07 |  O tempo de resposta das páginas deve ser menor que 2 segundos em média. | Alta  | 
 
 **Prioridade: Alta / Média / Baixa. 
 
