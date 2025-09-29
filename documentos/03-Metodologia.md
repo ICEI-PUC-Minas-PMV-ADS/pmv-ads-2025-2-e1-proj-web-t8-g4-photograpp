@@ -274,5 +274,3 @@ Labels: <tipo>, <prioridade>, <área/módulo>
 - [ ] Deploy/Pages verificado (quando aplicável)
 
 ```
-
-```
