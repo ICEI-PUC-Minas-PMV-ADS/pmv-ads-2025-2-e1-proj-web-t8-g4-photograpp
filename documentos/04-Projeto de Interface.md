@@ -29,7 +29,7 @@ Abaixo apresentamos as principais telas do sistema que nortearão o desenvolvime
 #### Home
 A figura 3 apresenta a home do site a qual tem a função de cartão de visita do sistema apresentado para os fotógrafos do que se trata o sistema e convidando-os a se inscreverem para realizar a gestão dos seus trabalhos com o Photograpp.
 
-<img width="1440" height="1762" alt="Home" src="https://github.com/user-attachments/assets/cd46d8b5-f45c-43ee-9c2e-c792c4c8b206" />
+<img width="600" alt="Home" src="https://github.com/user-attachments/assets/cd46d8b5-f45c-43ee-9c2e-c792c4c8b206" />
 Figura 3 - Home
 
 #### Login e registro de usuário
