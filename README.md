@@ -36,7 +36,7 @@ O projeto consiste no desenvolvimento de um sistema web integrado para fotógraf
 
 # Hospedagem
 
-- Insira o endereço eletrônico público de acesso ao conteúdo publicado.
+- O link da hospedagem estará disponível assim que o Github Pages for configurado.
 
 # Código-Fonte
 
