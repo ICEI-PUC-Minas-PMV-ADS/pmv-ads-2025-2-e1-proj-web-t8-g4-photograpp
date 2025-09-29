@@ -67,6 +67,9 @@ Este documento descreve a metodologia de desenvolvimento adotada para o projeto 
   - Done (atende DoD e potencialmente publicável)
 - Regras:
   - Entrada de trabalho somente a partir do Sprint Backlog (evitar puxar diretamente do Product Backlog durante o Sprint, salvo renegociação com o PO).
+- Snapshot do Quadro de Trabalho em um momento durante a Sprint:
+  <img width="1852" height="894" alt="image" src="https://github.com/user-attachments/assets/6af1fb14-349d-4fe5-ac00-487724aa997f" />
+
 
 ## 5. Gestão de Backlog e Critérios
 
