@@ -90,18 +90,19 @@ Este documento descreve a metodologia de desenvolvimento adotada para o projeto 
 | Ambiente                    | Plataforma      | Link de acesso                                                                                                       |
 | --------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Repositório de código fonte | GitHub          | https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e1-proj-web-t8-g4-photograpp/blob/main/README.md            |
-| Documentos do projeto       | GitHub (docs/)  | Atualizar após criar a pasta `docs/` no repositório                                                                  |
+| Documentos do projeto       | GitHub (docs/)  | https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e1-proj-web-t8-g4-photograpp/blob/main/documentos           |
 | Projeto de Interface        | Figma           | https://www.figma.com/board/VgYIv3lfbpj9n7BhTV3FiY/Photograpp---User-Flow---Sitemap?node-id=0-1&t=zuAfz8O68Xobcecy-1 |
 | Gerenciamento do Projeto    | GitHub Projects | https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/2360                                                         |
-| Hospedagem (site)           | GitHub Pages    | Atualizar após configurar Pages no repositório                                                                       |
+| Hospedagem (site)           | GitHub Pages    | O Link ficará disponível após a configuraração do Github Pages no repositório                                        |
 
 ## 8. Estratégia de Organização e Codificação
 
-- Estrutura de pastas (sugerida):
-  - `src/` (componentes, páginas, assets, serviços)
+- Estrutura de pastas:
+  - `codigo-fonte/` (componentes, páginas, assets, serviços)
   - `public/` (arquivos estáticos)
-  - `tests/` (unitários e e2e)
-  - `docs/` (documentação publicada no Pages)
+  - `testes/` (unitários e e2e)
+  - `documentos/` (documentação publicada no Pages)
+  - `apresentacao/` (apresentação final do projeto)
 - Branching:
   - Trunk-based com feature branches; `main` protegido.
   - Padrões: `feature/rf-01-clientes`, `bugfix/...`, `chore/...`.
@@ -228,7 +229,7 @@ Labels: <tipo>, <prioridade>, <área/módulo>
 - [ ] Tests passando (unit/integration/e2e quando aplicável)
 - [ ] Responsividade validada
 - [ ] Acessibilidade básica (WCAG 2.1)
-- [ ] Performance dentro do esperado (inclui upload de imagens)
+- [ ] Performance dentro do esperado
 - [ ] Documentação atualizada (README/CHANGELOG)
 - [ ] Deploy/Pages verificado (quando aplicável)
 
