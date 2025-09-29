@@ -60,15 +60,16 @@ Este documento descreve a metodologia de desenvolvimento adotada para o projeto 
 ## 4. Quadro de Trabalho (GitHub Projects)
 
 - Colunas (enxutas, focadas no Sprint):
-  - Product Backlog
-  - Sprint Backlog (To Do)
-  - In Progress
-  - In Review (PR aberto, validações)
-  - Done (atende DoD e potencialmente publicável)
-- Regras:
-  - Entrada de trabalho somente a partir do Sprint Backlog (evitar puxar diretamente do Product Backlog durante o Sprint, salvo renegociação com o PO).
-- Snapshot do Quadro de Trabalho em um momento durante a Sprint:
-  <img width="1852" height="894" alt="image" src="https://github.com/user-attachments/assets/6af1fb14-349d-4fe5-ac00-487724aa997f" />
+  - **Product Backlog** - lista priorizada de tudo que pode ser feito no produto; fonte para planejar próximos Sprints.
+  - **Sprint Backlog (To Do)** - itens selecionados para o Sprint, prontos e ainda não iniciados.
+  - **In Progress** - itens em desenvolvimento, com trabalho ativo em andamento.
+  - **In Review** - implementação finalizada, em revisão de código/testes e aguardando aprovações.
+  - **Done** - cumpre a Definition of Done, testado/integrado e pronto para release.
+
+<figure> 
+   <img width="1852" height="894" alt="image" src="https://github.com/user-attachments/assets/6af1fb14-349d-4fe5-ac00-487724aa997f" />
+    <figcaption>  Figura 1 - Screenshot do Quadro de Trabalho em um momento durante uma Sprint</figcaption>
+</figure> 
 
 
 ## 5. Gestão de Backlog e Critérios
@@ -165,13 +166,13 @@ Este documento descreve a metodologia de desenvolvimento adotada para o projeto 
 - Dependências externas (ex.: geração de PDF): protótipos técnicos (spikes) antecipados.
 - Disponibilidade do time: pareamento, documentação e issues bem descritas (reduzir bus factor).
 
-## 13. Roadmap de Entregas (exemplo alinhado aos RFs)
+## 13. Roadmap de Entregas (exemplo alinhado à documentação e aos RFs)
 
-- Sprint 1: base do projeto, navegação, RF-01 (clientes), RF-02 (fotógrafos), responsividade básica.
-- Sprint 2: RF-03 (agenda com conflitos), RF-05 (pipeline Kanban visual interno), RF-06 (tarefas/checklists).
-- Sprint 3: RF-04 (contratos PDF), RF-09 (página do cliente).
-- Sprint 4: RF-07 (galeria/seleção), RF-08 (notificações), RF-12 (caixa básico), RF-10 (relatórios).
-- Sprint 5: RF-11 (página de divulgação), hardening (a11y, perf, cross-browser), documentação e release.
+- Sprint 1: Documentação de Contexto, Especificação do Projeto.
+- Sprint 2: Metodologia, Projeto de Interface e Design.
+- Sprint 3: Template padrão da Aplicação, navegação, RF-01 (clientes), RF-02 (fotógrafos), responsividade básica.
+- Sprint 4: RF-03 (agenda com conflitos), RF-05 (pipeline Kanban visual interno), RF-06 (tarefas/checklists).
+- Sprint 5: RF-04 (contratos PDF), RF-09 (página do cliente).
 
 ## 14. Fluxo de Trabalho (resumo prático)
 
