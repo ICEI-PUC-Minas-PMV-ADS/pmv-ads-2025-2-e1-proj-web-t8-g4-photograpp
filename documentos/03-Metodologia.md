@@ -71,7 +71,7 @@ A metodologia ágil escolhida para o desenvolvimento deste projeto foi o SCRUM, 
   - **Done** - cumpre a Definition of Done, testado/integrado e pronto para release.
 
 <figure> 
-   <img width="1852" height="894" alt="image" src="https://github.com/user-attachments/assets/6af1fb14-349d-4fe5-ac00-487724aa997f" />
+   <img width="1852" height="906" alt="image" src="https://github.com/user-attachments/assets/7c6e458f-e163-418e-ab10-e8d1b8bb1724" />
     <figcaption>  Figura 1 - Screenshot do Quadro de Trabalho em um momento durante uma Sprint</figcaption>
 </figure> 
 
