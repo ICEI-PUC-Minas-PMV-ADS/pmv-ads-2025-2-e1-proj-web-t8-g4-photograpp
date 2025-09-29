@@ -2,6 +2,10 @@
 
 Este documento descreve a metodologia de desenvolvimento adotada para o projeto Photograpp – Sistema para Fotógrafos, utilizando Scrum. O objetivo é garantir previsibilidade nas entregas, qualidade e alinhamento contínuo com os requisitos funcionais (RF) e não funcionais (RNF) do produto.
 
+A metodologia ágil escolhida para o desenvolvimento deste projeto foi o SCRUM, pois como citam Amaral, Fleury e Isoni (2019, p. 68), seus benefícios são a
+
+“visão clara dos resultados a entregar; ritmo e disciplina necessários à execução; definição de papéis e responsabilidades dos integrantes do projeto (Scrum Owner, Scrum Master e Team); empoderamento dos membros da equipe de projetos para atingir o desafio; conhecimento distribuído e compartilhado de forma colaborativa; ambiência favorável para crítica às ideias e não às pessoas.”
+
 ## 1. Papéis e Responsabilidades
 
 - Scrum Master: D'Angeles Lima
@@ -83,11 +87,43 @@ Este documento descreve a metodologia de desenvolvimento adotada para o projeto 
 
 ## 6. Etiquetas (Labels) e Metadados
 
-- Tipo: bug, feature, enhancement, documentation, tests, infrastructure, design.
-- Prioridade: P0 (crítica), P1 (alta), P2 (média), P3 (baixa).
-- Estimativa: story points (1, 2, 3, 5, 8, 13) ou tamanhos S/M/L/XL.
-- Área/Módulo: clientes, agenda, contratos, kanban, galeria, notificacoes, financeiro, landing.
-- Estado extra (quando aplicável): blocked, needs-design, needs-PO, needs-info.
+- **Etiquetas principais**
+  - **Tipo**
+    - Bug (erro no código)
+    - Feature (nova funcionalidade)
+    - Enhancement (melhoria)
+    - Documentation (documentação)
+    - Tests (testes)
+    - Infrastructure (infraestrutura)
+    - Design
+    - Project-management (gerência de projetos)
+  - **Prioridade**
+    - P0 – crítica
+    - P1 – alta
+    - P2 – média
+    - P3 – baixa
+  - **Estimativa**
+    - Story points: 1, 2, 3, 5, 8, 13
+    - Tamanhos relativos: S / M / L / XL
+  - **Área/Módulo**
+    - Clientes
+    - Agenda
+    - Contratos
+    - Kanban
+    - Galeria
+    - Notificações
+    - Financeiro
+    - Landing
+  - **Estado extra (quando aplicável)**
+    - Blocked
+    - Needs-design
+    - Needs-PO
+    - Needs-info
+
+<figure> 
+  <img src="https://user-images.githubusercontent.com/100447878/164068979-9eed46e1-9b44-461e-ab88-c2388e6767a1.png"
+    <figcaption>Figura 3 - Exemplo de esquema de cores de algumas categorias de etiquetas</figcaption>
+</figure> 
 
 ## 7. Ferramentas
 
