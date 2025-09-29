@@ -11,31 +11,32 @@ Figura 1 - User Flow do fotógrafo
 ![Photograpp---User-Flow---Cliente](https://github.com/user-attachments/assets/a07fa8d2-e1f1-413e-80a1-58d6ed0e9725)
 Figura 2 - User Flow do cliente
 
-[Adicione aqui o diagrama de fluxo de usuário da sua aplicação.] 
-
-> **Links Úteis**:
-> - [User Flow: O Quê É e Como Fazer?](https://medium.com/7bits/fluxo-de-usu%C3%A1rio-user-flow-o-que-%C3%A9-como-fazer-79d965872534)
-> - [User Flow vs Site Maps](http://designr.com.br/sitemap-e-user-flow-quais-as-diferencas-e-quando-usar-cada-um/)
-> - [Top 25 User Flow Tools & Templates for Smooth](https://www.mockplus.com/blog/post/user-flow-tools)
 
 ## Protótipo
 
-Desenvolver um protótipo emerge como uma das maneiras mais ágeis e econômicas de validar uma ideia, conceito ou funcionalidade. Isso permite a interação, avaliação, modificação e aprovação das principais características de uma interface antes de entrar na fase de desenvolvimento. Leia o artigo [Protótipos: baixa, média ou alta fidelidade?](https://medium.com/ladies-that-ux-br/prot%C3%B3tipos-baixa-m%C3%A9dia-ou-alta-fidelidade-71d897559135).
+As telas do sistema foram estruturadas a partir da divisão da página entre cabeçalho, conteúdo e rodapé.
+* **Cabeçalho:** Possui dois estados (Usuário conectado e Ususário que ainda não fez o login).
+    * **Usuário conectado:** Possui logo, menu do usuário e foto do usuário onde se encontram as configurações da conta.
+    * **Ususário que ainda não fez o login:** Logo do produto e botões para registrar ou realizar o login
+* **Conteúdo:** A parte do conteúdo varia de acordo com a tela trazendo funcionalidades diferentes de acordo com o menu em que o usuário se envcontra.
+* **Rodapé:** Exibe informações sobre os direitos autorais, termos de uso do sistema e política de privacidade.
+
 
 ### Protótipo de baixa fidelidade
 
-Protótipos de baixa fidelidade apresentam de forma simplificada o design da interface e o relacionamento entre suas páginas, permitindo evolução da proposta da solução. Neste projeto, os utilizaremos para apoiar a validação dos requisitos e efetuar mudanças dos mesmos, caso seja necessário, para menor impacto na codificação da aplicação.
+Abaixo apresentamos as principais telas do sistema que nortearão o desenvolvimento da solução dando mais clareza ao processo e permitindo a validação das funcionalidades.
 
-[Elabore as principais interfaces gráficas da aplicação de modo que os requisitos funcionais sejam contemplados nas telas propostas.]
+#### Home
+A figura 3 apresenta a home do site a qual tem a função de cartão de visita do sistema apresentado para os fotógrafos do que se trata o sistema e convidando-os a se inscreverem para realizar a gestão dos seus trabalhos com o Photograpp.
 
-[Adicione aqui as telas da sua aplicação com seus devidos títulos.] 
- 
-> **Links Úteis**:
-> - [Protótipos vs Wireframes](https://www.nngroup.com/videos/prototypes-vs-wireframes-ux-projects/)
->- Ferramentas:
->> - [Pencil](https://pencil.evolus.vn/)
->> - [MarvelApp](https://marvelapp.com/)
->> - [Figma](https://www.figma.com/)
+<img width="1440" height="1762" alt="Home" src="https://github.com/user-attachments/assets/cd46d8b5-f45c-43ee-9c2e-c792c4c8b206" />
+Figura 3 - Home
+
+#### Login e registro de usuário
+A figura 4 apresenta a tela de login do usuário. Seguindo o fluxo apresentado acima, o usuário insere primeiramente o e-mail, o sistema valida se este e-mail já está registrado e então apresenta o campo para inserir a senha. Caso o email ainda não esteja registrado o sistema abrirá os campos para registro do usuário de acordo com o perfil escolhido (pessoa física - Figura 5 - ou pessoa jurídica - figura 6)
+
+<img width="5288" height="3987" alt="Frame 110" src="https://github.com/user-attachments/assets/941b6f70-3d65-4971-af2b-c48b8a7da585" />
+Figura 4 - Login e registro de usuário
 
 
 
