@@ -272,5 +272,3 @@ Labels: <tipo>, <prioridade>, <área/módulo>
 - [ ] Performance dentro do esperado
 - [ ] Documentação atualizada (README/CHANGELOG)
 - [ ] Deploy/Pages verificado (quando aplicável)
-
-```
