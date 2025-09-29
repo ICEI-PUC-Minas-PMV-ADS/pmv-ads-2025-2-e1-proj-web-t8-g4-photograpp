@@ -83,4 +83,4 @@ A tela do financeiro (Figura 10) permite ao fotógrafo manter um acompanhamento 
 
 Figura 10 - Financeiro
 
-Para ver o projeto de interface completo acesse o link: <a href="https://www.figma.com/design/yy4vQMUk6K9cZeYMXn7LDW/Photograpp---Prot%C3%B3tipo?node-id=83-1691&t=pK5ufn7XQxeWU5Oh-1">Figma</a>
+Para ver o projeto de interface completo acesse o link: <a href="https://www.figma.com/design/yy4vQMUk6K9cZeYMXn7LDW/Photograpp---Prot%C3%B3tipo?node-id=0-1&t=pK5ufn7XQxeWU5Oh-1">Figma</a>
