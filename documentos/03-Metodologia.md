@@ -1,10 +1,12 @@
 # Metodologia
 
-Este documento descreve a metodologia de desenvolvimento adotada para o projeto Photograpp – Sistema para Fotógrafos, utilizando o Scrum. O objetivo é garantir previsibilidade nas entregas, qualidade e alinhamento contínuo com os requisitos funcionais (RF) e não funcionais (RNF) do produto.
+Este documento apresenta a **metodologia de desenvolvimento adotada para o projeto *Photograpp – Sistema para Fotógrafos***, fundamentada no framework ágil **Scrum**. O propósito é assegurar **previsibilidade nas entregas**, **qualidade do produto** e **alinhamento contínuo** com os requisitos funcionais (RF) e não funcionais (RNF).  
 
-O SCRUM foi escolhido como metodologia ágil para o desenvolvimento deste projeto, pois como citam Amaral, Fleury e Isoni (2019, p. 68), seus benefícios são a
+O **Scrum** foi selecionado como metodologia por oferecer vantagens significativas no contexto de projetos de software. Segundo Amaral, Fleury e Isoni (2019, p. 68), seus benefícios incluem:  
 
-“visão clara dos resultados a entregar; ritmo e disciplina necessários à execução; definição de papéis e responsabilidades dos integrantes do projeto (Scrum Owner, Scrum Master e Team); empoderamento dos membros da equipe de projetos para atingir o desafio; conhecimento distribuído e compartilhado de forma colaborativa; ambiência favorável para crítica às ideias e não às pessoas.”
+> "visão clara dos resultados a entregar; ritmo e disciplina necessários à execução; definição de papéis e responsabilidades dos integrantes do projeto (Scrum Owner, Scrum Master e Team); empoderamento dos membros da equipe de projetos para atingir o desafio; conhecimento distribuído e compartilhado de forma colaborativa; ambiência favorável para crítica às ideias e não às pessoas."  
+
+Essas características tornam o Scrum especialmente adequado para o desenvolvimento do *Photograpp*, promovendo **transparência**, **colaboração** e **adaptação contínua** ao longo do ciclo de vida do projeto.
 
 ## 1. Papéis e Responsabilidades
 
