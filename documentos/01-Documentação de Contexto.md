@@ -1,35 +1,84 @@
 # Introdução
 
-[Aqui a equipe deve criar um texto descritivo com a visão geral do problema abordado, apresentando o ambiente e as situações envolvidas no problema.]
+O mercado brasileiro de produção fotográfica está em constante expansão, e os profissionais da área buscam, cada vez mais, formas eficazes de atender a essa demanda.  
+O setor é composto **majoritariamente por pequenas empresas**. Segundo o Serviço Brasileiro de Apoio às Micro e Pequenas Empresas:
 
-## Problema
-[Aqui a equipe deve fornecer uma descrição detalhada do problema a ser resolvido. Não é o momento adequado para abordar questões técnicas relacionadas ao desenvolvimento da aplicação. O objetivo é compreender e comunicar de maneira precisa qual é o desafio ou necessidade que motiva a criação da aplicação.]
+> “Os Microempreendedores Individuais (MEIs) e Microempresas (MEs), juntos, representam a grande maioria das empresas do setor: **98,85% do mercado de fotografia no Brasil**” (SEBRAE, 2024).
 
-Este link pode ajudar a equipe a entender mais sobre definição do problema: [Objetivos, Problema de pesquisa e Justificativa.](https://medium.com/@versioparole/objetivos-problema-de-pesquisa-e-justificativa-c98c8233b9c3)
+Apesar do crescimento, os fotógrafos enfrentam diversos **desafios em sua rotina de trabalho**, como:
 
+- Gerenciamento de agenda  
+- Administração de tarefas e finanças  
+- Elaboração de contratos  
+- Divulgação de serviços para ampliar a carteira de clientes  
 
-## Objetivos
+O elevado número de tarefas administrativas, aliado ao uso de ferramentas descentralizadas, compromete a produtividade do profissional.  
 
-[Aqui a equipe deve realizar uma descrição detalhada dos objetivos do trabalho, ressaltando quais as questões principais do problema a serem resolvidas pelo projeto, não é a hora de apresentar requisitos detalhados.]
- 
-Este link pode ajudar a equipe a entender mais sobre definição dos objetivos: [Objetivos, Problema de pesquisa e Justificativa.](https://medium.com/@versioparole/objetivos-problema-de-pesquisa-e-justificativa-c98c8233b9c3)
+Nesse contexto, surge a necessidade de **unificar diversas ferramentas administrativas em um só lugar**, proporcionando:
 
-## Justificativa
+- Redução da dependência de sistemas fragmentados  
+- Mais autonomia  
+- Maior eficiência e agilidade para o fotógrafo  
 
-[Aqui a equipe deve descrever a importância ou a motivação para trabalhar com o problema definido. Indique as razões pelas quais a equipe escolheu o problema e definiu os objetivos.
+---
 
-Devem ser apresentados dados de fontes relevantes e confiáveis sobre o problema, inserindo-o como alvo de estudo. Sugere-se que a equipe utilize questionários, entrevistas e dados estatísticos, que devem ser apresentados, com o objetivo de esclarecer detalhes do problema que será abordado pela equipe.]
+# Problema
 
-Este link pode ajudar a equipe a formular a justificativa: [Como montar a justificativa.](https://guiadamonografia.com.br/como-montar-justificativa-do-tcc/)
+Entre as principais dificuldades enfrentadas pelos fotógrafos, destacam-se:
 
-## Público-Alvo
+1. Conflitos de agenda e agendamentos duplicados  
+2. Dificuldade em controlar o ciclo de serviço (da captação ao pós-venda)  
+3. Perda de tempo com burocracias administrativas  
+4. Comunicação falha com clientes, gerando possíveis prejuízos e atrasos nas entregas  
+5. Baixo ou nenhum controle sobre documentação de contratos e fluxo de caixa (entradas e saídas)  
 
-[Aqui é necessário descrever os atores envolvidos no problema, destacando os diferentes perfis de usuários. O propósito é apresentar as características, necessidades, conhecimentos prévios e experiência com a tecnologia do público-alvo.
+---
 
-Sugere-se que a equipe utilize questionários e/ou entrevistas a fim de conhecer os atores que compõem o público alvo.]
+# Objetivos
 
-Os links abaixo podem ajudar a equipe a conhecer um pouco mais sobre o público-alvo. 
+## Geral
+Desenvolver um sistema web que centralize todo o fluxo de trabalho de fotógrafos:  
+agendamentos, CRM, contratos, tarefas e pipeline de produção.  
 
-> - [Público-alvo](https://blog.hotmart.com/pt-br/publico-alvo/)
-> - [Público-alvo: o que é, tipos, como definir seu público e exemplos](https://klickpages.com.br/blog/publico-alvo-o-que-e/)
+## Específicos
+- Centralizar contatos e histórico de clientes  
+- Automatizar o agendamento e evitar conflitos de horário  
+- Permitir a criação e assinatura (ou registro) de contratos  
+- Oferecer um fluxo visual (kanban) para acompanhamento do status dos trabalhos  
+- Facilitar a seleção, pré-visualização e entrega de fotos ao cliente  
+- Fornecer listas/tarefas e notificações de prazos  
+- Permitir que o cliente do fotógrafo também tenha uma página para acompanhar o serviço contratado, com acesso a datas, tarefas e prazos  
+- Proporcionar um controle mínimo de caixa (entradas e saídas) para manter a saúde financeira do fotógrafo  
 
+---
+
+# Justificativa
+
+A relevância da fotografia se dá pela nossa necessidade de registrar momentos, pessoas, lugares, eventos, objetos e animais, criando histórias.  
+Uma vez registrados, esses momentos podem ser acessados e relembrados.  
+
+O fotógrafo — profissional responsável por elaborar essas fotografias de forma profissional — pode atuar em diversos nichos, como:  
+casamentos, eventos, moda, imobiliário, viagem, fotojornalismo, esportivo e publicitário.  
+
+Por ser um mercado formado em sua maioria por empreendedores individuais, a sobrecarga gerada pelo trabalho afeta diretamente a produtividade.  
+Gerir uma empresa tendo que se preocupar com:  
+
+- Atrair novos clientes  
+- Trabalhar o relacionamento com os já estabelecidos  
+- Tocar tarefas administrativas e legais  
+- Gerenciar uma agenda  
+- Utilizar ferramentas diferentes (que podem ficar indisponíveis ou apresentar lentidão)  
+
+torna-se uma tarefa complexa.  
+
+Segundo **Klauck, Pinheiro e Barth (2024)**, muitos fotógrafos acabam enfrentando dificuldades justamente por acumular funções criativas e administrativas, o que exige desenvolver competências em gestão e marketing além da técnica fotográfica.  
+
+Nesse sentido, todas essas tarefas, sendo executadas por uma só pessoa em diversos sistemas descentralizados, acabam impactando negativamente a rotina do profissional e, ao final, podem afetar até mesmo um pilar fundamental da área: **a criatividade**, comprometendo sua fonte de renda.  
+
+---
+
+# Público-Alvo
+
+- Fotógrafos independentes (freelancers, MEIs)  
+- Estúdios de fotografia de pequeno porte  
+- Clientes de fotografia que precisam acompanhar contratos, prazos e selecionar imagens  
