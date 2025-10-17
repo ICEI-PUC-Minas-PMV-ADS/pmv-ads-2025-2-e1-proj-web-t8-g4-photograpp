@@ -1,23 +1,27 @@
-import React from "react";
+import { Link } from 'react-router-dom';
 
 function Header() {
-    return(
-        <header>
-                <div class="header-container">
-                    <div class="logo">
-                        <img src="../public/photograpp-logo.svg" alt="Photograpp" />
-                    </div>
-                    <div class="login">
-                        <nav>
-                            <ul>
-                                <li><a href="#">Registrar</a></li>
-                                <li class="nav-button"><a href="#">Login</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </header>
-    )
+  return (
+    <header>
+      <div className="header-container">
+        <Link to="/" className="logo">
+          <img src="src/assets/photograpp-logo.svg" alt="Photograpp" />
+        </Link>
+        <div className="login">
+          <nav>
+            <ul>
+              <li>
+                <Link to="/registrar">Registrar</Link>
+              </li>
+              <li className="nav-button">
+                <Link to="/login">Login</Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+  );
 }
 
 export default Header;
