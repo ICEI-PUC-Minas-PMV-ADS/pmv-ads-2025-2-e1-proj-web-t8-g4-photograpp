@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Header from './header';
+import Footer from './footer';
 
 function Layout() {
   return (
@@ -9,9 +10,7 @@ function Layout() {
       <main>
         <Outlet /> {/* Renderiza o componente da rota aninhada aqui */}
       </main>
-      <footer>
-        <p>&copy; 2025 Photograpp</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
