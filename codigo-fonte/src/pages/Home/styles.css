@@ -1,4 +1,8 @@
-
+main {
+  display: block;
+  justify-content: center;
+  padding: 20px;
+}
 
 .banner {
   display: flex;
