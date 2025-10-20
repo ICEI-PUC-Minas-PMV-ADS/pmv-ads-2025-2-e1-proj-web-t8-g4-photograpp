@@ -113,7 +113,6 @@ h6 {
   font-size: 18px;
   line-height: 1.2em;
   margin-bottom: 17px;
-
 }
 
 p {
@@ -151,9 +150,6 @@ body,
 
 .app-layout > main {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 20px;
 }
 

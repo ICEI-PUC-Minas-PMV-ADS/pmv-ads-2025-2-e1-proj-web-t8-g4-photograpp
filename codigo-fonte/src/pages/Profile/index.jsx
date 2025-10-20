@@ -1,9 +1,9 @@
 import Breadcrumb from "../../components/Breadcrumb";
 
-export default function Pipeline() {
+export default function Profile() {
   return (
     <div>
-      <h1>Pipeline</h1>
+      <h1>Perfil Público</h1>
       <Breadcrumb />
     </div>
   );
