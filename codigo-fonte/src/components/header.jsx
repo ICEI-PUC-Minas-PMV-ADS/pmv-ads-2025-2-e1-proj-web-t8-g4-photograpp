@@ -43,7 +43,7 @@ export default function Header() {
       <header>
         <div className="header-container">
           <NavLink to="/" className="logo">
-            <img src={logo} alt="Photograpp" className='logo' />
+            <img src={logo} alt="Photograpp" className='logo'/>
           </NavLink>
           <div className="login">
             <nav>
