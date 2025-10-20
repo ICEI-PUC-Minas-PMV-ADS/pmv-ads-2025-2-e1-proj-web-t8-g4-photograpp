@@ -13,7 +13,7 @@ export default function Home() {
             Sua operação simplificada e em um só lugar: Organize agenda, projetos,
             clientes, aprovações e muito mais.
           </p>
-          <button onClick={() => navigate('/registrar')}>Começar</button>
+          <button onClick={() => navigate('/email-checker')}>Começar</button>
         </div>
         <div className="banner-right">
           <img src="/src/assets/banner.png" alt="Fotógrafo trablhando no escritório" width="100%" />
@@ -58,7 +58,7 @@ export default function Home() {
         <p>
           Seja um fotógrafo independente ou dono de um pequeno estúdio, o Photograpp coloca sua operação em ordem para que você possa se concentrar no que realmente importa: a arte de fotografar e encantar seus clientes.
         </p>
-        <button onClick={() => navigate('/registrar')}>Experimentar</button>
+        <button onClick={() => navigate('/email-checker')}>Experimentar</button>
       </section>
     </main>
   );

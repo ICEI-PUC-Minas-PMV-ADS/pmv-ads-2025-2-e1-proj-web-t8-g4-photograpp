@@ -1,14 +1,15 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Layout from './components/Layout';
+import Home from './pages/home';
 import Dashboard from './pages/Dashboard';
-import Home from './pages/Home';
 import Login from './pages/Login';
+import Register from './pages/register';
 import NotFound from './pages/NotFound';
 import Projects from './pages/Projects';
-import Register from './pages/Register';
 import Tasks from './pages/Tasks';
 import PrivateRoute from './routes/PrivateRoute';
+import EmailChecker from './pages/email-checker';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           {/* Públicas */}
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
+          <Route path="email-checker" element={<EmailChecker />} />
           <Route path="registrar" element={<Register />} />
 
           {/* Privadas */}
