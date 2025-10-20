@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Home Page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+            <div class="header-container">
+                <div class="logo">
+                <img src="../public/photograpp-logo.svg" alt="Photograpp" /> 
+                </div>
+                <div class="login">
+                    <nav>
+                        <ul>
+                            <li><a href="#">Registrar</a></li>
+                            <li class="nav-button"><a href="#">Login</a></li>
+                        </ul>
+                    </nav>
+                </div>  
+            </div>   
+    </header>
+    <main>
+        <form name="customerForm" method="post">
+            <fieldset><legend>Novo Cliente</legend>
+            Cliente <input type text="text" name"customerName" value=""><br/>
+            E-mail <input type email="email" name"customerEmail" value=""><br/>
+            Telefone <input type text="text" name"customerPhone" value=""><br/>
+            CPF <input type text="text" name"customerCPF" value=""><br/>
+            <input class="nav-button" type="submit" value="Cadastrar">
+            </fieldset>
+        </form>
+        <div class="banner">
+            <fieldset><legend>Dados do cliente</legend>
+           <table class="customersReg">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>E-mail</th>
+                        <th>Contato</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Carlos dos Santos</td>
+                        <td>carlos_santos@gmail.com</td>
+                        <td>(11) 98765-4321</td>
+                        <td>Ver Contratos</td>
+                    </tr>
+                </tbody>
+            </table>
+            </fieldset>
+        </div>  
+    </main>
+</body>
+</html>
