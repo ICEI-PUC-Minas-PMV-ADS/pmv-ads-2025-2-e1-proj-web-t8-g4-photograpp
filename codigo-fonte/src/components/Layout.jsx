@@ -1,18 +1,15 @@
 import { Outlet } from 'react-router-dom';
-import Header from './header';
-import Footer from './footer';
+import Footer from './Footer';
+import Header from './Header';
 
-function Layout() {
+export default function Layout() {
   return (
-   // TODO: Adicionar um condicional para mudar para o header logado caso o usuário esteja autenticado
-   <div className="app-layout">
+    <div className="app-layout">
       <Header />
       <main>
-        <Outlet /> {/* Renderiza o componente da rota aninhada aqui */}
+        <Outlet />
       </main>
       <Footer />
     </div>
   );
 }
-
-export default Layout;
