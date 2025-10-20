@@ -98,11 +98,6 @@ export default function Header() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/solicitacoes" onClick={() => setMenuOpen(false)}>
-                Solicitações
-              </NavLink>
-            </li>
-            <li>
               <NavLink to="/agenda" onClick={() => setMenuOpen(false)}>
                 Agenda
               </NavLink>
