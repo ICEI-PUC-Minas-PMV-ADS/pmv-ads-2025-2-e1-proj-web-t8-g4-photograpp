@@ -26,12 +26,13 @@ header {
   flex-direction: row;
   align-items: center;
   gap: 10px;
-  width: 1240px;
+  max-width: 1240px;
   justify-content: space-between;
 }
 
 .logo {
   width: 180px;
+  margin-top: 5px;
 }
 
 nav {
@@ -156,10 +157,20 @@ body,
 footer {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  text-align: center;
   align-items: center;
   padding: 10px 40px;
   background-color: #1e3842;
+  justify-content: center;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: var(--container-max-width);
+  justify-content: space-between;
 }
 
 footer p {

@@ -43,7 +43,7 @@ export default function Header() {
       <header>
         <div className="header-container">
           <NavLink to="/" className="logo">
-            <img src={logo} alt="Photograpp" className='logo'/>
+            <img className="logo" src={logo} alt="Photograpp"/>
           </NavLink>
           <div className="login">
             <nav>
@@ -64,7 +64,7 @@ export default function Header() {
 
   return (
     <header className="menu-header">
-      <div className="menu-container">
+      <div className="header-container">
         <button className="menu-toggle" onClick={toggleMenu} aria-label="Menu">
           <span></span>
           <span></span>
@@ -72,7 +72,7 @@ export default function Header() {
         </button>
 
         <NavLink to="/" className="menu-logo">
-          <img src={logo} alt="Photograpp" />
+          <img className="logo" src={logo} alt="Photograpp" />
         </NavLink>
 
         <nav className={`menu-nav ${menuOpen ? 'menu-active' : ''}`}>
