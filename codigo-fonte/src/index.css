@@ -173,3 +173,14 @@ footer a {
   color: #ffb417;
   font-size: 14px;
 }
+
+input {
+  margin: 10px 0;
+  padding: 15px;
+  background-color: #13262D;
+  color: #ffffff;
+  font-family: Poppins, Arial, sans-serif;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #A5A5A5;
+}

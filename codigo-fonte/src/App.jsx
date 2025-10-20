@@ -1,20 +1,21 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Layout from './components/Layout';
-import Calendar from './pages/Calendar';
-import Customers from './pages/Customers';
-import Dashboard from './pages/Dashboard';
-import Finance from './pages/Finance';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import NotFound from './pages/NotFound';
-import Pipeline from './pages/Pipeline';
-import Profile from './pages/Profile';
-import Projects from './pages/Projects';
-import Register from './pages/Register';
-import Services from './pages/Services';
-import Tasks from './pages/Tasks';
+import Home from './pages/home';
+import Calendar from './pages/calendar';
+import Customers from './pages/customers';
+import Dashboard from './pages/dashboard';
+import Finance from './pages/finance';
+import Login from './pages/login';
+import Register from './pages/register';
+import NotFound from './pages/notFound';
+import Pipeline from './pages/pipeline';
+import Profile from './pages/profile';
+import Projects from './pages/projects';
+import Services from './pages/services';
+import Tasks from './pages/tasks';
 import PrivateRoute from './routes/PrivateRoute';
+import EmailChecker from './pages/email-checker';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           {/* Públicas */}
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
+          <Route path="email-checker" element={<EmailChecker />} />
           <Route path="registrar" element={<Register />} />
 
           {/* Privadas */}
