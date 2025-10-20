@@ -322,3 +322,30 @@ nav a {
     font-size: 14px;
   }
 }
+
+.breadcrumb-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  line-height: 38px;
+}
+
+.breadcrumb-item {
+  font-size: 16px;
+  font-weight: 300;
+  color: white;
+  text-decoration: none;
+  word-wrap: break-word;
+}
+
+.breadcrumb-item.active {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.breadcrumb-separator {
+  font-size: 16px;
+  color: white;
+  margin: 0 5px;
+}

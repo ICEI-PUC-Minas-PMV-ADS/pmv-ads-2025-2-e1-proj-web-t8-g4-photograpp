@@ -1,9 +1,9 @@
 import Breadcrumb from "../../components/Breadcrumb";
 
-export default function Pipeline() {
+export default function Services() {
   return (
     <div>
-      <h1>Pipeline</h1>
+      <h1>Serviços</h1>
       <Breadcrumb />
     </div>
   );
