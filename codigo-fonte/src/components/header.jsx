@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/photograpp-logo.svg';
+import avatar from '../assets/usuario-demo.png';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import './components.css';
 
@@ -126,7 +127,7 @@ export default function Header() {
             onClick={toggleProfile}
             aria-label="Menu do perfil"
           >
-            <img src="https://placehold.co/36x36" alt="Avatar" />
+            <img src={avatar} alt="Avatar" />
           </button>
 
           {profileOpen && (
