@@ -10,7 +10,7 @@ As páginas terão como elementos padrões o menu de navegação, o header, o fo
 
 # Itens da identidade visual
 
-##Logo
+## Logo
 A marca possui duas formas de aplicação. Para fundo claro e fundo escuro. Foi escolhida uma fonte moderna e de fácil legibilidade mesmo em pequenas reduções e criado um símbolo que remete ao universo da fotografia.
 
 ![marca](https://github.com/user-attachments/assets/54ddb0d4-8166-4f52-8c4d-0912d50294df)
