@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import "./styles.css";
 
 export default function Calendar() {
@@ -78,10 +79,10 @@ export default function Calendar() {
           <h2 className="month-label">{monthLabel}</h2>
           <div className="month-nav">
             <button className="nav" onClick={prevMonth} aria-label="Mês anterior">
-              ◀️
+              <ChevronLeft size={30} />
             </button>
             <button className="nav" onClick={nextMonth} aria-label="Próximo mês">
-              ▶️
+              <ChevronRight size={30} />
             </button>
           </div>
         </div>

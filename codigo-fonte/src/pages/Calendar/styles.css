@@ -13,18 +13,54 @@
   display:flex; align-items:center; justify-content:space-between;
   margin:16px 0 8px;
 }
-.month-area { display:flex; align-items:center; gap:12px; }
-.month-label { margin:0; text-transform:capitalize; }
+.month-area {
+  display: flex;
+  align-items: center;
+  gap: 16px; 
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap:10px;
+}
+
+
 .month-nav .nav {
-  background:transparent; border:1px solid currentColor;
-  border-radius:8px; padding:4px 8px; cursor:pointer;
+  width: 40px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  padding: 0;   
+  margin: 0;
+  border: 2px solid #FFC107;
+  border-radius: 12px;  
+  background: transparent;
+  color: #FFC107;        
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.month-nav .nav:hover {
+  background: rgba(255, 193, 7, 0.08);
+}
+
+.month-nav .nav:active {
+  transform: translateY(1px);
+}
+
+.month-label {
+  margin: 0;
+  text-transform: none;
+  font-size:35px
 }
 
 .cal-tags { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 .tag { border:none; padding:6px 10px; border-radius:12px; font-weight: bold; cursor:default; }
-.tag-note  { background:#dff7ff; }
-.tag-task  { background:#e9f7e9; }
-.tag-event { background:#ffe7b8; }
+.tag-note  { background:#DCCCFF; }
+.tag-task  { background:#C6FAF6; }
+.tag-event { background:#FFB417; }
 
 .weekday-row { display:grid; grid-template-columns:repeat(7,1fr); gap:10px; margin:10px 0; }
 .weekday { opacity:.7; font-weight:600; text-align:right; padding-right:8px; }
