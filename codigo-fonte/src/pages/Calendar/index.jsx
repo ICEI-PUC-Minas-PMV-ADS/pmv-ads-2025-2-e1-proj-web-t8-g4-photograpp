@@ -31,18 +31,17 @@ export default function Calendar() {
     const m = current.getMonth();
 
     const firstDay = new Date(y, m, 1);
-    const startWeekday = firstDay.getDay(); // 0=Domingo ... 6=Sábado
+    const startWeekday = firstDay.getDay();
 
     const daysInMonth = new Date(y, m + 1, 0).getDate();
     const daysInPrev = new Date(y, m, 0).getDate();
 
-    const leading = startWeekday; // quantas células do mês anterior
+    const leading = startWeekday;
     const totalCells = leading + daysInMonth;
-    const trailing = (7 - (totalCells % 7)) % 7; // completa a grade
+    const trailing = (7 - (totalCells % 7)) % 7; 
 
     const items = [];
 
-    // Dias do mês anterior (muted)
     for (let i = leading - 1; i >= 0; i--) {
       items.push({
         key: `p-${i}`,
@@ -51,12 +50,10 @@ export default function Calendar() {
       });
     }
 
-    // Dias do mês atual
     for (let d = 1; d <= daysInMonth; d++) {
       items.push({ key: `c-${d}`, day: d, muted: false });
     }
 
-    // Dias do próximo mês (muted)
     for (let t = 1; t <= trailing; t++) {
       items.push({ key: `n-${t}`, day: t, muted: true });
     }
