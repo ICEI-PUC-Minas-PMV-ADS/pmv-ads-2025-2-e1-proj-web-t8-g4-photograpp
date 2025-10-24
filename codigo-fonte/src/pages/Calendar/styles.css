@@ -4,3 +4,16 @@
 .tag-task { background:#e9f7e9; }
 .tag-event { background:#ffe7b8; }
 .btn-primary { border:none; padding:10px 16px; border-radius:999px; font-weight:600; cursor:pointer; }
+
+.cal-toolbar { display:flex; align-items:center; justify-content:space-between; margin:16px 0 8px; }
+.month-label { margin:0; text-transform:capitalize; }
+.month-nav .nav { background:transparent; border:1px solid currentColor; border-radius:8px; padding:4px 8px; cursor:pointer; }
+
+
+.weekday { opacity:.7; font-weight:600; text-align:right; padding-right:8px; }
+.weekday-row { display:grid; grid-template-columns:repeat(7,1fr); gap:10px; margin:10px 0; }
+
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:10px; }
+.cell { position:relative; min-height:110px; border:1px solid white; background-color: #1E3842 ;border-radius:12px; padding:8px; }
+.cell .day { position:absolute; top:8px; right:10px; font-weight:700; opacity:.9; }
+.cell.muted { opacity:.45; }
