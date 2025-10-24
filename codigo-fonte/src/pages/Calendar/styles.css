@@ -1,0 +1,6 @@
+.cal-actions { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+.tag { border:none; padding:6px 10px; border-radius:12px; font-weight:600; cursor:default; }
+.tag-note { background:#dff7ff; }
+.tag-task { background:#e9f7e9; }
+.tag-event { background:#ffe7b8; }
+.btn-primary { border:none; padding:10px 16px; border-radius:999px; font-weight:600; cursor:pointer; }
