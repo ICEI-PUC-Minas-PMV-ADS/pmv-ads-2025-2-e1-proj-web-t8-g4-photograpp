@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb";
+import "./styles.css";
 
 export default function Calendar() {
   const today = useMemo(() => new Date(), []);
@@ -7,12 +8,11 @@ export default function Calendar() {
     new Date(today.getFullYear(), today.getMonth(), 1)
   );
 
-  const monthLabel = new Intl.DateTimeFormat("pt-BR", {
-    month: "long",
-    year: "numeric",
-  }).format(current);
-
-  console.log(monthLabel)
+  const month = new Intl.DateTimeFormat("pt-BR", { month: "long" }).format(
+    current
+  );
+  const year = current.getFullYear();
+  const monthLabel = `${month.charAt(0).toUpperCase() + month.slice(1)} de ${year}`;
 
   function addMonths(base, delta) {
     return new Date(base.getFullYear(), base.getMonth() + delta, 1);
@@ -63,33 +63,33 @@ export default function Calendar() {
     return items;
   }, [current]);
 
-
-
   return (
     <div>
-      <h1>Agenda</h1>
-      <Breadcrumb />
-      <div className="cal-actions">
-        <div className="cal-tags">
-          <button className="tag tag-note">📝 Lembrete</button>
-          <button className="tag tag-task">✅ Tarefa</button>
-          <button className="tag tag-event">🎉 Evento</button>
+      <div className="topbar">
+        <div className="title-wrap">
+          <h1>Agenda</h1>
+          <Breadcrumb />
+        </div>
+        <button className="btn-primary">Novo compromisso</button>
+      </div>
+
+      <div className="cal-toolbar">
+        <div className="month-area">
+          <h2 className="month-label">{monthLabel}</h2>
+          <div className="month-nav">
+            <button className="nav" onClick={prevMonth} aria-label="Mês anterior">
+              ◀️
+            </button>
+            <button className="nav" onClick={nextMonth} aria-label="Próximo mês">
+              ▶️
+            </button>
+          </div>
         </div>
 
-        <button className="btn-primary">➕ Novo compromisso</button>
-      </div>
-      
-      <div className="cal-toolbar">
-        <h2 className="month-label">
-          {monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1)}
-        </h2>
-        <div className="month-nav">
-          <button className="nav" onClick={prevMonth} aria-label="Mês anterior">
-            ◀️
-          </button>
-          <button className="nav" onClick={nextMonth} aria-label="Próximo mês">
-            ▶️
-          </button>
+        <div className="cal-tags">
+          <button className="tag tag-note">Lembrete</button>
+          <button className="tag tag-task">Tarefa</button>
+          <button className="tag tag-event">Evento</button>
         </div>
       </div>
 
@@ -112,7 +112,6 @@ export default function Calendar() {
           </div>
         ))}
       </div>
-
     </div>
   );
 }
