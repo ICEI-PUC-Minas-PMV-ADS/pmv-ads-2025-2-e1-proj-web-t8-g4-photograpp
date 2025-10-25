@@ -1,0 +1,13 @@
+table {
+  text-align: justify;
+  padding: 10px;
+  width: 100%;
+  background-color: #1E3842;
+  border-collapse: collapse;
+}
+thead{
+    font-weight: 600;
+}
+tbody tr:nth-child(odd) {
+  background-color: #2E4750;
+}
