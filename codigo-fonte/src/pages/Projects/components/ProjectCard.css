@@ -1,0 +1,128 @@
+.project-card {
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid;
+  border-radius: 14px;
+  border-color: #a5a5a5;
+  padding: 10px 22px;
+  overflow: visible;
+  box-sizing: border-box;
+  position: relative;
+  min-width: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+  border-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.55);
+}
+
+.project-card__title {
+  font-size: 17px;
+  margin: 0 0 8px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.project-card__line {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin: 2px 0;
+  font-size: 12px;
+}
+
+.project-card__line > strong {
+  font-weight: 600;
+}
+
+.project-card__line > span {
+  color: var(--text-1, #e8f0f1);
+}
+
+.project-card__status-wrap {
+  position: relative;
+  margin: 0px;
+}
+
+.project-card__status {
+  height: 35px;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 16px;
+  font-size: 12px;
+  background: var(--surface-3, #0d2224);
+  color: var(--text-1, #e8f0f1);
+  border: 1px solid;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.02s ease;
+  box-sizing: border-box;
+}
+
+.project-card__status:hover {
+  border-color: #fff;
+  color: #000;
+}
+
+.project-card__status:active {
+  transform: translateY(1px);
+}
+
+.project-card__icon {
+  font-size: 20px;
+  line-height: 1;
+  transition: transform 0.18s ease;
+}
+
+.project-card__icon--open {
+  transform: rotate(180deg);
+}
+
+.project-card__menu {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  min-width: 100%;
+  top: calc(100% + 6px);
+  background: var(--color-primary-dark, #0d2224);
+  border: 1px solid var(--border-3, #334a50);
+  border-radius: 10px;
+  padding: 6px;
+  list-style: none;
+  max-height: 280px;
+  overflow: auto;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  will-change: transform;
+  font-size: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #2c4a56 #0d2224;
+}
+
+.project-card__option {
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--text-1, #e8f0f1);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.project-card__option:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.project-card__option.is-active {
+  background: rgba(31, 182, 170, 0.15);
+  border: 1px solid var(--accent, #2c4a56);
+}
