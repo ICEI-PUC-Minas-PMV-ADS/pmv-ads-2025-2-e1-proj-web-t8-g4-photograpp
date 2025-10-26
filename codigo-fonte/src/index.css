@@ -5,6 +5,26 @@
   font-size: 100%;
 }
 
+:root {
+  --color-primary: #ffb417;
+  --color-primary-hover: #ff9e42;
+  --color-primary-dark: #13262d;
+  --color-bg-dark: #1e3842;
+  --color-border: #2c4a56;
+
+  --spacing-xs: 4px;
+  --spacing-s: 8px;
+  --spacing-m: 16px;
+  --spacing-l: 24px;
+  --spacing-xl: 32px;
+
+  --header-height: 76px;
+  --header-height-mobile: 60px;
+  --container-max-width: 1240px;
+  --avatar-size: 36px;
+  --avatar-size-mobile: 32px;
+}
+
 body {
   font-family: Poppins, Arial, sans-serif;
   background-color: #13262d;
@@ -76,9 +96,8 @@ nav a {
 
 h1 {
   font-weight: 300;
-  font-size: 52px;
+  font-size: 45px;
   line-height: 1.2em;
-  margin-bottom: 20px;
 }
 
 h2 {
@@ -137,12 +156,6 @@ button:hover {
   background-color: #ffc551;
 }
 
-html,
-body,
-#root {
-  height: 100%;
-}
-
 .app-layout {
   min-height: 100vh;
   display: flex;
@@ -151,7 +164,18 @@ body,
 
 .app-layout > main {
   flex: 1;
-  padding: 20px;
+  padding: 50px 20px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section {
+  max-width: var(--container-max-width);
+  width: 100%;
 }
 
 footer {
