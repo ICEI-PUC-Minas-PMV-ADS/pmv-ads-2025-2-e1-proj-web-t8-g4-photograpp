@@ -11,21 +11,33 @@ export default function Calendar() {
     new Date(today.getFullYear(), today.getMonth(), 1)
   );
 
-  // ===== Appointments (localStorage) =====
-  const [items, setItems] = useState([]); // [{id,title,desc,date,type}]
-  // modal: create
+  const [items, setItems] = useState([]);
   const [openCreate, setOpenCreate] = useState(false);
   const [form, setForm] = useState({
     title: "",
     desc: "",
     date: "",
-    type: "event", // "note" | "task" | "event"
+    type: "event",
   });
-  // modal: view/edit
+
   const [openView, setOpenView] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
 
-  // load from localStorage
+  const [query, setQuery] = useState("");
+  const matches = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return items.filter((it) => (it.title || "").toLowerCase().includes(q));
+  }, [items, query]);
+
+  const monthNames = [
+    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+  ];
+  function setMonthIndex(idx) {
+    setCurrent((d) => new Date(d.getFullYear(), Number(idx), 1));
+  }
+
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -39,7 +51,6 @@ export default function Calendar() {
     } catch (_) { }
   }, [items]);
 
-  // ===== Month label =====
   const month = new Intl.DateTimeFormat("pt-BR", { month: "long" }).format(
     current
   );
@@ -56,7 +67,6 @@ export default function Calendar() {
     setCurrent((d) => addMonths(d, +1));
   }
 
-  // helpers
   function pad(n) { return String(n).padStart(2, "0"); }
   function fmtDate(d) {
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -67,13 +77,12 @@ export default function Calendar() {
   }
   const todayISO = fmtDate(today);
 
-  // ===== Grid cells with full date =====
   const cells = useMemo(() => {
     const y = current.getFullYear();
     const m = current.getMonth();
 
     const firstDay = new Date(y, m, 1);
-    const startWeekday = firstDay.getDay(); // 0 Domingo
+    const startWeekday = firstDay.getDay();
 
     const daysInMonth = new Date(y, m + 1, 0).getDate();
     const daysInPrev = new Date(y, m, 0).getDate();
@@ -100,7 +109,6 @@ export default function Calendar() {
     return out;
   }, [current]);
 
-  // ===== Handlers =====
   function openCreateFor(dateISO) {
     setForm({ title: "", desc: "", date: dateISO || fmtDate(new Date()), type: "event" });
     setOpenCreate(true);
@@ -125,7 +133,6 @@ export default function Calendar() {
     setOpenView(false);
   }
 
-  // items by date map
   const byDate = useMemo(() => {
     const m = new Map();
     for (const it of items) {
@@ -142,8 +149,40 @@ export default function Calendar() {
           <h1>Agenda</h1>
           <Breadcrumb />
         </div>
-        <button className="btn-primary" onClick={() => openCreateFor(fmtDate(new Date()))}>Novo compromisso</button>
+
+        <div className="top-actions">
+          <input
+            className="searchbar"
+            type="text"
+            placeholder="Digite o termo..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button
+            className="btn-primary"
+            onClick={() => openCreateFor(fmtDate(new Date()))}
+          >
+            Novo compromisso
+          </button>
+        </div>
       </div>
+
+      {query && matches.length > 0 && (
+        <div className="search-results">
+          {matches.map((it) => (
+            <button
+              key={it.id}
+              className={`search-chip chip-${it.type}`}
+              title={it.title}
+              onClick={() => openViewer(it)}
+            >
+              {it.title}
+            </button>
+          ))}
+        </div>
+      )}
+
+
 
       <div className="cal-toolbar">
         <div className="month-area">
@@ -158,11 +197,27 @@ export default function Calendar() {
           </div>
         </div>
 
-        <div className="cal-tags">
-          <button className="tag tag-note">Lembrete</button>
-          <button className="tag tag-task">Tarefa</button>
-          <button className="tag tag-event">Evento</button>
+        <div className="right-tools">
+          <div className="cal-tags">
+            <button className="tag tag-note">Lembrete</button>
+            <button className="tag tag-task">Tarefa</button>
+            <button className="tag tag-event">Evento</button>
+          </div>
+
+          <select
+            className="month-select"
+            value={current.getMonth()}
+            onChange={(e) => setMonthIndex(e.target.value)}
+            aria-label={`Meses de ${current.getFullYear()}`}
+          >
+            {monthNames.map((name, i) => (
+              <option key={i} value={i}>
+                {name} de {current.getFullYear()}
+              </option>
+            ))}
+          </select>
         </div>
+
       </div>
 
       <div className="weekday-row">
@@ -198,7 +253,6 @@ export default function Calendar() {
         })}
       </div>
 
-      {/* ===== Modal Criar ===== */}
       {openCreate && (
         <div className="modal-overlay" onClick={() => setOpenCreate(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -255,7 +309,6 @@ export default function Calendar() {
                 </label>
               </div>
 
-              {/* Somente o Salvar, centralizado */}
               <div className="actions actions-center">
                 <button type="submit" className="btn-primary">Salvar</button>
               </div>
@@ -265,7 +318,6 @@ export default function Calendar() {
       )}
 
 
-      {/* ===== Modal Visualizar/Editar ===== */}
       {openView && currentItem && (
         <div className="modal-overlay" onClick={() => setOpenView(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -320,7 +372,6 @@ export default function Calendar() {
                 </label>
               </div>
 
-              {/* Excluir à esquerda, Salvar centralizado */}
               <div className="actions actions-center">
                 <button
                   type="button"
