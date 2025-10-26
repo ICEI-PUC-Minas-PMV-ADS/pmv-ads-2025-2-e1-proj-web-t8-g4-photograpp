@@ -1,0 +1,99 @@
+:root{
+  --bg:#0F1F25; --card:#142A31; --text:#EAF2F4;
+  --muted:rgba(255,255,255,.55); --border:rgba(255,255,255,.12);
+  --accent:#FFB417; --soft:rgba(255,255,255,.06); --radius:14px;
+  --accent-bg-hover: rgba(255,180,23,.16);
+  --accent-bg-active: rgba(255,180,23,.26);
+}
+
+html,body,#root{height:100%; background:var(--bg); color:var(--text); font-family:Poppins,Arial,sans-serif;}
+.dash-wrap{padding:16px;}
+.dash-title{display:flex; flex-direction:column; gap:8px;}
+
+/* ===== Layout principal (flex) ===== */
+.dash-flex{
+  display:flex;
+  flex-direction:row;
+  align-items:stretch;
+  gap:10px;
+  flex-wrap: nowrap;            /* <- importante */
+}
+.main-left{flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:10px;}
+
+/* ===== Card base ===== */
+.card{background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:12px;}
+.card-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px;}
+.card-head h2{margin:0; font-size:18px; font-weight:500;}
+.card-head .sub{color:var(--muted); font-size:12px;}
+
+/* Botão texto “Ver agenda” (sem hover visual) */
+.see-agenda-link{padding:0; border:none; background:transparent; color:var(--accent); font:inherit; cursor:pointer;}
+.see-agenda-link:hover,
+.see-agenda-link:active,
+.see-agenda-link:focus{color:var(--accent); background:transparent; text-decoration:none; filter:none; opacity:1;}
+
+/* ===== Barra central da semana ===== */
+.week-center{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px;}
+.week-center .range{font-weight:500; color:var(--muted);}
+
+/* ===== Navegação (chevrons) unificada ===== */
+.nav-arrows{display:grid; grid-template-columns:repeat(2,40px); gap:10px; align-items:center; justify-items:center;}
+.nav-arrows .chev{
+  width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center;
+  border:1.5px solid var(--accent); border-radius:10px; background:transparent; color:var(--accent);
+  padding:0; cursor:pointer; transition:background-color .15s ease, transform .06s ease;
+}
+.nav-arrows .chev svg{width:20px; height:20px; stroke:currentColor; stroke-width:2; fill:none;}
+.nav-arrows .chev:hover{background:var(--accent-bg-hover);}
+.nav-arrows .chev:active{background:var(--accent-bg-active); transform:translateY(1px);}
+.nav-arrows .chev:focus-visible{outline:2px solid rgba(255,180,23,.6); outline-offset:2px;}
+
+/* ===== Agenda ===== */
+.agenda{background:#1E3842; border:1px solid var(--border); border-radius:var(--radius); padding:12px; box-sizing:border-box; overflow:hidden; min-width:0;}
+.week-grid{display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:8px; margin-top:8px;}
+.day-col{display:flex; flex-direction:column; background:#0F1F25; border:1px solid var(--border); border-radius:12px; overflow:hidden;}
+.day-col-head{padding:8px 10px; font-size:12px; font-weight:400; color:var(--muted); text-align:center;}
+.day-col-body{min-height:180px; background:#0E2026;}
+
+/* ===== Tarefas (aside) ===== */
+.tasks{
+  flex:0 0 clamp(260px, 28vw, 360px);
+  align-self:stretch;
+  display:flex; flex-direction:column; gap:10px;
+  background:#1E3842; border:1px solid var(--border); border-radius:var(--radius); padding:12px;
+}
+.task-card{border:1px solid var(--border); background:#0E2026; border-radius:12px; padding:12px;}
+.task-card h3{margin:0 0 8px; font-size:14px;}
+.kv{font-size:12px; margin:4px 0;}
+.kv strong{font-weight:600;}
+.select-wrap{display:flex; flex-direction:column; gap:6px; margin-top:8px;}
+.select-wrap select{
+  height:34px; border-radius:10px; border:1px solid var(--border); background:#0E2026; color:var(--text); padding:0 10px;
+  -webkit-appearance:none; -moz-appearance:none; appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='%23EAF2F4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 10px center;
+}
+
+/* ===== Linha dos 3 cards ===== */
+.last-blocks{display:flex; gap:10px;}
+.last-blocks > .card{flex:1 1 0; display:flex; flex-direction:column;}
+.finance, .last-messages, .last-requests{background:#1E3842; border:none; border-radius:var(--radius); padding:12px; box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);}
+.eq{min-height:220px; display:flex; flex-direction:column;}
+
+/* Conteúdos internos dos 3 cards */
+.finance-grid{display:flex; flex-direction:column; margin-top:4px;}
+.finance-grid-block{display:flex; align-items:center; gap:50px;}
+.finance .label{font-size:12px; color:var(--muted);}
+.finance .value{font-weight:600; margin-top:4px;}
+
+.list.simple{list-style:none; margin:6px 0 0; padding:0; display:grid; gap:8px;}
+.list.simple li{background:#0E2026; border:1px solid var(--border); border-radius:10px; padding:10px; font-size:13px;}
+.request{background:#0E2026; border:1px solid var(--border); border-radius:12px; padding:12px;}
+.request h3{margin:0 0 8px; font-size:14px;}
+
+/* ===== Responsivo ===== */
+@media (max-width:1100px){
+  .dash-flex{flex-direction:column;}
+  .tasks{flex:1 1 auto; width:100%;}
+  .last-blocks{flex-direction:column;}
+}
