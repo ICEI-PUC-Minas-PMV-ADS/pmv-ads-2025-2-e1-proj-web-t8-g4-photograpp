@@ -11,31 +11,88 @@ export default function Dashboard() {
         <Breadcrumb />
       </div>
 
-      <main className="dash-grid">
-        <section className="card agenda" aria-label="Agenda semanal">
-          <div className="card-head head-ends">
-            <h2>Agenda</h2>
-            <button className="see-agenda-link" type="button">Ver agenda</button>
-          </div>
-
-          <div className="week-center">
-            <span className="sub">Compromissos da semana</span>
-            <span className="range">21/09 a 27/09</span>
-            <div className="week-arrows">
-              <button aria-label="Semana anterior">‹</button>
-              <button aria-label="Próxima semana">›</button>
+      <main className="dash-flex">
+        <div className="main-left">
+          <section className="agenda" aria-label="Agenda semanal">
+            <div className="card-head head-ends">
+              <h2>Agenda</h2>
+              <button className="see-agenda-link" type="button">Ver agenda</button>
             </div>
-          </div>
 
-          <div className="week-grid">
-            {weekDays.map((d) => (
-              <div key={d} className="day-col">
-                <div className="day-col-head">{d}</div>
-                <div className="day-col-body" />
+            <div className="week-center">
+              <span className="sub">Compromissos da semana</span>
+              <span className="range">21/09 a 27/09</span>
+              <div className="week-arrows">
+                <button aria-label="Semana anterior">‹</button>
+                <button aria-label="Próxima semana">›</button>
               </div>
-            ))}
+            </div>
+
+            <div className="week-grid">
+              {weekDays.map((d) => (
+                <div key={d} className="day-col">
+                  <div className="day-col-head">{d}</div>
+                  <div className="day-col-body" />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="last-blocks">
+            <section className="card finance eq" aria-label="Financeiro">
+              <div className="card-head"><h2>Financeiro</h2></div>
+              <div className="finance-grid">
+                <div className="block">
+                  <div className="label">Faturamento do mês:</div>
+                  <div className="value">R$ 20.000,00</div>
+                </div>
+                <div className="finance-grid-block">
+                  <div className="block">
+                    <div className="label">A receber:</div>
+                    <div className="value">R$ 3.000,00</div>
+                  </div>
+                  <div className="block">
+                    <div className="label">A pagar:</div>
+                    <div className="value">R$ 500,00</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="card last-messages eq" aria-label="Últimas mensagens">
+              <div className="card-head">
+                <h2>Últimas mensagens</h2>
+                <div className="mini-nav">
+                  <button aria-label="Anterior">‹</button>
+                  <button aria-label="Próximo">›</button>
+                </div>
+              </div>
+            </section>
+
+            <section className="card last-requests eq" aria-label="Últimas solicitações">
+              <div className="card-head">
+                <h2>Últimas solicitações</h2>
+                <div className="mini-nav">
+                  <button aria-label="Anterior">‹</button>
+                  <button aria-label="Próximo">›</button>
+                </div>
+              </div>
+              <div className="request">
+                <h3>Ensaio Carina</h3>
+                <div className="kv"><strong>Data da sessão:</strong> 10/10/2025</div>
+                <div className="kv"><strong>Pacote:</strong> Ensaio profissional</div>
+                <div className="kv"><strong>Cliente:</strong> Carina Souza</div>
+                <label className="select-wrap">
+                  <select defaultValue="lead">
+                    <option value="lead">Lead</option>
+                    <option value="qualificado">Qualificado</option>
+                    <option value="fechado">Fechado</option>
+                  </select>
+                </label>
+              </div>
+            </section>
           </div>
-        </section>
+        </div>
 
         <aside className="card tasks" aria-label="Tarefas da semana">
           <div className="card-head">
@@ -76,64 +133,8 @@ export default function Dashboard() {
             </label>
           </div>
         </aside>
-
-        <section className="card finance eq" aria-label="Financeiro">
-          <div className="card-head"><h2>Financeiro</h2></div>
-          <div className="finance-grid">
-            <div className="block">
-              <div className="label">Faturamento do mês:</div>
-              <div className="value">R$ 20.000,00</div>
-            </div>
-            <div className="block">
-              <div className="label">A receber:</div>
-              <div className="value">R$ 3.000,00</div>
-            </div>
-            <div className="block">
-              <div className="label">A pagar:</div>
-              <div className="value">R$ 500,00</div>
-            </div>
-          </div>
-        </section>
-
-        <section className="card last-messages eq" aria-label="Últimas mensagens">
-          <div className="card-head">
-            <h2>Últimas mensagens</h2>
-            <div className="mini-nav">
-              <button aria-label="Anterior">‹</button>
-              <button aria-label="Próximo">›</button>
-            </div>
-          </div>
-          <ul className="list simple">
-            <li><strong>Carina Souza</strong> — “Confirmação da sessão…”</li>
-            <li><strong>Antoni Carvalho</strong> — “Enviei o contrato.”</li>
-            <li><strong>Paula Menezes</strong> — “Posso reagendar?”</li>
-          </ul>
-        </section>
-
-        <section className="card last-requests eq" aria-label="Últimas solicitações">
-          <div className="card-head">
-            <h2>Últimas solicitações</h2>
-            <div className="mini-nav">
-              <button aria-label="Anterior">‹</button>
-              <button aria-label="Próximo">›</button>
-            </div>
-          </div>
-          <div className="request">
-            <h3>Ensaio Carina</h3>
-            <div className="kv"><strong>Data da sessão:</strong> 10/10/2025</div>
-            <div className="kv"><strong>Pacote:</strong> Ensaio profissional</div>
-            <div className="kv"><strong>Cliente:</strong> Carina Souza</div>
-            <label className="select-wrap">
-              <span>Etapa</span>
-              <select defaultValue="lead">
-                <option value="lead">Lead</option>
-                <option value="qualificado">Qualificado</option>
-                <option value="fechado">Fechado</option>
-              </select>
-            </label>
-          </div>
-        </section>
       </main>
+
     </div>
   );
 }
