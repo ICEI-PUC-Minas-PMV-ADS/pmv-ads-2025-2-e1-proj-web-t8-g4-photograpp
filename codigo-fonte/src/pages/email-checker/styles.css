@@ -5,10 +5,15 @@
     justify-content: center;
 }
 
+.body-center h1 {
+    margin: 24px;
+}
+
 .email-checker {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 }
 
 .avatar {
@@ -26,9 +31,10 @@
     max-width: 120px;
 }
 
-input {
+.input-center {
     text-align: center;
     width: 100%;
+    box-sizing: border-box;
 }
 
 button {

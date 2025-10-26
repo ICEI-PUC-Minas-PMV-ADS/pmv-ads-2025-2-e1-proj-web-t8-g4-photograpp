@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext.jsx';
+import './styles.css';
 
 export default function Login() {
   const { login, isAuthenticated } = useAuth();
@@ -51,39 +52,56 @@ export default function Login() {
   };
 
   return (
-    <div style={{ padding: 24, maxWidth: 400, margin: '0 auto' }}>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'grid', gap: 12 }}>
-        <input
-          type="email"
-          name="email"
-          placeholder="E-mail"
-          value={formData.email}
-          onChange={handleChange}
-          disabled={isLoading}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Senha"
-          value={formData.password}
-          onChange={handleChange}
-          disabled={isLoading}
-          required
-        />
-        {error && (
-          <p style={{ color: 'crimson', fontSize: 14, margin: 0 }}>
-            {error}
-          </p>
-        )}
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Entrando...' : 'Entrar'}
-        </button>
-      </form>
-      <p style={{ marginTop: 12, textAlign: 'center', fontSize: 14 }}>
-        Não tem conta? <Link to="/registrar">Criar conta</Link>
-      </p>
-    </div>
+    <section className="login-center">
+      <div className='login-container'>
+        <figure className="avatar">
+            <img src="/src/assets/avatar-demo.png" alt="Logo do Photograpp" width="150" />
+        </figure>
+        <h1>Vamos começar!</h1>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="form-row">
+            <div className="form-column">
+              <label>Por favor insira seu email:</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="E-mail"
+                value={formData.email}
+                onChange={handleChange}
+                disabled={isLoading}
+                required
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-column">
+              <label>Insira sua senha:</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Senha"
+                value={formData.password}
+                onChange={handleChange}
+                disabled={isLoading}
+                required
+              />
+            {error && (
+              <p style={{ color: 'crimson', fontSize: 14, margin: 0 }}>
+                {error}
+              </p>
+            )}
+            <p className="nova-senha">
+              <Link to="/reset-password">Esqueci minha senha</Link>
+            </p>
+            </div>
+          </div>
+          <div className="form-row">
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Entrando...' : 'Entrar'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
   );
 }

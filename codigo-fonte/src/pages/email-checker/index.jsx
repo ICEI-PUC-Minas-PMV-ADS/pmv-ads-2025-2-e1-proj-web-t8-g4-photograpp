@@ -10,7 +10,7 @@ export default function EmailChecker() {
         </figure>
         <h1>Vamos começar!</h1>
         <label>Por favor insira seu email:</label>
-        <input type="email" placeholder="seuemail@email.com" />
+        <input className="input-center" type="email" placeholder="seuemail@email.com" />
         <button>Entrar</button>
       </div>
     </section>
