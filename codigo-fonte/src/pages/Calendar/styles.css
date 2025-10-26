@@ -103,3 +103,197 @@ html, body, #root {
 .cell { position:relative; min-height:110px; border:1px solid white; background:#1E3842; border-radius:12px; padding:8px; }
 .cell .day { position:absolute; top:8px; right:10px; font-weight:700; opacity:.9; }
 .cell.muted { opacity:.45; }
+
+.events { display: flex; flex-direction: column; gap: 6px; margin-top: 26px; }
+.badge {
+  border: none; text-align: left;
+  padding: 6px 8px; border-radius: 10px;
+  font-weight: 500; font-size: 12px; line-height: 1.2;
+  cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.badge-note  { background: #DCCCFF; color: #2b1d47; }
+.badge-task  { background: #C6FAF6; color: #0b3b39; }
+.badge-event { background: #FFB417; color: #4a2d00; }
+
+/* === Modal base === */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.45);
+  display: grid; place-items: center; z-index: 50;
+}
+.modal {
+  width: min(560px, 92vw);
+  background: #0f1f25; color: #eaf2f4;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px; padding: 18px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.45);
+}
+.modal h3 { margin: 0 0 12px; font-weight: 600; }
+
+.form { display: flex; flex-direction: column; gap: 12px; }
+.form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+.form input[type=\"text\"], .form input[type=\"date\"], .form select, .form textarea {
+  background: #142a31; color: #eaf2f4;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 10px; padding: 10px 12px; font-family: inherit; font-size: 14px;
+}
+.form textarea { resize: vertical; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.actions { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+.btn-light {
+  border: 1px solid rgba(255,255,255,.25); background: transparent;
+  color: #eaf2f4; padding: 10px 14px; border-radius: 999px; cursor: pointer;
+}
+.btn-danger {
+  border: 1px solid #ff5c5c; color: #ffecec; background: rgba(255,92,92,.08);
+  padding: 10px 14px; border-radius: 999px; cursor: pointer;
+}
+.btn-primary {
+  border: none; padding: 10px 16px; border-radius: 999px; font-weight: 600; cursor: pointer;
+  background: #FFB417; color: #1b1b1b;
+}
+.btn-primary:hover { filter: brightness(0.95); }
+
+.cell .day {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-weight: 700;
+  opacity: .9;
+}
+
+
+.cell .day.today {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #FFC107;  
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #FFC107;
+  background: transparent;
+}
+
+.modal {
+  width: min(640px, 92vw);       
+  max-height: 80vh;              
+  overflow: auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;                  
+}
+
+
+.form input[type="text"],
+.form input[type="date"],
+.form select,
+.form textarea {
+  width: 100%;  
+  max-width: 100%;
+  box-sizing: border-box;        
+  min-width: 0;    
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .row { grid-template-columns: 1fr; }
+}
+
+.form input[type="text"],
+.form input[type="date"],
+.form select,
+.form textarea { margin-top: 2px; }
+
+.modal { position: relative; }
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 32px;            
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+
+  display: grid;           
+  place-items: center;
+
+  background: transparent;
+  color: #eaf2f4;
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 1;       
+  cursor: pointer;
+}
+
+.modal-close span { transform: translateY(-1px); }
+
+.modal-close:hover { background: rgba(255,255,255,.08); }
+.modal-close:focus-visible {
+  outline: 2px solid #FFC107;
+  outline-offset: 2px;
+}
+
+
+.actions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.actions-center .btn-primary { margin: 0 auto; }
+.actions-left {
+  position: absolute;
+  left: 0;
+}
+
+:root { --control-h: 44px; }
+.form .row label > input[type="date"],
+.form .row label > select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  height: var(--control-h);
+  padding: 10px 12px;    
+  line-height: 1.2;         
+  border-radius: 10px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.form .row label > select { padding-top: 10px; padding-bottom: 10px; }
+
+.form .row label > input[type="date"]::-webkit-datetime-edit {
+  padding: 0;
+  line-height: calc(var(--control-h) - 2px);
+}
+
+.form .row label > input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: .85;
+}
+
+.row { align-items: stretch; } 
