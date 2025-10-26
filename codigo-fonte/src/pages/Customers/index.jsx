@@ -10,26 +10,37 @@ export default function Clientes() {
   return (
     <div>
       <h1>Clientes</h1>
-      <Breadcrumb />
-      <fieldset>
+      <div className="searchLabel">
       <input type="text" placeholder="Digite o termo..." />
      <a href=""><img src={Search} alt="Buscar" /></a>
-      </fieldset>
+      </div>
+
       <a href=""><img src={Filtrar} alt="Filtrar" /></a>
-          <button>Novo Cliente</button>
+      <a href=""><button>Novo Cliente</button></a>
+      <Breadcrumb />
+      <div className="registros">
+        <span>Mostrar</span>
+        <select className="caixaRegistros">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+        </select>
+        <span>registros</span>
+      </div>
+
      <table id="customersTable">
       <thead>
         <tr>
-          <th onclick="sortTable(0)">ID</th>
-          <th onclick="sortTable(1)">Cliente</th>
-          <th onclick="sortTable(2)">E-mail</th>
-          <th onclick="sortTable(3)">Contato</th>
-          <th onclick="sortTable(4)">Ações</th>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>E-mail</th>
+          <th>Contato</th>
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
+          <td>001</td>
           <td>João Silva</td>
           <td>joao.silva@gmail.com</td>
           <td>(11) 91234-5678</td>
@@ -40,7 +51,7 @@ export default function Clientes() {
           </td>
         </tr>
           <tr>
-          <td>2</td>
+          <td>002</td>
           <td>Marta Silva</td>
           <td>marta.silva@outlook.com</td>
           <td>(21) 94834-5588</td>
@@ -51,7 +62,7 @@ export default function Clientes() {
           </td>
         </tr>
          <tr>
-          <td>3</td>
+          <td>003</td>
           <td>Marcos Santos</td>
           <td>marcos.santos@gmail.com</td>
           <td>(81) 98563-5678</td>

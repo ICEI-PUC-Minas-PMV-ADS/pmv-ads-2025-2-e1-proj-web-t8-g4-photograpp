@@ -8,6 +8,56 @@ table {
 thead{
     font-weight: 600;
 }
+tbody{
+    font-weight: 300;
+}
 tbody tr:nth-child(odd) {
   background-color: #2E4750;
+}
+.searchLabel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 1px 25px;
+  width: 100%;
+  border: 1px solid #a5a5a5;
+  margin: 0 auto;
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) ;
+  transition: box-shadow 0.3s;
+}
+.searchLabel input {
+  width: 30%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 20px;
+}
+.searchLabel img {
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.searchLabel, h1 {
+  display: inline;
+  margin-bottom: 10px;
+}
+.registros {
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  display: inline-block;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+.caixaRegistros {
+  padding: 8px 9px;
+  color: #fff;
+  background-color: #1E3842;
+  border-radius: 8px;
 }
