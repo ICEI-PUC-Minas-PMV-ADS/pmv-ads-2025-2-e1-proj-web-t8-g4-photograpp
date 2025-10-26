@@ -1,28 +1,35 @@
 import { useEffect, useMemo, useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb";
 import "./styles.css";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+
+const STORAGE_KEY = "calendar_appointments";
+const MONTH_NAMES = [
+  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+];
+
+// ===== Utils =====
+const pad = (n) => String(n).padStart(2, "0");
+const fmtDate = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const truncate = (s, n = 16) => (!s ? "" : s.length > n ? s.slice(0, n - 1) + "…" : s);
+const addMonths = (base, delta) => new Date(base.getFullYear(), base.getMonth() + delta, 1);
 
 export default function Calendar() {
-  const STORAGE_KEY = "calendar_appointments";
-
+  // ===== Today / Current month =====
   const today = useMemo(() => new Date(), []);
+  const todayISO = useMemo(() => fmtDate(today), [today]);
   const [current, setCurrent] = useState(
     new Date(today.getFullYear(), today.getMonth(), 1)
   );
 
-  const [items, setItems] = useState([]);
+  // ===== Items & Modals =====
+  const [items, setItems] = useState([]);                   // [{id,title,desc,date,type}]
   const [openCreate, setOpenCreate] = useState(false);
-  const [form, setForm] = useState({
-    title: "",
-    desc: "",
-    date: "",
-    type: "event",
-  });
-
   const [openView, setOpenView] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
+  const [form, setForm] = useState({ title: "", desc: "", date: "", type: "event" });
 
+  // ===== Search =====
   const [query, setQuery] = useState("");
   const matches = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -30,108 +37,25 @@ export default function Calendar() {
     return items.filter((it) => (it.title || "").toLowerCase().includes(q));
   }, [items, query]);
 
-  const monthNames = [
-    "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-  ];
-  function setMonthIndex(idx) {
-    setCurrent((d) => new Date(d.getFullYear(), Number(idx), 1));
-  }
-
+  // ===== Load / Persist =====
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setItems(JSON.parse(raw));
-    } catch (_) { }
+    } catch {}
   }, []);
-  // persist
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    } catch (_) { }
+    } catch {}
   }, [items]);
 
-  const month = new Intl.DateTimeFormat("pt-BR", { month: "long" }).format(
-    current
-  );
-  const year = current.getFullYear();
-  const monthLabel = `${month.charAt(0).toUpperCase() + month.slice(1)} de ${year}`;
-
-  function addMonths(base, delta) {
-    return new Date(base.getFullYear(), base.getMonth() + delta, 1);
-  }
-  function prevMonth() {
-    setCurrent((d) => addMonths(d, -1));
-  }
-  function nextMonth() {
-    setCurrent((d) => addMonths(d, +1));
-  }
-
-  function pad(n) { return String(n).padStart(2, "0"); }
-  function fmtDate(d) {
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-  }
-  function truncate(s, n = 16) {
-    if (!s) return "";
-    return s.length > n ? s.slice(0, n - 1) + "…" : s;
-  }
-  const todayISO = fmtDate(today);
-
-  const cells = useMemo(() => {
-    const y = current.getFullYear();
-    const m = current.getMonth();
-
-    const firstDay = new Date(y, m, 1);
-    const startWeekday = firstDay.getDay();
-
-    const daysInMonth = new Date(y, m + 1, 0).getDate();
-    const daysInPrev = new Date(y, m, 0).getDate();
-
-    const leading = startWeekday;
-    const totalCells = leading + daysInMonth;
-    const trailing = (7 - (totalCells % 7)) % 7;
-
-    const out = [];
-
-    for (let i = leading - 1; i >= 0; i--) {
-      const day = daysInPrev - i;
-      const d = new Date(y, m - 1, day);
-      out.push({ key: `p-${i}`, day, muted: true, date: fmtDate(d) });
-    }
-    for (let d = 1; d <= daysInMonth; d++) {
-      const dd = new Date(y, m, d);
-      out.push({ key: `c-${d}`, day: d, muted: false, date: fmtDate(dd) });
-    }
-    for (let t = 1; t <= trailing; t++) {
-      const d = new Date(y, m + 1, t);
-      out.push({ key: `n-${t}`, day: t, muted: true, date: fmtDate(d) });
-    }
-    return out;
+  // ===== Labels & Derived =====
+  const monthLabel = useMemo(() => {
+    const m = new Intl.DateTimeFormat("pt-BR", { month: "long" }).format(current);
+    const year = current.getFullYear();
+    return `${m.charAt(0).toUpperCase() + m.slice(1)} de ${year}`;
   }, [current]);
-
-  function openCreateFor(dateISO) {
-    setForm({ title: "", desc: "", date: dateISO || fmtDate(new Date()), type: "event" });
-    setOpenCreate(true);
-  }
-  function submitCreate(e) {
-    e?.preventDefault?.();
-    if (!form.title || !form.date) return;
-    const id = Math.random().toString(36).slice(2, 9);
-    setItems((prev) => [...prev, { id, ...form }]);
-    setOpenCreate(false);
-  }
-  function openViewer(item) {
-    setCurrentItem({ ...item });
-    setOpenView(true);
-  }
-  function saveViewer() {
-    setItems((prev) => prev.map((it) => (it.id === currentItem.id ? currentItem : it)));
-    setOpenView(false);
-  }
-  function removeItem(id) {
-    setItems((prev) => prev.filter((it) => it.id !== id));
-    setOpenView(false);
-  }
 
   const byDate = useMemo(() => {
     const m = new Map();
@@ -142,14 +66,70 @@ export default function Calendar() {
     return m;
   }, [items]);
 
+  const cells = useMemo(() => {
+    const y = current.getFullYear();
+    const m = current.getMonth();
+
+    const firstDay = new Date(y, m, 1);
+    const startWeekday = firstDay.getDay(); // 0=Dom
+
+    const daysInMonth = new Date(y, m + 1, 0).getDate();
+    const daysInPrev = new Date(y, m, 0).getDate();
+
+    const leading = startWeekday;
+    const totalCells = leading + daysInMonth;
+    const trailing = (7 - (totalCells % 7)) % 7;
+
+    const out = [];
+
+    // dias do mês anterior
+    for (let i = leading - 1; i >= 0; i--) {
+      const day = daysInPrev - i;
+      const d = new Date(y, m - 1, day);
+      out.push({ key: `p-${i}`, day, muted: true, date: fmtDate(d) });
+    }
+    // mês atual
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dd = new Date(y, m, d);
+      out.push({ key: `c-${d}`, day: d, muted: false, date: fmtDate(dd) });
+    }
+    // dias do próximo mês
+    for (let t = 1; t <= trailing; t++) {
+      const d = new Date(y, m + 1, t);
+      out.push({ key: `n-${t}`, day: t, muted: true, date: fmtDate(d) });
+    }
+    return out;
+  }, [current]);
+
+  // ===== Handlers =====
+  const prevMonth = () => setCurrent((d) => addMonths(d, -1));
+  const nextMonth = () => setCurrent((d) => addMonths(d, +1));
+  const setMonthIndex = (idx) => setCurrent((d) => new Date(d.getFullYear(), Number(idx), 1));
+
+  const openCreateFor = (dateISO) => {
+    setForm({ title: "", desc: "", date: dateISO || fmtDate(new Date()), type: "event" });
+    setOpenCreate(true);
+  };
+  const submitCreate = (e) => {
+    e?.preventDefault?.();
+    if (!form.title || !form.date) return;
+    const id = Math.random().toString(36).slice(2, 9);
+    setItems((prev) => [...prev, { id, ...form }]);
+    setOpenCreate(false);
+  };
+  const openViewer = (item) => { setCurrentItem({ ...item }); setOpenView(true); };
+  const saveViewer = () => { setItems((prev) => prev.map((it) => it.id === currentItem.id ? currentItem : it)); setOpenView(false); };
+  const removeItem = (id) => { setItems((prev) => prev.filter((it) => it.id !== id)); setOpenView(false); };
+
+  // ===== Render =====
   return (
     <div>
+      {/* Topbar: título + busca e botão */}
       <div className="topbar">
         <div className="title-wrap">
           <h1>Agenda</h1>
           <Breadcrumb />
         </div>
-
         <div className="top-actions">
           <input
             className="searchbar"
@@ -158,15 +138,13 @@ export default function Calendar() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button
-            className="btn-primary"
-            onClick={() => openCreateFor(fmtDate(new Date()))}
-          >
+          <button className="btn-primary" onClick={() => openCreateFor(fmtDate(new Date()))}>
             Novo compromisso
           </button>
         </div>
       </div>
 
+      {/* Chips de resultados */}
       {query && matches.length > 0 && (
         <div className="search-results">
           {matches.map((it) => (
@@ -182,18 +160,13 @@ export default function Calendar() {
         </div>
       )}
 
-
-
+      {/* Toolbar: rótulo do mês + navegação + tags + seletor de meses */}
       <div className="cal-toolbar">
         <div className="month-area">
           <h2 className="month-label">{monthLabel}</h2>
           <div className="month-nav">
-            <button className="nav" onClick={prevMonth} aria-label="Mês anterior">
-              <ChevronLeft size={24} />
-            </button>
-            <button className="nav" onClick={nextMonth} aria-label="Próximo mês">
-              <ChevronRight size={24} />
-            </button>
+            <button className="nav" onClick={prevMonth} aria-label="Mês anterior">❮</button>
+            <button className="nav" onClick={nextMonth} aria-label="Próximo mês">❯</button>
           </div>
         </div>
 
@@ -210,22 +183,23 @@ export default function Calendar() {
             onChange={(e) => setMonthIndex(e.target.value)}
             aria-label={`Meses de ${current.getFullYear()}`}
           >
-            {monthNames.map((name, i) => (
+            {MONTH_NAMES.map((name, i) => (
               <option key={i} value={i}>
                 {name} de {current.getFullYear()}
               </option>
             ))}
           </select>
         </div>
-
       </div>
 
+      {/* Cabeçalho dos dias da semana */}
       <div className="weekday-row">
         {"DOM SEG TER QUA QUI SEX SAB".split(" ").map((d) => (
           <div key={d} className="weekday">{d}</div>
         ))}
       </div>
 
+      {/* Grade do calendário */}
       <div className="cal-grid">
         {cells.map((c) => {
           const list = byDate.get(c.date) || [];
@@ -246,26 +220,20 @@ export default function Calendar() {
                   </button>
                 ))}
               </div>
-
-
             </div>
           );
         })}
       </div>
 
+      {/* Modal: Criar */}
       {openCreate && (
         <div className="modal-overlay" onClick={() => setOpenCreate(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              className="modal-close"
-              aria-label="Fechar"
-              onClick={() => setOpenCreate(false)}
-            >
+            <button type="button" className="modal-close" aria-label="Fechar" onClick={() => setOpenCreate(false)}>
               <span>×</span>
             </button>
-            <h3>Novo compromisso</h3>
 
+            <h3>Novo compromisso</h3>
             <form onSubmit={submitCreate} className="form">
               <label>
                 Título
@@ -317,20 +285,15 @@ export default function Calendar() {
         </div>
       )}
 
-
+      {/* Modal: Visualizar/Editar */}
       {openView && currentItem && (
         <div className="modal-overlay" onClick={() => setOpenView(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              className="modal-close"
-              aria-label="Fechar"
-              onClick={() => setOpenView(false)}
-            >
-              ×
+            <button type="button" className="modal-close" aria-label="Fechar" onClick={() => setOpenView(false)}>
+              <span>×</span>
             </button>
-            <h3>Compromisso</h3>
 
+            <h3>Compromisso</h3>
             <div className="form">
               <label>
                 Título
@@ -373,18 +336,10 @@ export default function Calendar() {
               </div>
 
               <div className="actions actions-center">
-                <button
-                  type="button"
-                  className="btn-danger actions-left"
-                  onClick={() => removeItem(currentItem.id)}
-                >
+                <button type="button" className="btn-danger actions-left" onClick={() => removeItem(currentItem.id)}>
                   Excluir
                 </button>
-                <button
-                  type="button"
-                  className="btn-primary"
-                  onClick={saveViewer}
-                >
+                <button type="button" className="btn-primary" onClick={saveViewer}>
                   Salvar
                 </button>
               </div>
@@ -392,7 +347,6 @@ export default function Calendar() {
           </div>
         </div>
       )}
-
     </div>
   );
 }
