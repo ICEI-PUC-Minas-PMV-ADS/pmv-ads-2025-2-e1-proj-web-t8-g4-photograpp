@@ -26,6 +26,10 @@
     text-align: center;
 }
 
+.login-width {
+    width: 100%;
+}
+
 .login-form input {
     width: 100%;
     text-align: center;

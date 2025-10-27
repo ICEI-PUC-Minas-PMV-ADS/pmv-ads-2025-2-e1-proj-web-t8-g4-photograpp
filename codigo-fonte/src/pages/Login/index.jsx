@@ -64,7 +64,7 @@ export default function Login() {
         <h1>Vamos começar!</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-row">
-            <div className="form-column">
+            <div className="form-column login-width">
               <label>Por favor insira seu email:</label>
               <input
                 type="email"
@@ -78,7 +78,7 @@ export default function Login() {
             </div>
           </div>
           <div className="form-row">
-            <div className="form-column">
+            <div className="form-column login-width">
               <label>Insira sua senha:</label>
               <input
                 type="password"
