@@ -1,22 +1,23 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext.jsx';
-import './styles.css';
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext.jsx";
+import "./styles.css";
+import avatarDemo from "../../assets/avatar-demo.png";
 
 export default function Login() {
   const { login, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
-    email: 'demo@teste.com',
-    password: '123456',
+    email: "demo@teste.com",
+    password: "123456",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   }, [isAuthenticated, navigate]);
 
@@ -27,25 +28,25 @@ export default function Login() {
       [name]: value,
     }));
 
-    if (error) setError('');
+    if (error) setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
       const res = login(formData.email, formData.password);
       if (res.ok) {
-        const from = location.state?.from?.pathname || '/dashboard';
+        const from = location.state?.from?.pathname || "/dashboard";
         navigate(from, { replace: true });
       } else {
-        setError(res.error || 'Falha no login');
+        setError(res.error || "Falha no login");
       }
     } catch (err) {
       console.log(err);
-      setError('Erro inesperado. Tente novamente.');
+      setError("Erro inesperado. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
@@ -55,11 +56,7 @@ export default function Login() {
     <section className="login-center">
       <div className="login-container">
         <figure className="avatar">
-          <img
-            src="/src/assets/avatar-demo.png"
-            alt="Logo do Photograpp"
-            width="150"
-          />
+          <img src={avatarDemo} alt="Logo do Photograpp" width="150" />
         </figure>
         <h1>Vamos começar!</h1>
         <form className="login-form" onSubmit={handleSubmit}>
@@ -90,7 +87,7 @@ export default function Login() {
                 required
               />
               {error && (
-                <p style={{ color: 'crimson', fontSize: 14, margin: 0 }}>
+                <p style={{ color: "crimson", fontSize: 14, margin: 0 }}>
                   {error}
                 </p>
               )}
@@ -101,7 +98,7 @@ export default function Login() {
           </div>
           <div className="form-row">
             <button type="submit" disabled={isLoading}>
-              {isLoading ? 'Entrando...' : 'Entrar'}
+              {isLoading ? "Entrando..." : "Entrar"}
             </button>
           </div>
         </form>
