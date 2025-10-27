@@ -1,0 +1,55 @@
+export const defaultProjects = [
+  {
+    id: 1,
+    titulo: 'Book Infantil Ana Clara',
+    dataSessao: '05/09/2025',
+    pacote: 'Book infantil',
+    cliente: 'Ana Clara Lima',
+    status: 'Lead',
+  },
+  {
+    id: 2,
+    titulo: 'Casamento Pedro & Luiza',
+    dataSessao: '22/09/2025',
+    pacote: 'Cobertura de evento',
+    cliente: 'Pedro Martins',
+    status: 'Contratação',
+  },
+  {
+    id: 3,
+    titulo: 'Ensaio Corporativo TechCorp',
+    dataSessao: '30/09/2025',
+    pacote: 'Ensaio empresarial',
+    cliente: 'TechCorp Ltda',
+    status: 'Contratação',
+  },
+  {
+    id: 4,
+    titulo: 'Ensaio Família Oliveira',
+    dataSessao: '12/10/2025',
+    pacote: 'Ensaio família',
+    cliente: 'Fernanda Oliveira',
+    status: 'Lead',
+  },
+  {
+    id: 5,
+    titulo: 'Ensaio Produto Café BomDia',
+    dataSessao: '18/10/2025',
+    pacote: 'Ensaio de produto',
+    cliente: 'Café BomDia',
+    status: 'Contratação',
+  },
+];
+
+export const packageOptions = [
+  'Book infantil',
+  'Cobertura de evento',
+  'Ensaio empresarial',
+  'Ensaio família',
+  'Ensaio de produto',
+  'Ensaio casal',
+  'Ensaio gestante',
+  'Ensaio newborn',
+  'Ensaio 15 anos',
+  'Ensaio corporativo',
+];

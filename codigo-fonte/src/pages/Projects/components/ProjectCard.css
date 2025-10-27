@@ -11,6 +11,8 @@
   min-width: 0;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #13262d;
+  color: #ffffff;
 }
 
 .project-card:hover {
