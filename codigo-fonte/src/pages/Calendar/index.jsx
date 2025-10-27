@@ -126,7 +126,7 @@ export default function Calendar() {
     <div>
       {/* Topbar: título + busca e botão */}
       <div className="topbar">
-        <div className="title-wrap">
+        <div>
           <h1>Agenda</h1>
           <Breadcrumb />
         </div>
