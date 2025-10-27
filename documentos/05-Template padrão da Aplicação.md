@@ -1,6 +1,6 @@
 # Template padrão da Aplicação
 
-O layout padrão do site foi construído com as linguagens de marcação HTML e CSS, e a linguagem de programação JavaScript foi utilizada para a construção do menu responsivo.
+O layout padrão do site foi construído com as linguagens de marcação HTML e CSS, e a linguagem de programação JavaScript (Biblioteca React) foi utilizada para a construção do menu responsivo.
 
 As páginas terão como elementos padrões o menu de navegação, o header, o footer, título da página com breadcrumb e os elementos de identidade visual citados abaixo:
 - Logo
