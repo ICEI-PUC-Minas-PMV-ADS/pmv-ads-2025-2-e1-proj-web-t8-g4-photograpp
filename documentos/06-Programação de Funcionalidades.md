@@ -1,44 +1,181 @@
-# Programação de Funcionalidades
+# Programação de Funcionalidades - PhotogrApp
 
-Implementação da aplicação descritas por meio dos requisitos codificados. 
+Este documento apresenta a implementação das funcionalidades da aplicação PhotogrApp, desenvolvida para gerenciamento de serviços fotográficos. Cada funcionalidade foi codificada seguindo os requisitos especificados e utilizando React com Vite como tecnologia base.
+Na primeira etapa de desenvolvimento, o foco foi em UI (HTML e CSS) e em pelo menos uma funcionalidade por integrante do grupo.
 
-[Utilize a estrutura abaixo para cada funcionalidade entregue na etapa]
+## Metodologia de Desenvolvimento
 
-### Título da funcionalidade
+- **Framework**: React com Vite
+- **Controle de Versão**: GitHub Flow para branches de entrega
+- **Estrutura**: Componentização modular com hooks customizados
+- **Armazenamento**: LocalStorage para persistência de dados
+- **Autenticação**: Sistema de autenticação implementado com Context API
 
-[Adicione imagem da funcionalidade/tela]
+## Estrutura de Arquivos
 
+```
+src/
+├── components/          # Componentes compartilhados
+├── contexts/           # Contextos React (AuthContext)
+├── hooks/              # Hooks customizados (useLocalStorage)
+├── pages/              # Páginas da aplicação
+│   ├── Home/
+│   ├── Login/
+│   ├── Register/
+│   ├── Dashboard/
+│   ├── Projects/
+│   ├── Pipeline/
+│   ├── Customers/
+│   ├── Calendar/
+│   ├── Profile/
+│   └── Services/
+├── routes/             # Rotas protegidas
+├── utils/              # Utilitários e mocks
+└── assets/             # Imagens e recursos estáticos
+```
+
+---
+
+## Funcionalidades Implementadas
+
+URL para acompanhar o sistema em andamento:
+https://photograpp.vercel.app
+
+### 1. Página Inicial (Home)
 
 #### Requisito atendido
-
-[RF-X: adicione a descrição do requisito atendido]
-
-
-#### Artefatos da funcionalidade
-
-[Adicione os nomes dos arquivos relacionados ao desenvolvimento da funcionalidade]
-
-
-#### Estrutura de Dados
-
-[Caso exista estrutura de dados, adicione aqui]
-
+**RF-11**: O sistema deve disponibilizar uma página online de divulgação do fotógrafo e seus serviços
 
 #### Instruções de acesso
-
-[Adicione as orientações de acesso à funcionalidade]
+Acesse a URL raiz da aplicação para visualizar a página inicial.
 
 
 #### Responsável
+**Ariana**
 
-[Adicione nome do responsável pelo desenvolvimento da funcionalidade]
+---
 
+### 2. Sistema de Autenticação (Login e Registro)
 
+#### Requisito atendido
+**RF-02**: O sistema deve permitir o cadastro de fotógrafos com informações pessoais e serviços
 
+#### Instruções de acesso
+Acesse `/login` para autenticação ou `/register` para criar nova conta.
 
-> **Links Úteis**:
-> - [Trabalhando com HTML5 Local Storage e JSON](https://www.devmedia.com.br/trabalhando-com-html5-local-storage-e-json/29045)
-> - [JSON Tutorial](https://www.w3resource.com/JSON)
-> - [JSON - Introduction (W3Schools)](https://www.w3schools.com/js/js_json_intro.asp)
-> - [JSON Tutorial (TutorialsPoint)](https://www.tutorialspoint.com/json/index.htm)
+#### Responsável
+**Ariana**
 
+---
+
+### 3. Dashboard Principal
+
+#### Requisito atendido
+**RF-10**: O sistema deve gerar relatórios de agenda e faturamento por período
+
+#### Instruções de acesso
+Após login, será redirecionado automaticamente para `/dashboard`.
+
+#### Responsável
+**Yago**
+
+---
+
+### 4. Gerenciamento de Projetos
+
+#### Requisito atendido
+**RF-06**: O sistema deve permitir criação de tarefas/checklists vinculados ao evento
+
+#### Instruções de acesso
+Acesse `/projects` para visualizar e gerenciar projetos.
+
+#### Responsável
+**D'Angeles**
+
+---
+
+### 5. Pipeline Kanban
+
+#### Requisito atendido
+**RF-05**: O sistema deve disponibilizar um pipeline Kanban para acompanhamento dos trabalhos com possibilidade de designar prazos e responsáveis pelas tarefas
+
+#### Instruções de acesso
+Acesse `/pipeline` para visualizar o quadro Kanban dos projetos.
+
+#### Responsável
+**D'Angeles**
+
+---
+
+### 6. Gerenciamento de Clientes
+
+#### Requisito atendido
+**RF-01**: O sistema deve permitir cadastro e edição de clientes com histórico de contratos
+
+#### Instruções de acesso
+Acesse `/customers` para gerenciar informações dos clientes.
+
+#### Responsável
+**Yuri**
+
+---
+
+### 7. Agenda de Eventos
+
+#### Requisito atendido
+**RF-03**: O sistema deve permitir o agendamento de sessões fotográficas, verificando conflitos
+
+#### Instruções de acesso
+Acesse `/calendar` para visualizar e agendar eventos.
+
+#### Responsável
+**Yago**
+
+---
+
+### 8. Perfil Público
+
+#### Requisito atendido
+**RF-11**: O sistema deve disponibilizar uma página online de divulgação do fotógrafo e seus serviços
+
+#### Instruções de acesso
+Acesse `/profile` para visualizar a página pública do fotógrafo.
+
+#### Responsável
+**Gustavo**
+
+---
+
+### 9. Catálogo de Serviços
+
+#### Requisito atendido
+**RF-11**: O sistema deve disponibilizar uma página online de divulgação do fotógrafo e seus serviços
+
+#### Instruções de acesso
+Acesse `/services` para visualizar os pacotes disponíveis.
+
+#### Responsável
+**Yuri**
+
+---
+
+## Funcionalidades Futuras
+
+As seguintes funcionalidades serão implementadas nas próximas etapas do projeto:
+
+- **Controle Financeiro** (RF-12): Gestão de caixa básico
+- **Galeria de Fotos** (RF-07): Sistema para seleção de fotos pelo cliente
+- **Geração de Contratos PDF** (RF-04): Documentos digitais
+- **Sistema de Tarefas** (RF-06): Checklists detalhados
+- **Relatórios Avançados** (RF-10): Analytics e métricas
+
+---
+
+## Links Úteis
+
+- [Trabalhando com HTML5 Local Storage e JSON](https://www.devmedia.com.br/trabalhando-com-html5-local-storage-e-json/29045)
+- [JSON Tutorial](https://www.w3resource.com/JSON)
+- [JSON - Introduction (W3Schools)](https://www.w3schools.com/js/js_json_intro.asp)
+- [JSON Tutorial (TutorialsPoint)](https://www.tutorialspoint.com/json/index.htm)
+- [React Documentation](https://react.dev/)
+- [Vite Documentation](https://vitejs.dev/)
