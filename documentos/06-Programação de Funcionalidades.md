@@ -41,7 +41,7 @@ src/
 URL para acompanhar o sistema em andamento:
 https://photograpp.vercel.app
 
-### 1. Página Inicial (Home)
+### Página Inicial (Home)
 
 #### Requisito atendido
 **RF-11**: O sistema deve disponibilizar uma página online de divulgação do fotógrafo e seus serviços
@@ -55,7 +55,7 @@ Acesse a URL raiz da aplicação para visualizar a página inicial.
 
 ---
 
-### 2. Sistema de Autenticação (Login e Registro)
+### Sistema de Autenticação (Login e Registro)
 
 #### Requisito atendido
 **RF-02**: O sistema deve permitir o cadastro de fotógrafos com informações pessoais e serviços
@@ -68,7 +68,7 @@ Acesse `/login` para autenticação ou `/register` para criar nova conta.
 
 ---
 
-### 3. Dashboard Principal
+### Dashboard Principal
 
 #### Requisito atendido
 **RF-10**: O sistema deve gerar relatórios de agenda e faturamento por período
@@ -81,25 +81,14 @@ Após login, será redirecionado automaticamente para `/dashboard`.
 
 ---
 
-### 4. Gerenciamento de Projetos
 
-#### Requisito atendido
-**RF-06**: O sistema deve permitir criação de tarefas/checklists vinculados ao evento
-
-#### Instruções de acesso
-Acesse `/projects` para visualizar e gerenciar projetos.
-
-#### Responsável
-**D'Angeles**
-
----
-
-### 5. Pipeline Kanban
+### Gerenciamento de Projetos e Pipeline de Produção
 
 #### Requisito atendido
 **RF-05**: O sistema deve disponibilizar um pipeline Kanban para acompanhamento dos trabalhos com possibilidade de designar prazos e responsáveis pelas tarefas
 
 #### Instruções de acesso
+Acesse `/projects` para visualizar e gerenciar projetos.
 Acesse `/pipeline` para visualizar o quadro Kanban dos projetos.
 
 #### Responsável
@@ -107,7 +96,7 @@ Acesse `/pipeline` para visualizar o quadro Kanban dos projetos.
 
 ---
 
-### 6. Gerenciamento de Clientes
+### Gerenciamento de Clientes
 
 #### Requisito atendido
 **RF-01**: O sistema deve permitir cadastro e edição de clientes com histórico de contratos
@@ -120,7 +109,7 @@ Acesse `/customers` para gerenciar informações dos clientes.
 
 ---
 
-### 7. Agenda de Eventos
+### Agenda de Eventos
 
 #### Requisito atendido
 **RF-03**: O sistema deve permitir o agendamento de sessões fotográficas, verificando conflitos
@@ -133,7 +122,7 @@ Acesse `/calendar` para visualizar e agendar eventos.
 
 ---
 
-### 8. Perfil Público
+### Perfil Público
 
 #### Requisito atendido
 **RF-11**: O sistema deve disponibilizar uma página online de divulgação do fotógrafo e seus serviços
@@ -146,10 +135,10 @@ Acesse `/profile` para visualizar a página pública do fotógrafo.
 
 ---
 
-### 9. Catálogo de Serviços
+### Catálogo de Serviços
 
 #### Requisito atendido
-**RF-11**: O sistema deve disponibilizar uma página online de divulgação do fotógrafo e seus serviços
+| RF-02 |  O sistema deve permitir o cadastro de serviços.
 
 #### Instruções de acesso
 Acesse `/services` para visualizar os pacotes disponíveis.
