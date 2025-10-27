@@ -120,8 +120,8 @@ export function AuthProvider({ children }) {
       login,
       logout,
       register,
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [auth]
   );
 
