@@ -8,17 +8,21 @@ import "./styles.css";
 
 export default function Clientes() {
   return (
-    <section className="first-section">
-      <h1>Clientes</h1>
-      <Breadcrumb />
+    <>
+    <section className="cabecalho">
+      <div>
+        <h1>Clientes</h1>
+        <Breadcrumb />
+      </div>
       <div className="searchLabel">
-      <input type="text" placeholder="Digite o termo..." />
-     <a href=""><img src={Search} alt="Buscar" /></a>
+        <input type="text" placeholder="Digite o termo..." />
+        <a href=""><img src={Search} alt="Buscar" /></a>
       </div>
 
       <a href=""><img src={Filtrar} alt="Filtrar" /></a>
       <a href=""><button>Novo Cliente</button></a>
-      
+    </section>
+    <section className="ctable">
       <div className="registros">
         <span>Mostrar</span>
         <select className="caixaRegistros">
@@ -28,7 +32,6 @@ export default function Clientes() {
         </select>
         <span>registros</span>
       </div>
-
      <table id="customersTable">
       <thead>
         <tr>
@@ -76,5 +79,6 @@ export default function Clientes() {
       </tbody>
      </table>
     </section>
+    </>
   );
 }
