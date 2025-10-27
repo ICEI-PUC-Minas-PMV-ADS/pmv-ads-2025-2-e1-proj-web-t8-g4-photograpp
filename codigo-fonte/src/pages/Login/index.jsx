@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext.jsx';
 import './styles.css';
 
@@ -7,7 +7,7 @@ export default function Login() {
   const { login, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
     email: 'demo@teste.com',
-    password: '123456'
+    password: '123456',
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -22,11 +22,11 @@ export default function Login() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
+
     if (error) setError('');
   };
 
@@ -53,9 +53,13 @@ export default function Login() {
 
   return (
     <section className="login-center">
-      <div className='login-container'>
+      <div className="login-container">
         <figure className="avatar">
-            <img src="/src/assets/avatar-demo.png" alt="Logo do Photograpp" width="150" />
+          <img
+            src="/src/assets/avatar-demo.png"
+            alt="Logo do Photograpp"
+            width="150"
+          />
         </figure>
         <h1>Vamos começar!</h1>
         <form className="login-form" onSubmit={handleSubmit}>
@@ -85,14 +89,14 @@ export default function Login() {
                 disabled={isLoading}
                 required
               />
-            {error && (
-              <p style={{ color: 'crimson', fontSize: 14, margin: 0 }}>
-                {error}
+              {error && (
+                <p style={{ color: 'crimson', fontSize: 14, margin: 0 }}>
+                  {error}
+                </p>
+              )}
+              <p className="nova-senha">
+                <Link to="/reset-password">Esqueci minha senha</Link>
               </p>
-            )}
-            <p className="nova-senha">
-              <Link to="/reset-password">Esqueci minha senha</Link>
-            </p>
             </div>
           </div>
           <div className="form-row">

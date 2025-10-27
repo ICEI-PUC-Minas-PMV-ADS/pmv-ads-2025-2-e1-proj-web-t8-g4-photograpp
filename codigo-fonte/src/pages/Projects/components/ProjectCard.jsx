@@ -1,16 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
+import { STATUS_OPTIONS } from '../../../utils/constants/projectStatus';
 import './ProjectCard.css';
-
-const STATUS_OPTIONS = [
-    'Lead',
-    'Contratação',
-    'Pré-produção',
-    'Produção',
-    'Pós-produção',
-    'Entrega/Publicação',
-    'Finalizado',
-];
 
 export default function ProjectCard({
   titulo,
@@ -24,6 +15,10 @@ export default function ProjectCard({
   const [current, setCurrent] = useState(status || STATUS_OPTIONS[0]);
   const btnRef = useRef(null);
   const menuRef = useRef(null);
+
+  useEffect(() => {
+    setCurrent(status || STATUS_OPTIONS[0]);
+  }, [status]);
 
   useEffect(() => {
     function handleClickOutside(e) {
