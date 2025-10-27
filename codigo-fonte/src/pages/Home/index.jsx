@@ -24,6 +24,7 @@ export default function Home() {
         </div>
         <div className="banner-right">
           <img
+          className="banner-image"
             src={bannerImg}
             alt="Fotógrafo trablhando no escritório"
             width="100%"

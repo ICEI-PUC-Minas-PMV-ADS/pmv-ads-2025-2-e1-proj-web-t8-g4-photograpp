@@ -8,8 +8,9 @@ import "./styles.css";
 
 export default function Clientes() {
   return (
-    <div>
+    <section className="first-section">
       <h1>Clientes</h1>
+      <Breadcrumb />
       <div className="searchLabel">
       <input type="text" placeholder="Digite o termo..." />
      <a href=""><img src={Search} alt="Buscar" /></a>
@@ -17,7 +18,7 @@ export default function Clientes() {
 
       <a href=""><img src={Filtrar} alt="Filtrar" /></a>
       <a href=""><button>Novo Cliente</button></a>
-      <Breadcrumb />
+      
       <div className="registros">
         <span>Mostrar</span>
         <select className="caixaRegistros">
@@ -74,6 +75,6 @@ export default function Clientes() {
         </tr>
       </tbody>
      </table>
-    </div>
+    </section>
   );
 }
