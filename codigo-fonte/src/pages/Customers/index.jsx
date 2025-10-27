@@ -1,26 +1,39 @@
 import Breadcrumb from "../../components/Breadcrumb";
-import Trash from "../../assets/trash.svg";
-import Edit from "../../assets/edit.svg";
-import Eye from "../../assets/eye.svg";
-import Search from "../../assets/search.svg";
-import Filtrar from "../../assets/filter.svg";
 import "./styles.css";
+import { useState } from "react";
+import { FiSearch } from "react-icons/fi";
+import { FiFilter } from "react-icons/fi";
+import { FiTrash2, FiEdit2, FiEye } from "react-icons/fi";
+import { FaRegEdit } from "react-icons/fa";
 
 export default function Clientes() {
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <>
-    <section className="cabecalho">
+    <section className="customers__top">
       <div>
         <h1>Clientes</h1>
         <Breadcrumb />
       </div>
-      <div className="searchLabel">
-        <input type="text" placeholder="Digite o termo..." />
-        <a href=""><img src={Search} alt="Buscar" /></a>
+      <div className="customers__actions">
+        <div className="customers__search-wrapper">
+          <input
+            type="text"
+            className="customers__search"
+            placeholder="Digite o termo..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <FiSearch className="customers__search-icon" />
+        </div>
+        <button className="customers-filter">
+          <FiFilter className="customers__filter-icon" />
+        </button>
+        <button className="customers__button customers__button--primary">
+          Novo cliente
+        </button>
       </div>
-
-      <a href=""><img src={Filtrar} alt="Filtrar" /></a>
-      <a href=""><button>Novo Cliente</button></a>
     </section>
     <section className="ctable">
       <div className="registros">
@@ -39,7 +52,7 @@ export default function Clientes() {
           <th>Cliente</th>
           <th>E-mail</th>
           <th>Contato</th>
-          <th>Ações</th>
+          <th className="tableHeaderCenter">Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -49,9 +62,11 @@ export default function Clientes() {
           <td>joao.silva@gmail.com</td>
           <td>(11) 91234-5678</td>
           <td>
-            <a href=""><img src={Trash} alt="Excluir" /></a>
-            <a href=""><img src={Edit} alt="Editar" /></a>
-            <a href=""><img src={Eye} alt="Visualizar" /></a>
+            <div className="action-buttons">
+              <button className="action-button"><FiTrash2 title="Excluir" /></button>
+              <button className="action-button"><FaRegEdit title="Editar" /></button>
+              <button className="action-button"><FiEye title="Visualizar" /></button>
+            </div>
           </td>
         </tr>
           <tr>
@@ -60,9 +75,11 @@ export default function Clientes() {
           <td>marta.silva@outlook.com</td>
           <td>(21) 94834-5588</td>
           <td>
-            <a href=""><img src={Trash} alt="Excluir" /></a>
-            <a href=""><img src={Edit} alt="Editar" /></a>
-            <a href=""><img src={Eye} alt="Visualizar" /></a>
+            <div className="action-buttons">
+              <button className="action-button"><FiTrash2 title="Excluir" /></button>
+              <button className="action-button"><FaRegEdit title="Editar" /></button>
+              <button className="action-button"><FiEye title="Visualizar" /></button>
+            </div>
           </td>
         </tr>
          <tr>
@@ -71,9 +88,11 @@ export default function Clientes() {
           <td>marcos.santos@gmail.com</td>
           <td>(81) 98563-5678</td>
           <td>
-            <a href=""><img src={Trash} alt="Excluir" /></a>
-            <a href=""><img src={Edit} alt="Editar" /></a>
-            <a href=""><img src={Eye} alt="Visualizar" /></a>
+            <div className="action-buttons">
+              <button className="action-button"><FiTrash2 title="Excluir" /></button>
+              <button className="action-button"><FaRegEdit title="Editar" /></button>
+              <button className="action-button"><FiEye title="Visualizar" /></button>
+            </div>
           </td>
         </tr>
       </tbody>

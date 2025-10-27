@@ -1,17 +1,33 @@
+import { useState } from "react";
 import Breadcrumb from "../../components/Breadcrumb";
-import Search from "../../assets/search.svg";
 import "./styles.css";
+import { FiSearch } from "react-icons/fi";
 
 export default function Services() {
+  const [searchTerm, setSearchTerm] = useState('');
   return (
     <div>
-      <h1>Serviços</h1>
-      <div className="searchLabel">
-      <input type="text" placeholder="Digite o termo..." />
-     <a href=""><img src={Search} alt="Buscar" /></a>
-      </div>
-      <a href=""><button>Novo serviço</button></a>
-      <Breadcrumb />
+      <section className="services__top">
+        <div>
+          <h1>Serviços</h1>
+          <Breadcrumb />
+        </div>
+        <div className="services__actions">
+          <div className="services__search-wrapper">
+            <input
+              type="text"
+              className="services__search"
+              placeholder="Digite o termo..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <FiSearch className="services__search-icon" />
+          </div>
+          <button className="services__button services__button--primary">
+            Novo serviço
+          </button>
+        </div>
+      </section>
       <div className="ServicosContainer">
        <h6>Fotografia de produto</h6>
        <span className="tituloServicos">Preços: </span><span className="conteudoServico">R$2000,00</span><br />
