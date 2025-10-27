@@ -10,19 +10,17 @@ export default function Profile() {
       <div className="profile-header">
         <div>
           <h1 className="page-title">Perfil público</h1>
-
           <div className="breadcrumb">
             <Breadcrumb />
           </div>
         </div>
-
         <button className="btn btn-primary-outline">Ver página pública</button>
       </div>
 
       {/* Card: Formulário principal */}
-      <section className="card">
+      <section className="profile-form">
         <form className="form-grid" onSubmit={(e) => e.preventDefault()}>
-          <div className="field">
+          <div className="field span-2">
             <label>Nome público da empresa:</label>
             <input type="text" placeholder="" />
           </div>
@@ -74,30 +72,26 @@ export default function Profile() {
             <input type="text" placeholder="CEP" />
           </div>
 
-          <div className="field span-2">
+          <div className="field span-3 rua-field">
             <label>&nbsp;</label>
             <input type="text" placeholder="Rua, avenida..." />
           </div>
 
           <div className="field">
-            <label>&nbsp;</label>
             <input type="text" placeholder="Número" />
           </div>
 
           <div className="field">
-            <label>&nbsp;</label>
             <input type="text" placeholder="Complemento" />
           </div>
 
           <div className="field">
-            <label>&nbsp;</label>
             <input type="text" placeholder="Bairro" />
           </div>
 
           <div className="field">
-            <label>&nbsp;</label>
-            <div className="select-wrap">
-              <select defaultValue="">
+            <div className="">
+              <select className="uf" defaultValue="">
                 <option value="" disabled>UF</option>
                 {[
                   "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS",
@@ -107,11 +101,10 @@ export default function Profile() {
                   <option key={uf} value={uf}>{uf}</option>
                 ))}
               </select>
-              <span className="chev">▾</span>
             </div>
           </div>
 
-          <div className="field span-3">
+          <div className="field span-4">
             <label>Biografia:</label>
             <textarea rows={6} />
           </div>
