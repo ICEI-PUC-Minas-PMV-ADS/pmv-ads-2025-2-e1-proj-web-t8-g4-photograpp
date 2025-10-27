@@ -52,26 +52,25 @@ export default function Register() {
   return (
     <section className="register-center">
       <div className='register-container'>
-        <figure className="avatar">
-            <img className="simbolo" src="/src/assets/photograpp-simbolo.png" alt="Logo do Photograpp" width="150" />
-        </figure>
-        <h1>Vamos começar!</h1>
-        <form className="register-form" onSubmit={handleSubmit} style={{ display: 'grid', gap: 12 }}>
-          <div className="form-row">
-            <div className="form-column full-width">
-              <label>Por favor insira seu email:</label>
-              <input
-                  className="input-center"
-                  type="email"
-                  name="email"
-                  placeholder="seuemail@email.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  required
-              />
-            </div>
-          </div>
+        <div className="email-checker">
+          <figure className="avatar">
+              <img className="simbolo" src="/src/assets/photograpp-simbolo.png" alt="Logo do Photograpp" width="150" />
+              <button className='input-foto'><img src='/src/assets/camera.svg'/></button>
+          </figure>        
+          <h1>Vamos começar!</h1>          
+          <label>Por favor insira seu email:</label>
+          <input
+              className="input-center"
+              type="email"
+              name="email"
+              placeholder="seuemail@email.com"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={isLoading}
+              required
+          />
+        </div>
+        <form className="register-form" onSubmit={handleSubmit} style={{ display: 'grid', gap: 12 }}>    
           <div className="form-row">
             <div className="form-column">
               <div className="radio-options">
@@ -94,20 +93,22 @@ export default function Register() {
               <div className="form-column full-width">
                 <label>Qual o seu nome completo?</label>
                 <div className="group-inputs">
-                  <input
-                    className="c50"
-                    type="text"
-                    name="primeiro-nome"
-                    placeholder="Primeiro nome"
-                    required
-                  />
-                  <input
-                    className="c50"
-                    type="text"
-                    name="sobrenome"
-                    placeholder="Sobrenome"
-                    required
-                  />
+                  <div className='group-line'>
+                    <input
+                      className="c50"
+                      type="text"
+                      name="primeiro-nome"
+                      placeholder="Primeiro nome"
+                      required
+                    />
+                    <input
+                      className="c50"
+                      type="text"
+                      name="sobrenome"
+                      placeholder="Sobrenome"
+                      required
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -136,48 +137,55 @@ export default function Register() {
               <div className="form-column full-width">
                 <label>Qual é o seu endereço?</label>
                 <div className="group-inputs">
-                  <input
-                    className="c25"
-                    type="text"
-                    name="CEP"
-                    placeholder="CEP"
-                    required
-                  />
-                  <input
-                    className="c75"
-                    type="text"
-                    name="rua"
-                    placeholder="Rua, avenida..."
-                    required
-                  />
-                  <input
-                    className="c25"
-                    type="text"
-                    name="numero"
-                    placeholder="Número"
-                    required
-                  />
-                  <input
-                    className="c25"
-                    type="text"
-                    name="complemento"
-                    placeholder="Complemento"
-                    required
-                  />
-                  <input
-                    className="c37"
-                    type="text"
-                    name="bairro"
-                    placeholder="Bairro"
-                    required
-                  />
-                  <input
-                    className="c12"
-                    type="text"
-                    name="uf"
-                    placeholder="UF"
-                    required
-                  />
+                  <div className='group-line'>
+                    <input
+                      className="c25"
+                      type="text"
+                      name="CEP"
+                      placeholder="CEP"
+                      required
+                    />
+                    <input
+                      className="c75"
+                      type="text"
+                      name="rua"
+                      placeholder="Rua, avenida..."
+                      required
+                    />
+                  </div>
+                  <div className='group-line'>
+                    <input
+                      className="c25"
+                      type="text"
+                      name="numero"
+                      placeholder="Número"
+                      required
+                    />
+                    <input
+                      className="c25"
+                      type="text"
+                      name="complemento"
+                      placeholder="Complemento"
+                      required
+                    />
+                    <input
+                      className="c37"
+                      type="text"
+                      name="bairro"
+                      placeholder="Bairro"
+                      required
+                    />
+                    <select className="uf c12" defaultValue="">
+                      <option value="" disabled>UF</option>
+                      {[
+                        "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS",
+                        "MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC",
+                        "SP","SE","TO",
+                      ].map((uf) => (
+                        <option key={uf} value={uf}>{uf}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -192,7 +200,7 @@ export default function Register() {
                 <input
                   type="text"
                   name="razao-social"
-                  placeholder=""
+                  placeholder="Minha Empresa LTDA"
                   required
                 />
               </div>
@@ -229,50 +237,57 @@ export default function Register() {
           </div>
           <div className="form-row">
               <div className="form-column full-width">
-                <label>Qual é o seu endereço?</label>
+                <label>Qual é o endereço da empresa?</label>
                 <div className="group-inputs">
-                  <input
-                    className="c25"
-                    type="text"
-                    name="CEP"
-                    placeholder="CEP"
-                    required
-                  />
-                  <input
-                    className="c75"
-                    type="text"
-                    name="rua"
-                    placeholder="Rua, avenida..."
-                    required
-                  />
-                  <input
-                    className="c25"
-                    type="text"
-                    name="numero"
-                    placeholder="Número"
-                    required
-                  />
-                  <input
-                    className="c25"
-                    type="text"
-                    name="complemento"
-                    placeholder="Complemento"
-                    required
-                  />
-                  <input
-                    className="c37"
-                    type="text"
-                    name="bairro"
-                    placeholder="Bairro"
-                    required
-                  />
-                  <input
-                    className="c12"
-                    type="text"
-                    name="uf"
-                    placeholder="UF"
-                    required
-                  />
+                  <div className='group-line'>
+                    <input
+                      className="c25"
+                      type="text"
+                      name="CEP"
+                      placeholder="CEP"
+                      required
+                    />
+                    <input
+                      className="c75"
+                      type="text"
+                      name="rua"
+                      placeholder="Rua, avenida..."
+                      required
+                    />
+                  </div>
+                  <div className='group-line'>
+                    <input
+                      className="c25"
+                      type="text"
+                      name="numero"
+                      placeholder="Número"
+                      required
+                    />
+                    <input
+                      className="c25"
+                      type="text"
+                      name="complemento"
+                      placeholder="Complemento"
+                      required
+                    />
+                    <input
+                      className="c37"
+                      type="text"
+                      name="bairro"
+                      placeholder="Bairro"
+                      required
+                    />
+                    <select className="uf c12" defaultValue="">
+                      <option value="" disabled>UF</option>
+                      {[
+                        "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS",
+                        "MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC",
+                        "SP","SE","TO",
+                      ].map((uf) => (
+                        <option key={uf} value={uf}>{uf}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
@@ -282,29 +297,21 @@ export default function Register() {
               <h2>Dados de acesso</h2>
             </div>
             <div className="form-row">
-              <div className="form-column">
+              <div className="form-column col50">
                 <label>Crie sua senha de acesso:</label>
                 <input
                   type="password"
                   name="password"
                   placeholder="Senha (mínimo 6 caracteres)"
-                  value={formData.password}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  minLength={6}
                   required
                 />
               </div>
-              <div className="form-column">
+              <div className="form-column col50">
                 <label>Repita a senha:</label>
                 <input
                   type="password"
                   name="password"
                   placeholder="Senha (mínimo 6 caracteres)"
-                  value={formData.password}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  minLength={6}
                   required
                 />
               </div>
@@ -313,9 +320,13 @@ export default function Register() {
           {error && (
             <p style={{ color: 'crimson', fontSize: 14, margin: 0 }}>{error}</p>
           )}
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Criando conta...' : 'Criar conta'}
-          </button>
+          <div className='form-row'>
+            <div className='form-column'>
+              <button type="submit" disabled={isLoading}>
+                {isLoading ? 'Criando conta...' : 'Registrar'}
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </section>
