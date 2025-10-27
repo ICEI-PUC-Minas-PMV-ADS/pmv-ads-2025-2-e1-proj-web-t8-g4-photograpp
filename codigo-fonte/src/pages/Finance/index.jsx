@@ -5,6 +5,7 @@ export default function Finance() {
       <div>
         <h1>Financeiro</h1>
         <Breadcrumb />
+        <h4>Em breve...</h4>
       </div>
   );
 }
