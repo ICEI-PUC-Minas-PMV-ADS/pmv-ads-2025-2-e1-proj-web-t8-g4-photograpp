@@ -1,52 +1,45 @@
 import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import Breadcrumb from '../../components/Breadcrumb';
+import NewProjectModal from './components/NewProjectModal';
 import ProjectCard from './components/ProjectCard';
+import { useProjects } from './hooks/useProjects';
 import './styles.css';
 
 export default function Projects() {
-  const [items, setItems] = useState([
-    {
-      titulo: 'Book Infantil Ana Clara',
-      dataSessao: '05/09/2025',
-      pacote: 'Book infantil',
-      cliente: 'Ana Clara Lima',
-      status: 'Lead',
-    },
-    {
-      titulo: 'Casamento Pedro & Luiza',
-      dataSessao: '22/09/2025',
-      pacote: 'Cobertura de evento',
-      cliente: 'Pedro Martins',
-      status: 'Contratação',
-    },
-    {
-      titulo: 'Ensaio Corporativo TechCorp',
-      dataSessao: '30/09/2025',
-      pacote: 'Ensaio empresarial',
-      cliente: 'TechCorp Ltda',
-      status: 'Assinatura de contrato',
-    },
-    {
-      titulo: 'Ensaio Família Oliveira',
-      dataSessao: '12/10/2025',
-      pacote: 'Ensaio família',
-      cliente: 'Fernanda Oliveira',
-      status: 'Lead',
-    },
-    {
-      titulo: 'Ensaio Produto Café BomDia',
-      dataSessao: '18/10/2025',
-      pacote: 'Ensaio de produto',
-      cliente: 'Café BomDia',
-      status: 'Contratação',
-    },
-  ]);
+  const { projects, addProject, updateProjectStatus, isInitialized } =
+    useProjects();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  function handleStatusChange(index, next) {
-    setItems((prev) =>
-      prev.map((it, i) => (i === index ? { ...it, status: next } : it))
+  if (!isInitialized) {
+    return (
+      <div className="projects">
+        <div className="projects__top">
+          <div>
+            <h1>Projetos</h1>
+            <Breadcrumb />
+          </div>
+        </div>
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          Carregando projetos...
+        </div>
+      </div>
     );
+  }
+
+  const filteredProjects = projects.filter(
+    (project) =>
+      project.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      project.cliente.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  function handleStatusChange(projectId, newStatus) {
+    updateProjectStatus(projectId, newStatus);
+  }
+
+  function handleNewProject(newProject) {
+    addProject(newProject);
   }
 
   return (
@@ -62,24 +55,37 @@ export default function Projects() {
               type="text"
               className="projects__search"
               placeholder="Nome do projeto..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <FiSearch className="projects__search-icon" />
           </div>
-          <button className="projects__button projects__button--primary">
+          <button
+            className="projects__button projects__button--primary"
+            onClick={() => setIsModalOpen(true)}
+          >
             Novo projeto
           </button>
         </div>
       </div>
 
       <section className="projects__cards-grid">
-        {items.map((c, i) => (
+        {filteredProjects.map((project) => (
           <ProjectCard
-            key={c.titulo}
-            {...c}
-            onStatusChange={(next) => handleStatusChange(i, next)}
+            key={project.id}
+            {...project}
+            onStatusChange={(newStatus) =>
+              handleStatusChange(project.id, newStatus)
+            }
           />
         ))}
       </section>
+
+      <NewProjectModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleNewProject}
+      />
     </div>
   );
 }
