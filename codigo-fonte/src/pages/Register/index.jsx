@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import "./styles.css";
-import photograppSymbol from "../../assets/photograpp-simbolo.png";
+import photograppSymbol from "../../assets/avatar-placeholder.svg";
 import camera from "../../assets/camera.svg";
 
 export default function Register() {
+  const fileInputRef = useRef(null);
+  const [avatar, setAvatar] = useState(null);
+  const handleAvatarChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setAvatar(ev.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   const { register } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
@@ -54,17 +66,24 @@ export default function Register() {
     <section className="register-center">
       <div className="register-container">
         <div className="email-checker">
-          <figure className="avatar">
-            <img
-              className="simbolo"
-              src={photograppSymbol}
-              alt="Logo do Photograpp"
-              width="150"
+          <div className="personal-image">
+            <input 
+              type="file" 
+              ref={fileInputRef}
+              accept="image/*"
+              onChange={handleAvatarChange}
             />
-            <button className="input-foto">
-              <img src={camera} />
-            </button>
-          </figure>
+            <figure className="avatar-figure">
+              <button className="input-foto" onClick={() => fileInputRef.current && fileInputRef.current.click()}>
+                <img src={camera} alt="Carregar foto"/>
+              </button>
+              <img
+                className="avatar"
+                src={avatar ? avatar : photograppSymbol}
+                alt="Logo do Photograpp"
+              />
+            </figure>
+          </div>
           <h1>Vamos começar!</h1>
           <label>Por favor insira seu email:</label>
           <input
