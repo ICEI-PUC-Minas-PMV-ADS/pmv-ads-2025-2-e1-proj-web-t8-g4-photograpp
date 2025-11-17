@@ -17,6 +17,10 @@
     width: 70%;
 }
 
+.personal-image input[type="file"] {
+  display: none;
+}
+
 .register-form {
     width: 100%;
     max-width: 100%;
@@ -207,6 +211,7 @@ input [type="radio"] {
   justify-content: center;
   position: absolute;
   margin: 100px 0 0 100px;
+  z-index: 2;
 }
 
 .input-foto:hover {

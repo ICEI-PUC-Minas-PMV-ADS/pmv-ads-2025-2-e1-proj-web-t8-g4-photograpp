@@ -3,8 +3,7 @@ import "./styles.css";
 import { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { FiFilter } from "react-icons/fi";
-import { FiTrash2, FiEdit2, FiEye } from "react-icons/fi";
-import { FaRegEdit } from "react-icons/fa";
+import { FiTrash2, FiEdit, FiEye } from "react-icons/fi";
 
 export default function Clientes() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -64,7 +63,7 @@ export default function Clientes() {
           <td>
             <div className="action-buttons">
               <button className="action-button"><FiTrash2 title="Excluir" /></button>
-              <button className="action-button"><FaRegEdit title="Editar" /></button>
+              <button className="action-button"><FiEdit title="Editar" /></button>
               <button className="action-button"><FiEye title="Visualizar" /></button>
             </div>
           </td>
@@ -77,7 +76,7 @@ export default function Clientes() {
           <td>
             <div className="action-buttons">
               <button className="action-button"><FiTrash2 title="Excluir" /></button>
-              <button className="action-button"><FaRegEdit title="Editar" /></button>
+              <button className="action-button"><FiEdit title="Editar" /></button>
               <button className="action-button"><FiEye title="Visualizar" /></button>
             </div>
           </td>
@@ -90,7 +89,7 @@ export default function Clientes() {
           <td>
             <div className="action-buttons">
               <button className="action-button"><FiTrash2 title="Excluir" /></button>
-              <button className="action-button"><FaRegEdit title="Editar" /></button>
+              <button className="action-button"><FiEdit title="Editar" /></button>
               <button className="action-button"><FiEye title="Visualizar" /></button>
             </div>
           </td>
