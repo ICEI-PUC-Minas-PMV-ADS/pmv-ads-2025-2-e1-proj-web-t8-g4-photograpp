@@ -16,6 +16,7 @@ import Services from './pages/Services';
 import Tasks from './pages/Tasks';
 import PrivateRoute from './routes/PrivateRoute';
 import EmailChecker from './pages/email-checker';
+import Photo from './pages/Photo';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="clientes" element={<Customers />} />
             <Route path="agenda" element={<Calendar />} />
             <Route path="perfil" element={<Profile />} />
+            <Route path="photo" element={<Photo />} />
             <Route path="servicos" element={<Services />} />
             <Route path="financeiro" element={<Finance />} />
             <Route path="tarefas" element={<Tasks />} />
