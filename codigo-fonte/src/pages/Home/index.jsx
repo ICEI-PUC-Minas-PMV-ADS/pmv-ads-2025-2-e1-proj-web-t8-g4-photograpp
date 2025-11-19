@@ -5,7 +5,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <main>
+    <>
       <section className="banner">
         <div className="banner-left">
           <h1>Sistema de gestão para fotógrafos</h1>
@@ -60,6 +60,6 @@ export default function Home() {
         </p>
         <button onClick={() => navigate('/email-checker')}>Experimentar</button>
       </section>
-    </main>
+    </>
   );
 }

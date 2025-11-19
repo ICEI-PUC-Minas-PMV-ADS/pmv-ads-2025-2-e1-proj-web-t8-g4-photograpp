@@ -3,8 +3,8 @@ import "./styles.css";
 export default function EmailChecker() {
 
   return (
-    <main>
-      <section className="email-checker">
+    <section className="body-center" >
+      <div className="email-checker">
         <figure className="avatar">
             <img className="simbolo" src="/src/assets/photograpp-simbolo.png" alt="Logo do Photograpp" width="150" />
         </figure>
@@ -12,7 +12,7 @@ export default function EmailChecker() {
         <label>Por favor insira seu email:</label>
         <input type="email" placeholder="seuemail@email.com" />
         <button>Entrar</button>
-      </section>
-    </main>
+      </div>
+    </section>
   );
 }
