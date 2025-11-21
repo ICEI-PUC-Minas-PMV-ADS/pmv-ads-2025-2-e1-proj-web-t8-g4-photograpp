@@ -4,7 +4,7 @@ const AuthContext = createContext(null);
 
 const STORAGE_KEYS = {
   AUTH: 'auth',
-  USERS: 'users'
+  USERS: 'users',
 };
 
 export function AuthProvider({ children }) {
@@ -15,7 +15,6 @@ export function AuthProvider({ children }) {
       : { isAuthenticated: false, user: null, token: null };
   });
 
-  // Inicializar usuários padrão se não existirem
   useEffect(() => {
     const existingUsers = localStorage.getItem(STORAGE_KEYS.USERS);
     if (!existingUsers) {
@@ -24,8 +23,14 @@ export function AuthProvider({ children }) {
           id: 1,
           name: 'Usuário Demo',
           email: 'demo@teste.com',
-          password: '123456'
-        }
+          password: '123456',
+        },
+        {
+          id: 2,
+          name: 'Demo Dois',
+          email: 'demo2@teste.com',
+          password: '123456',
+        },
       ];
       localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(defaultUsers));
     }
@@ -46,7 +51,7 @@ export function AuthProvider({ children }) {
 
   const register = (userData) => {
     const { name, email, password } = userData;
-    
+
     if (!name || !email || !password) {
       return { ok: false, error: 'Todos os campos são obrigatórios' };
     }
@@ -56,8 +61,8 @@ export function AuthProvider({ children }) {
     }
 
     const users = getUsers();
-    const existingUser = users.find(user => user.email === email);
-    
+    const existingUser = users.find((user) => user.email === email);
+
     if (existingUser) {
       return { ok: false, error: 'E-mail já cadastrado' };
     }
@@ -66,7 +71,7 @@ export function AuthProvider({ children }) {
       id: Date.now(),
       name: name.trim(),
       email: email.toLowerCase().trim(),
-      password
+      password,
     };
 
     const updatedUsers = [...users, newUser];
@@ -82,7 +87,7 @@ export function AuthProvider({ children }) {
 
     const users = getUsers();
     const user = users.find(
-      u => u.email === email.toLowerCase().trim() && u.password === password
+      (u) => u.email === email.toLowerCase().trim() && u.password === password
     );
 
     if (!user) {
@@ -93,13 +98,13 @@ export function AuthProvider({ children }) {
     const userAuth = {
       id: user.id,
       name: user.name,
-      email: user.email
+      email: user.email,
     };
 
-    setAuth({ 
-      isAuthenticated: true, 
-      user: userAuth, 
-      token: fakeToken 
+    setAuth({
+      isAuthenticated: true,
+      user: userAuth,
+      token: fakeToken,
     });
 
     return { ok: true };
@@ -109,18 +114,18 @@ export function AuthProvider({ children }) {
     setAuth({ isAuthenticated: false, user: null, token: null });
   };
 
-  const value = useMemo(() => ({ 
-    ...auth, 
-    login, 
-    logout, 
-    register 
-  }), [auth]);
-
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      ...auth,
+      login,
+      logout,
+      register,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [auth]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

@@ -5,14 +5,18 @@
     justify-content: center;
 }
 
+.body-center h1 {
+    margin: 24px;
+}
+
 .email-checker {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 }
 
 .avatar {
-    padding: 20px;
     background-color: #1e3842;
     border-radius: 500px;
     width: 150px;
@@ -20,15 +24,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    object-fit: cover; 
 }
 
 .simbolo {
     max-width: 120px;
 }
 
-input {
+.input-center {
     text-align: center;
     width: 100%;
+    box-sizing: border-box;
 }
 
 button {

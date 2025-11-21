@@ -1,4 +1,56 @@
-input {
-    text-align: center;
+.login-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container .avatar {
+    padding: 0px;
+}
+
+.login-center h1 {
+    margin: 24px;
+}
+
+.login-form {
     width: 100%;
+    max-width: 100%;
+    text-align: center;
+}
+
+.login-width {
+    width: 100%;
+}
+
+.login-form input {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.login-form a {
+    color:#ffffff;
+}
+
+.login-form p {
+    margin: 0;
+}
+
+.form-row {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.nova-senha {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 12px;
 }
