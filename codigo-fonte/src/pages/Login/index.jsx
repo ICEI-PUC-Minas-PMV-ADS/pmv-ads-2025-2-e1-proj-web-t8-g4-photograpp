@@ -1,26 +1,29 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext.jsx";
-import "./styles.css";
-import avatarDemo from "../../assets/avatar-placeholder.svg";
-import { useLocalStorage } from "../../hooks/useLocalStorage.js";
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import avatarDemo from '../../assets/avatar-placeholder.svg';
+import { useAuth } from '../../contexts/AuthContext.jsx';
+import './styles.css';
 
 export default function Login() {
   const { login, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const [avatar, setAvatar] = useState(avatarDemo);
-  const [users] = useLocalStorage("users", [], false);
+
+  const getUsers = () => {
+    const usersData = localStorage.getItem('users');
+    return usersData ? JSON.parse(usersData) : [];
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/dashboard");
+      navigate('/dashboard');
     }
   }, [isAuthenticated, navigate]);
 
@@ -43,17 +46,18 @@ export default function Login() {
       [name]: value,
     }));
 
-    if (error) setError("");
+    if (error) setError('');
   };
 
   const handleBlur = () => {
     const email = formData.email.toLowerCase().trim();
-    if(!email){
+    if (!email) {
       setAvatar(avatarDemo);
       return;
     }
-    const user = users.find(u => u.email === email);
-    if(user && user.avatar){
+    const users = getUsers();
+    const user = users.find((u) => u.email === email);
+    if (user && user.avatar) {
       setAvatar(user.avatar);
     } else {
       setAvatar(avatarDemo);
@@ -63,19 +67,19 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
+    setError('');
 
     try {
       const res = login(formData.email, formData.password);
       if (res.ok) {
-        const from = location.state?.from?.pathname || "/dashboard";
+        const from = location.state?.from?.pathname || '/dashboard';
         navigate(from, { replace: true });
       } else {
-        setError(res.error || "Falha no login");
+        setError(res.error || 'Falha no login');
       }
     } catch (err) {
       console.log(err);
-      setError("Erro inesperado. Tente novamente.");
+      setError('Erro inesperado. Tente novamente.');
     } finally {
       setIsLoading(false);
     }
@@ -129,7 +133,7 @@ export default function Login() {
           </div>
           <div className="form-row">
             <button type="submit" disabled={isLoading}>
-              {isLoading ? "Entrando..." : "Entrar"}
+              {isLoading ? 'Entrando...' : 'Entrar'}
             </button>
           </div>
         </form>
