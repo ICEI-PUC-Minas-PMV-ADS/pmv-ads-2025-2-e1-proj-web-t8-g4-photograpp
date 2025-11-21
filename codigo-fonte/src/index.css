@@ -230,3 +230,20 @@ textarea {
   border-radius: 10px;
   border: 1px solid #a5a5a5;
 }
+
+select {
+  margin: 0;
+  padding: 15px;
+  background-color: #13262d;
+  color: #ffffff;
+  font-family: Poppins, Arial, sans-serif;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #a5a5a5;
+}
+
+.errorField {
+  color: #fe9684; 
+  margin-top: 4; 
+  font-size: 13px;
+}

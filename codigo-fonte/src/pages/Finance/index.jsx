@@ -1,42 +1,115 @@
-import Breadcrumb from "../../components/Breadcrumb";
-import "./styles.css";
-import { useState, useEffect } from "react";
+import { useState } from 'react';
 import {
-  FiSearch,
-  FiFilter,
-  FiTrash2,
-  FiEdit,
-  FiEye,
   FiChevronLeft,
   FiChevronRight,
-} from "react-icons/fi";
-import FinanceForm from "./financeForm";
+  FiEdit,
+  FiTrash2,
+} from 'react-icons/fi';
+import Breadcrumb from '../../components/Breadcrumb';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { financeMock } from '../../utils/mocks/financeMock';
+import FinanceForm from './financeForm';
+import './styles.css';
 
 export default function Finance() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries, , isInitialized] = useLocalStorage(
+    'financeEntries',
+    financeMock,
+    true
+  );
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalType, setModalType] = useState("entrada");
+  const [modalType, setModalType] = useState('entrada');
 
-  useEffect(() => {
-    const saved = localStorage.getItem("financeEntries");
-    if (saved) setEntries(JSON.parse(saved));
-  }, []);
+  const now = new Date();
+  const [selectedMonth, setSelectedMonth] = useState(now.getMonth() + 1);
+  const [selectedYear, setSelectedYear] = useState(now.getFullYear());
 
-  useEffect(() => {
-    localStorage.setItem("financeEntries", JSON.stringify(entries));
-  }, [entries]);
+  const meses = [
+    'janeiro',
+    'fevereiro',
+    'março',
+    'abril',
+    'maio',
+    'junho',
+    'julho',
+    'agosto',
+    'setembro',
+    'outubro',
+    'novembro',
+    'dezembro',
+  ];
+
+  const monthLabel = `${meses[selectedMonth - 1]} de ${selectedYear}`;
+
+  function previousMonth() {
+    if (selectedMonth === 1) {
+      setSelectedMonth(12);
+      setSelectedYear(selectedYear - 1);
+    } else {
+      setSelectedMonth(selectedMonth - 1);
+    }
+  }
+
+  function nextMonth() {
+    if (selectedMonth === 12) {
+      setSelectedMonth(1);
+      setSelectedYear(selectedYear + 1);
+    } else {
+      setSelectedMonth(selectedMonth + 1);
+    }
+  }
 
   const addEntry = (entry) => {
-    setEntries([...entries, { ...entry, value: Number(entry.value) }]);
+    const newList = [...entries, { ...entry, value: Number(entry.value) }];
+
+    newList.sort(
+      (a, b) =>
+        new Date(String(a.date)).getTime() - new Date(String(b.date)).getTime()
+    );
+
+    setEntries(newList);
   };
 
+  const filteredEntries = entries.filter((entry) => {
+    const d = new Date(entry.date);
+    return (
+      d.getMonth() + 1 === selectedMonth && d.getFullYear() === selectedYear
+    );
+  });
+
+  function getSaldoAnterior() {
+    const previousMonth = selectedMonth === 1 ? 12 : selectedMonth - 1;
+    const previousYear = selectedMonth === 1 ? selectedYear - 1 : selectedYear;
+
+    const entriesPreviousMonth = entries.filter((entry) => {
+      const d = new Date(entry.date);
+      return (
+        d.getMonth() + 1 === previousMonth && d.getFullYear() === previousYear
+      );
+    });
+
+    if (entriesPreviousMonth.length === 0) return 0;
+
+    let saldo = 0;
+    entriesPreviousMonth.forEach((e) => {
+      const v = Number(e.value);
+      if (e.type === 'entrada') saldo += v;
+      else saldo -= v;
+    });
+
+    return saldo;
+  }
+
+  const saldoAnterior = getSaldoAnterior();
+
+  // Totais gerais (todos os meses)
   const totalEntradas = entries
-    .filter((e) => e.type === "entrada")
+    .filter((e) => e.type === 'entrada')
     .reduce((sum, e) => sum + Number(e.value || 0), 0);
+
   const totalSaidas = entries
-    .filter((e) => e.type === "saida")
+    .filter((e) => e.type === 'saida')
     .reduce((sum, e) => sum + Number(e.value || 0), 0);
 
   const totalEmCaixa = totalEntradas - totalSaidas;
@@ -47,6 +120,10 @@ export default function Finance() {
 
   const [editIdx, setEditIdx] = useState(null);
 
+  if (!isInitialized) {
+    return <div>Carregando...</div>;
+  }
+
   return (
     <>
       <section className="customers__top">
@@ -54,24 +131,10 @@ export default function Finance() {
           <h1>Financeiro</h1>
           <Breadcrumb />
         </div>
-        <div className="customers__actions">
-          <div className="customers__search-wrapper">
-            <input
-              type="text"
-              className="customers__search"
-              placeholder="Digite o termo..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <FiSearch className="customers__search-icon" />
-          </div>
-          <button className="customers-filter">
-            <FiFilter className="customers__filter-icon" />
-          </button>
+        <div>
           <button
-            className="customers__button customers__button--primary"
             onClick={() => {
-              setModalType("entrada");
+              setModalType('entrada');
               setModalOpen(true);
             }}
           >
@@ -79,6 +142,7 @@ export default function Finance() {
           </button>
         </div>
       </section>
+
       {modalOpen && (
         <FinanceForm
           addEntry={addEntry}
@@ -89,64 +153,66 @@ export default function Finance() {
           defaultType={modalType}
           initialData={editIdx !== null ? entries[editIdx] : undefined}
           onEdit={(updatedEntry) => {
-            setEntries(
-              entries.map((e, i) =>
-                i === editIdx
-                  ? { ...updatedEntry, value: Number(updatedEntry.value) }
-                  : e
-              )
+            const updatedList = entries.map((e, i) =>
+              i === editIdx
+                ? { ...updatedEntry, value: Number(updatedEntry.value) }
+                : e
             );
+
+            updatedList.sort(
+              (a, b) =>
+                new Date(String(a.date)).getTime() -
+                new Date(String(b.date)).getTime()
+            );
+
+            setEntries(updatedList);
             setEditIdx(null);
             setTimeout(() => setModalOpen(false), 0);
           }}
         />
       )}
+
       <section className="finance__resume">
         <div className="finance__card">
           <h2>Total em caixa</h2>
           <p>
-            R${" "}
-            {totalEmCaixa.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+            R${' '}
+            {totalEmCaixa.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
+
         <div className="finance__card">
           <h2>Total de entradas</h2>
           <p>
-            R${" "}
-            {totalEntradas.toLocaleString("pt-BR", {
+            R${' '}
+            {totalEntradas.toLocaleString('pt-BR', {
               minimumFractionDigits: 2,
             })}
           </p>
         </div>
+
         <div className="finance__card">
           <h2>Total de saídas</h2>
           <p>
-            R${" "}
-            {totalSaidas.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+            R${' '}
+            {totalSaidas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
       </section>
+
       <section className="finance__table">
         <div className="table_selector">
           <div className="mounth_selector">
-            Setembro de 2025
-            <button className="customers-filter">
+            {monthLabel}
+            <button className="customers-filter" onClick={previousMonth}>
               <FiChevronLeft className="customers__filter-icon" />
             </button>
-            <button className="customers-filter">
+            <button className="customers-filter" onClick={nextMonth}>
               <FiChevronRight className="customers__filter-icon" />
             </button>
           </div>
-          <div className="registros">
-            <span>Mostrar</span>
-            <select className="caixaRegistros">
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-            </select>
-            <span>registros</span>
-          </div>
         </div>
+
         <table id="customersTable">
           <thead>
             <tr>
@@ -158,51 +224,75 @@ export default function Finance() {
               <th className="tableHeaderCenter col10">Ações</th>
             </tr>
           </thead>
+
           <tbody>
-            {entries.length === 0 ? (
+            <tr>
+              <td>{`01/${String(selectedMonth).padStart(
+                2,
+                '0'
+              )}/${selectedYear}`}</td>
+              <td>
+                <strong>Saldo do mês anterior</strong>
+              </td>
+              <td>-</td>
+              <td>-</td>
+              <td>
+                R${' '}
+                {saldoAnterior.toLocaleString('pt-BR', {
+                  minimumFractionDigits: 2,
+                })}
+              </td>
+              <td>-</td>
+            </tr>
+
+            {filteredEntries.length === 0 ? (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center" }}>
-                  Nenhum registro encontrado.
+                <td colSpan={6} style={{ textAlign: 'center' }}>
+                  Ainda não há registros para este mês.
                 </td>
               </tr>
             ) : (
               (() => {
-                let saldoAcumulado = 0;
-                return entries.map((entry, idx) => {
+                let saldoAcumulado = saldoAnterior;
+
+                return filteredEntries.map((entry, idx) => {
                   const valor = Number(entry.value) || 0;
-                  if (entry.type === "entrada") {
-                    saldoAcumulado += valor;
-                  } else if (entry.type === "saida") {
-                    saldoAcumulado -= valor;
-                  }
+
+                  if (entry.type === 'entrada') saldoAcumulado += valor;
+                  else if (entry.type === 'saida') saldoAcumulado -= valor;
+
                   return (
                     <tr key={idx}>
                       <td>
                         {entry.date
-                          ? new Date(entry.date).toLocaleDateString("pt-BR")
-                          : ""}
+                          ? new Date(entry.date).toLocaleDateString('pt-BR')
+                          : ''}
                       </td>
                       <td>{entry.description}</td>
+
                       <td>
-                        {entry.type === "entrada"
-                          ? `R$ ${valor.toLocaleString("pt-BR", {
+                        {entry.type === 'entrada'
+                          ? `R$ ${valor.toLocaleString('pt-BR', {
                               minimumFractionDigits: 2,
                             })}`
-                          : "R$ 0,00"}
+                          : 'R$ 0,00'}
                       </td>
+
                       <td>
-                        {entry.type === "saida"
-                          ? `R$ ${valor.toLocaleString("pt-BR", {
+                        {entry.type === 'saida'
+                          ? `R$ ${valor.toLocaleString('pt-BR', {
                               minimumFractionDigits: 2,
                             })}`
-                          : "R$ 0,00"}
+                          : 'R$ 0,00'}
                       </td>
+
                       <td>
-                        R${" "}
-                        {saldoAcumulado.toLocaleString("pt-BR", {
+                        R${' '}
+                        {saldoAcumulado.toLocaleString('pt-BR', {
                           minimumFractionDigits: 2,
                         })}
                       </td>
+
                       <td>
                         <div className="action-buttons">
                           <button
@@ -211,6 +301,7 @@ export default function Finance() {
                           >
                             <FiTrash2 title="Excluir" />
                           </button>
+
                           <button
                             className="action-button"
                             onClick={() => {

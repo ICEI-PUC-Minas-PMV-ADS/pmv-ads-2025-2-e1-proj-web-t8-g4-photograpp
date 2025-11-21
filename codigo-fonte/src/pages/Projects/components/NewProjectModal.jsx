@@ -184,7 +184,6 @@ export default function NewProjectModal({ isOpen, onClose, onSave }) {
             </button>
             <button
               type="submit"
-              className="new-project-modal__btn new-project-modal__btn--primary"
             >
               Salvar Projeto
             </button>
