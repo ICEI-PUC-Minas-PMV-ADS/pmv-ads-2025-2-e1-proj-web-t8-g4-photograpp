@@ -1,29 +1,43 @@
-import Breadcrumb from "../../components/Breadcrumb";
-import "./styles.css";
-import { useState, useEffect } from "react";
+import { useState } from 'react';
 import {
-  FiSearch,
-  FiFilter,
-  FiTrash2,
-  FiEdit,
   FiChevronLeft,
   FiChevronRight,
-} from "react-icons/fi";
-import FinanceForm from "./financeForm";
+  FiEdit,
+  FiTrash2,
+} from 'react-icons/fi';
+import Breadcrumb from '../../components/Breadcrumb';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { financeMock } from '../../utils/mocks/financeMock';
+import FinanceForm from './financeForm';
+import './styles.css';
 
 export default function Finance() {
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries, , isInitialized] = useLocalStorage(
+    'financeEntries',
+    financeMock,
+    true
+  );
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalType, setModalType] = useState("entrada");
+  const [modalType, setModalType] = useState('entrada');
 
   const now = new Date();
   const [selectedMonth, setSelectedMonth] = useState(now.getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(now.getFullYear());
 
   const meses = [
-    "janeiro", "fevereiro", "março", "abril", "maio", "junho",
-    "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+    'janeiro',
+    'fevereiro',
+    'março',
+    'abril',
+    'maio',
+    'junho',
+    'julho',
+    'agosto',
+    'setembro',
+    'outubro',
+    'novembro',
+    'dezembro',
   ];
 
   const monthLabel = `${meses[selectedMonth - 1]} de ${selectedYear}`;
@@ -46,29 +60,8 @@ export default function Finance() {
     }
   }
 
-  useEffect(() => {
-    const saved = localStorage.getItem("financeEntries");
-    if (saved) {
-      const loaded = JSON.parse(saved);
-
-      loaded.sort(
-        (a, b) =>
-          new Date(String(a.date)).getTime() - new Date(String(b.date)).getTime()
-      );
-
-      setEntries(loaded);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("financeEntries", JSON.stringify(entries));
-  }, [entries]);
-
   const addEntry = (entry) => {
-    const newList = [
-      ...entries,
-      { ...entry, value: Number(entry.value) }
-    ];
+    const newList = [...entries, { ...entry, value: Number(entry.value) }];
 
     newList.sort(
       (a, b) =>
@@ -81,8 +74,7 @@ export default function Finance() {
   const filteredEntries = entries.filter((entry) => {
     const d = new Date(entry.date);
     return (
-      d.getMonth() + 1 === selectedMonth &&
-      d.getFullYear() === selectedYear
+      d.getMonth() + 1 === selectedMonth && d.getFullYear() === selectedYear
     );
   });
 
@@ -93,8 +85,7 @@ export default function Finance() {
     const entriesPreviousMonth = entries.filter((entry) => {
       const d = new Date(entry.date);
       return (
-        d.getMonth() + 1 === previousMonth &&
-        d.getFullYear() === previousYear
+        d.getMonth() + 1 === previousMonth && d.getFullYear() === previousYear
       );
     });
 
@@ -103,7 +94,7 @@ export default function Finance() {
     let saldo = 0;
     entriesPreviousMonth.forEach((e) => {
       const v = Number(e.value);
-      if (e.type === "entrada") saldo += v;
+      if (e.type === 'entrada') saldo += v;
       else saldo -= v;
     });
 
@@ -112,21 +103,26 @@ export default function Finance() {
 
   const saldoAnterior = getSaldoAnterior();
 
-  const totalEntradas = filteredEntries
-    .filter((e) => e.type === "entrada")
+  // Totais gerais (todos os meses)
+  const totalEntradas = entries
+    .filter((e) => e.type === 'entrada')
     .reduce((sum, e) => sum + Number(e.value || 0), 0);
 
-  const totalSaidas = filteredEntries
-    .filter((e) => e.type === "saida")
+  const totalSaidas = entries
+    .filter((e) => e.type === 'saida')
     .reduce((sum, e) => sum + Number(e.value || 0), 0);
 
-  const totalEmCaixa = saldoAnterior + totalEntradas - totalSaidas;
+  const totalEmCaixa = totalEntradas - totalSaidas;
 
   const deleteEntry = (idx) => {
     setEntries(entries.filter((_, i) => i !== idx));
   };
 
   const [editIdx, setEditIdx] = useState(null);
+
+  if (!isInitialized) {
+    return <div>Carregando...</div>;
+  }
 
   return (
     <>
@@ -138,9 +134,10 @@ export default function Finance() {
         <div>
           <button
             onClick={() => {
-              setModalType("entrada");
+              setModalType('entrada');
               setModalOpen(true);
-            }}>
+            }}
+          >
             Novo registro
           </button>
         </div>
@@ -179,16 +176,16 @@ export default function Finance() {
         <div className="finance__card">
           <h2>Total em caixa</h2>
           <p>
-            R${" "}
-            {totalEmCaixa.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+            R${' '}
+            {totalEmCaixa.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
 
         <div className="finance__card">
           <h2>Total de entradas</h2>
           <p>
-            R${" "}
-            {totalEntradas.toLocaleString("pt-BR", {
+            R${' '}
+            {totalEntradas.toLocaleString('pt-BR', {
               minimumFractionDigits: 2,
             })}
           </p>
@@ -197,8 +194,8 @@ export default function Finance() {
         <div className="finance__card">
           <h2>Total de saídas</h2>
           <p>
-            R${" "}
-            {totalSaidas.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+            R${' '}
+            {totalSaidas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
           </p>
         </div>
       </section>
@@ -230,13 +227,18 @@ export default function Finance() {
 
           <tbody>
             <tr>
-              <td>{`01/${String(selectedMonth).padStart(2, "0")}/${selectedYear}`}</td>
-              <td><strong>Saldo do mês anterior</strong></td>
+              <td>{`01/${String(selectedMonth).padStart(
+                2,
+                '0'
+              )}/${selectedYear}`}</td>
+              <td>
+                <strong>Saldo do mês anterior</strong>
+              </td>
               <td>-</td>
               <td>-</td>
               <td>
-                R$ {" "}
-                {saldoAnterior.toLocaleString("pt-BR", {
+                R${' '}
+                {saldoAnterior.toLocaleString('pt-BR', {
                   minimumFractionDigits: 2,
                 })}
               </td>
@@ -245,7 +247,7 @@ export default function Finance() {
 
             {filteredEntries.length === 0 ? (
               <tr>
-                <td colSpan={6} style={{ textAlign: "center" }}>
+                <td colSpan={6} style={{ textAlign: 'center' }}>
                   Ainda não há registros para este mês.
                 </td>
               </tr>
@@ -256,37 +258,37 @@ export default function Finance() {
                 return filteredEntries.map((entry, idx) => {
                   const valor = Number(entry.value) || 0;
 
-                  if (entry.type === "entrada") saldoAcumulado += valor;
-                  else if (entry.type === "saida") saldoAcumulado -= valor;
+                  if (entry.type === 'entrada') saldoAcumulado += valor;
+                  else if (entry.type === 'saida') saldoAcumulado -= valor;
 
                   return (
                     <tr key={idx}>
                       <td>
                         {entry.date
-                          ? new Date(entry.date).toLocaleDateString("pt-BR")
-                          : ""}
+                          ? new Date(entry.date).toLocaleDateString('pt-BR')
+                          : ''}
                       </td>
                       <td>{entry.description}</td>
 
                       <td>
-                        {entry.type === "entrada"
-                          ? `R$ ${valor.toLocaleString("pt-BR", {
+                        {entry.type === 'entrada'
+                          ? `R$ ${valor.toLocaleString('pt-BR', {
                               minimumFractionDigits: 2,
                             })}`
-                          : "R$ 0,00"}
+                          : 'R$ 0,00'}
                       </td>
 
                       <td>
-                        {entry.type === "saida"
-                          ? `R$ ${valor.toLocaleString("pt-BR", {
+                        {entry.type === 'saida'
+                          ? `R$ ${valor.toLocaleString('pt-BR', {
                               minimumFractionDigits: 2,
                             })}`
-                          : "R$ 0,00"}
+                          : 'R$ 0,00'}
                       </td>
 
                       <td>
-                        R$ {" "}
-                        {saldoAcumulado.toLocaleString("pt-BR", {
+                        R${' '}
+                        {saldoAcumulado.toLocaleString('pt-BR', {
                           minimumFractionDigits: 2,
                         })}
                       </td>

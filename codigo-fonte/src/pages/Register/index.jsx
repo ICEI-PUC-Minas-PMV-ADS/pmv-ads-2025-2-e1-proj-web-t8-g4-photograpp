@@ -1,13 +1,17 @@
-import { useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import "./styles.css";
 import photograppSymbol from "../../assets/avatar-placeholder.svg";
 import camera from "../../assets/camera.svg";
+import { statesList } from "../../utils/constants/statesList.js";
+import { isValidCPF } from "../../utils/helpers/helpers.js";
+import { isValidCNPJ } from "../../utils/helpers/helpers.js";
 
 export default function Register() {
   const fileInputRef = useRef(null);
   const [avatar, setAvatar] = useState(null);
+
   const handleAvatarChange = (e) => {
     const file = e.target.files && e.target.files[0];
     if (file) {
@@ -18,26 +22,121 @@ export default function Register() {
       reader.readAsDataURL(file);
     }
   };
+
   const { register } = useAuth();
+
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
+    primeiroNome: "",
+    sobrenome: "",
+    telefone: "",
+    cpf: "",
+    cep: "",
+    rua: "",
+    numero: "",
+    complemento: "",
+    bairro: "",
+    cidade: "",
+    uf: "",
+    razaoSocial: "",
+    cnpj: "",
+    emailEmpresa: "",
+    telefoneEmpresa: "",
+    cepEmpresa: "",
+    ruaEmpresa: "",
+    numeroEmpresa: "",
+    complementoEmpresa: "",
+    bairroEmpresa: "",
+    cidadeEmpresa: "",
+    ufEmpresa: "",
   });
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.email) {
+      setFormData((prev) => ({
+        ...prev,
+        email: location.state.email,
+      }));
+    }
+  }, [location.state]);
+
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isCNPJ, setIsCNPJ] = useState(true);
 
   const navigate = useNavigate();
 
+  const fetchAddressByCep = async (cep, isCompany = false) => {
+    try {
+      const cleanCep = cep.replace(/\D/g, "");
+      if (cleanCep.length !== 8) return;
+
+      const res = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
+      const data = await res.json();
+
+      if (data.erro) return;
+
+      setFormData((prev) => ({
+        ...prev,
+        [isCompany ? "ruaEmpresa" : "rua"]: data.logradouro || "",
+        [isCompany ? "bairroEmpresa" : "bairro"]: data.bairro || "",
+        [isCompany ? "cidadeEmpresa" : "cidade"]: data.localidade || "",
+        [isCompany ? "ufEmpresa" : "uf"]: data.uf || "",
+      }));
+    } catch (error) {
+      console.error("Erro ao buscar CEP:", error);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
 
     if (error) setError("");
+
+    if (name === "cpf") {
+      const digits = value.replace(/\D/g, "");
+
+      if (digits.length === 11) {
+        if (!isValidCPF(digits)) {
+          setCpfError("CPF inválido.");
+        } else {
+          setCpfError("");
+        }
+      } else {
+        setCpfError("Informe os 11 dígitos do CPF.");
+      }
+    }
+
+    if (name === "cnpj") {
+      const digits = value.replace(/\D/g, "");
+
+      if (digits.length === 14) {
+        if (!isValidCNPJ(digits)) {
+          setCnpjError("CNPJ inválido.");
+        } else {
+          setCnpjError("");
+        }
+      } else {
+        setCnpjError("Informe os 14 dígitos do CNPJ.");
+      }
+    }
+
+    if (name === "cep" && value.replace(/\D/g, "").length === 8) {
+      fetchAddressByCep(value);
+    }
+
+    if (name === "cepEmpresa" && value.replace(/\D/g, "").length === 8) {
+      fetchAddressByCep(value, true);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -45,42 +144,103 @@ export default function Register() {
     setIsLoading(true);
     setError("");
 
+    if (formData.password !== formData.confirmPassword) {
+      setError("As senhas não coincidem.");
+      setIsLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("A senha deve ter no mínimo 6 caracteres.");
+      setIsLoading(false);
+      return;
+    }
+
+    if (!formData.primeiroNome || !formData.sobrenome || !formData.email) {
+      setError("Preencha todos os campos obrigatórios.");
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      const res = register(formData);
+      const userData = {
+        name: `${formData.primeiroNome.trim()} ${formData.sobrenome.trim()}`,
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+        avatar: avatar,
+        telefone: formData.telefone,
+        cpf: formData.cpf,
+        endereco: {
+          cep: formData.cep,
+          rua: formData.rua,
+          numero: formData.numero,
+          complemento: formData.complemento,
+          bairro: formData.bairro,
+          cidade: formData.cidade,
+          uf: formData.uf,
+        },
+        ...(isCNPJ && {
+          empresa: {
+            razaoSocial: formData.razaoSocial,
+            cnpj: formData.cnpj,
+            email: formData.emailEmpresa,
+            telefone: formData.telefoneEmpresa,
+            endereco: {
+              cep: formData.cepEmpresa,
+              rua: formData.ruaEmpresa,
+              numero: formData.numeroEmpresa,
+              complemento: formData.complementoEmpresa,
+              bairro: formData.bairroEmpresa,
+              cidade: formData.cidadeEmpresa,
+              uf: formData.ufEmpresa,
+            },
+          },
+        }),
+      };
+
+      const res = register(userData);
       if (res.ok) {
-        navigate("/login", {
-          state: { message: "Conta criada com sucesso! Faça login." },
-        });
+        navigate("/login", { state: { email: userData.email, avatar: userData.avatar } });
       } else {
         setError(res.error);
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setError("Erro inesperado. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  const [cpfError, setCpfError] = useState("");
+  const [cnpjError, setCnpjError] = useState("");
+
   return (
     <section className="register-center">
       <div className="register-container">
         <div className="email-checker">
           <div className="personal-image">
-            <input 
-              type="file" 
+            <input
+              type="file"
               ref={fileInputRef}
               accept="image/*"
               onChange={handleAvatarChange}
+              style={{ display: "none" }}
             />
             <figure className="avatar-figure">
-              <button className="input-foto" onClick={() => fileInputRef.current && fileInputRef.current.click()}>
-                <img src={camera} alt="Carregar foto"/>
+              <button
+                type="button"
+                className="input-foto"
+                onClick={() =>
+                  fileInputRef.current && fileInputRef.current.click()
+                }
+              >
+                <img src={camera} alt="Carregar foto" />
               </button>
               <img
                 className="avatar"
                 src={avatar ? avatar : photograppSymbol}
-                alt="Logo do Photograpp"
+                alt="Avatar do usuário"
               />
             </figure>
           </div>
@@ -112,7 +272,6 @@ export default function Register() {
                     name="profile"
                     value="pessoa-fisica"
                     disabled={isLoading}
-                    required
                     checked={!isCNPJ}
                     onChange={() => setIsCNPJ(false)}
                   />
@@ -127,12 +286,10 @@ export default function Register() {
                     name="profile"
                     value="pessoa-juridica"
                     disabled={isLoading}
-                    required
                     checked={isCNPJ}
                     onChange={() => setIsCNPJ(true)}
                   />
                   <label htmlFor="pessoa-juridica" className="radio-label">
-                    {" "}
                     Pessoa jurídica
                   </label>
                 </div>
@@ -151,8 +308,11 @@ export default function Register() {
                     <input
                       className="c50"
                       type="text"
-                      name="primeiro-nome"
+                      name="primeiroNome"
                       placeholder="Primeiro nome"
+                      value={formData.primeiroNome}
+                      onChange={handleChange}
+                      disabled={isLoading}
                       required
                     />
                     <input
@@ -160,6 +320,9 @@ export default function Register() {
                       type="text"
                       name="sobrenome"
                       placeholder="Sobrenome"
+                      value={formData.sobrenome}
+                      onChange={handleChange}
+                      disabled={isLoading}
                       required
                     />
                   </div>
@@ -173,6 +336,9 @@ export default function Register() {
                   type="text"
                   name="telefone"
                   placeholder="(00) 0 00000-0000"
+                  value={formData.telefone}
+                  onChange={handleChange}
+                  disabled={isLoading}
                   required
                 />
                 <p className="info-text">
@@ -185,8 +351,12 @@ export default function Register() {
                   type="text"
                   name="cpf"
                   placeholder="000.000.000-00"
+                  value={formData.cpf}
+                  onChange={handleChange}
+                  disabled={isLoading}
                   required
                 />
+                {cpfError && <p className="errorField">{cpfError}</p>}
               </div>
             </div>
             <div className="form-row">
@@ -197,8 +367,11 @@ export default function Register() {
                     <input
                       className="c25"
                       type="text"
-                      name="CEP"
+                      name="cep"
                       placeholder="CEP"
+                      value={formData.cep}
+                      onChange={handleChange}
+                      disabled={isLoading}
                       required
                     />
                     <input
@@ -206,6 +379,19 @@ export default function Register() {
                       type="text"
                       name="rua"
                       placeholder="Rua, avenida..."
+                      value={formData.rua}
+                      onChange={handleChange}
+                      disabled={isLoading}
+                      required
+                    />
+                    <input
+                      className="c25"
+                      type="text"
+                      name="numero"
+                      placeholder="Número"
+                      value={formData.numero}
+                      onChange={handleChange}
+                      disabled={isLoading}
                       required
                     />
                   </div>
@@ -213,57 +399,42 @@ export default function Register() {
                     <input
                       className="c25"
                       type="text"
-                      name="numero"
-                      placeholder="Número"
-                      required
+                      name="complemento"
+                      placeholder="Complemento"
+                      value={formData.complemento}
+                      onChange={handleChange}
+                      disabled={isLoading}
                     />
                     <input
                       className="c25"
                       type="text"
-                      name="complemento"
-                      placeholder="Complemento"
+                      name="bairro"
+                      placeholder="Bairro"
+                      value={formData.bairro}
+                      onChange={handleChange}
+                      disabled={isLoading}
                       required
                     />
                     <input
                       className="c37"
                       type="text"
-                      name="bairro"
-                      placeholder="Bairro"
+                      name="cidade"
+                      placeholder="Cidade"
+                      value={formData.cidade}
+                      onChange={handleChange}
+                      disabled={isLoading}
                       required
                     />
-                    <select className="uf c12" defaultValue="">
-                      <option value="" disabled>
-                        UF
-                      </option>
-                      {[
-                        "AC",
-                        "AL",
-                        "AP",
-                        "AM",
-                        "BA",
-                        "CE",
-                        "DF",
-                        "ES",
-                        "GO",
-                        "MA",
-                        "MT",
-                        "MS",
-                        "MG",
-                        "PA",
-                        "PB",
-                        "PR",
-                        "PE",
-                        "PI",
-                        "RJ",
-                        "RN",
-                        "RS",
-                        "RO",
-                        "RR",
-                        "SC",
-                        "SP",
-                        "SE",
-                        "TO",
-                      ].map((uf) => (
+                    <select
+                      className="uf c12"
+                      name="uf"
+                      value={formData.uf}
+                      onChange={handleChange}
+                      disabled={isLoading}
+                      required
+                    >
+                      <option value="">UF</option>
+                      {statesList.map((uf) => (
                         <option key={uf} value={uf}>
                           {uf}
                         </option>
@@ -284,9 +455,12 @@ export default function Register() {
                   <label>Qual é a Razão Social da sua empresa?</label>
                   <input
                     type="text"
-                    name="razao-social"
+                    name="razaoSocial"
                     placeholder="Minha Empresa LTDA"
-                    required
+                    value={formData.razaoSocial}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    required={isCNPJ}
                   />
                 </div>
                 <div className="form-column col50">
@@ -295,8 +469,12 @@ export default function Register() {
                     type="text"
                     name="cnpj"
                     placeholder="00.000.000/0000-00"
-                    required
+                    value={formData.cnpj}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    required={isCNPJ}
                   />
+                  {cnpjError && <p className="errorField">{cnpjError}</p>}
                 </div>
               </div>
               <div className="form-row">
@@ -304,18 +482,24 @@ export default function Register() {
                   <label>Qual é o e-mail público da sua empresa?</label>
                   <input
                     type="email"
-                    name="email-empresa"
+                    name="emailEmpresa"
                     placeholder="seunome@empresa.com"
-                    required
+                    value={formData.emailEmpresa}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    required={isCNPJ}
                   />
                 </div>
                 <div className="form-column col50">
                   <label>Qual o telefone comercial da empresa?</label>
                   <input
                     type="text"
-                    name="telefone"
+                    name="telefoneEmpresa"
                     placeholder="(00) 0 00000-0000"
-                    required
+                    value={formData.telefoneEmpresa}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    required={isCNPJ}
                   />
                   <p className="info-text">
                     Utilize o número do WhatsApp para integrar as mensagens.
@@ -330,73 +514,74 @@ export default function Register() {
                       <input
                         className="c25"
                         type="text"
-                        name="CEP"
+                        name="cepEmpresa"
                         placeholder="CEP"
-                        required
+                        value={formData.cepEmpresa}
+                        onChange={handleChange}
+                        disabled={isLoading}
+                        required={isCNPJ}
                       />
                       <input
                         className="c75"
                         type="text"
-                        name="rua"
+                        name="ruaEmpresa"
                         placeholder="Rua, avenida..."
-                        required
+                        value={formData.ruaEmpresa}
+                        onChange={handleChange}
+                        disabled={isLoading}
+                        required={isCNPJ}
+                      />
+                      <input
+                        className="c25"
+                        type="text"
+                        name="numeroEmpresa"
+                        placeholder="Número"
+                        value={formData.numeroEmpresa}
+                        onChange={handleChange}
+                        disabled={isLoading}
+                        required={isCNPJ}
                       />
                     </div>
                     <div className="group-line">
                       <input
                         className="c25"
                         type="text"
-                        name="numero"
-                        placeholder="Número"
-                        required
+                        name="complementoEmpresa"
+                        placeholder="Complemento"
+                        value={formData.complementoEmpresa}
+                        onChange={handleChange}
+                        disabled={isLoading}
                       />
                       <input
                         className="c25"
                         type="text"
-                        name="complemento"
-                        placeholder="Complemento"
-                        required
+                        name="bairroEmpresa"
+                        placeholder="Bairro"
+                        value={formData.bairroEmpresa}
+                        onChange={handleChange}
+                        disabled={isLoading}
+                        required={isCNPJ}
                       />
                       <input
                         className="c37"
                         type="text"
-                        name="bairro"
-                        placeholder="Bairro"
-                        required
+                        name="cidadeEmpresa"
+                        placeholder="Cidade"
+                        value={formData.cidadeEmpresa}
+                        onChange={handleChange}
+                        disabled={isLoading}
+                        required={isCNPJ}
                       />
-                      <select className="uf c12" defaultValue="">
-                        <option value="" disabled>
-                          UF
-                        </option>
-                        {[
-                          "AC",
-                          "AL",
-                          "AP",
-                          "AM",
-                          "BA",
-                          "CE",
-                          "DF",
-                          "ES",
-                          "GO",
-                          "MA",
-                          "MT",
-                          "MS",
-                          "MG",
-                          "PA",
-                          "PB",
-                          "PR",
-                          "PE",
-                          "PI",
-                          "RJ",
-                          "RN",
-                          "RS",
-                          "RO",
-                          "RR",
-                          "SC",
-                          "SP",
-                          "SE",
-                          "TO",
-                        ].map((uf) => (
+                      <select
+                        className="uf c12"
+                        name="ufEmpresa"
+                        value={formData.ufEmpresa}
+                        onChange={handleChange}
+                        disabled={isLoading}
+                        required={isCNPJ}
+                      >
+                        <option value="">UF</option>
+                        {statesList.map((uf) => (
                           <option key={uf} value={uf}>
                             {uf}
                           </option>
@@ -419,6 +604,10 @@ export default function Register() {
                   type="password"
                   name="password"
                   placeholder="Senha (mínimo 6 caracteres)"
+                  value={formData.password}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  minLength={6}
                   required
                 />
               </div>
@@ -426,16 +615,18 @@ export default function Register() {
                 <label>Repita a senha:</label>
                 <input
                   type="password"
-                  name="password"
-                  placeholder="Senha (mínimo 6 caracteres)"
+                  name="confirmPassword"
+                  placeholder="Confirme sua senha"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                  minLength={6}
                   required
                 />
               </div>
             </div>
           </section>
-          {error && (
-            <p style={{ color: "crimson", fontSize: 14, margin: 0 }}>{error}</p>
-          )}
+          {error && <p className="errorField">{error}</p>}
           <div className="form-row">
             <div className="form-column">
               <button type="submit" disabled={isLoading}>

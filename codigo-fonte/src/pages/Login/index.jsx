@@ -2,24 +2,39 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import "./styles.css";
-import avatarDemo from "../../assets/avatar-demo.png";
+import avatarDemo from "../../assets/avatar-placeholder.svg";
+import { useLocalStorage } from "../../hooks/useLocalStorage.js";
 
 export default function Login() {
   const { login, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
-    email: "demo@teste.com",
-    password: "123456",
+    email: "",
+    password: "",
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [avatar, setAvatar] = useState(avatarDemo);
+  const [users] = useLocalStorage("users", [], false);
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/dashboard");
     }
   }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (location.state?.email) {
+      setFormData((prev) => ({
+        ...prev,
+        email: location.state.email,
+      }));
+    }
+    if (location.state?.avatar) {
+      setAvatar(location.state.avatar);
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +44,20 @@ export default function Login() {
     }));
 
     if (error) setError("");
+  };
+
+  const handleBlur = () => {
+    const email = formData.email.toLowerCase().trim();
+    if(!email){
+      setAvatar(avatarDemo);
+      return;
+    }
+    const user = users.find(u => u.email === email);
+    if(user && user.avatar){
+      setAvatar(user.avatar);
+    } else {
+      setAvatar(avatarDemo);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -55,8 +84,13 @@ export default function Login() {
   return (
     <section className="login-center">
       <div className="login-container">
-        <figure className="avatar">
-          <img src={avatarDemo} alt="Logo do Photograpp" width="150" />
+        <figure>
+          <img
+            className="avatar"
+            src={avatar}
+            alt="Foto do usuário"
+            width="150"
+          />
         </figure>
         <h1>Vamos começar!</h1>
         <form className="login-form" onSubmit={handleSubmit}>
@@ -69,6 +103,7 @@ export default function Login() {
                 placeholder="E-mail"
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 disabled={isLoading}
                 required
               />
@@ -86,11 +121,7 @@ export default function Login() {
                 disabled={isLoading}
                 required
               />
-              {error && (
-                <p style={{ color: "crimson", fontSize: 14, margin: 0 }}>
-                  {error}
-                </p>
-              )}
+              {error && <p className="errorField">{error}</p>}
               <p className="nova-senha">
                 <Link to="/reset-password">Esqueci minha senha</Link>
               </p>
