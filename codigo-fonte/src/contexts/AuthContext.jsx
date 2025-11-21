@@ -69,9 +69,9 @@ export function AuthProvider({ children }) {
 
     const newUser = {
       id: Date.now(),
-      name: name.trim(),
+      ...userData,
       email: email.toLowerCase().trim(),
-      password,
+      name: name.trim(),
     };
 
     const updatedUsers = [...users, newUser];
@@ -95,15 +95,11 @@ export function AuthProvider({ children }) {
     }
 
     const fakeToken = `token-${user.id}-${Date.now()}`;
-    const userAuth = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    };
-
+    
+    const { password: _, ...userWithoutPassword } = user; 
     setAuth({
       isAuthenticated: true,
-      user: userAuth,
+      user: userWithoutPassword,
       token: fakeToken,
     });
 

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/photograpp-logo.svg';
-import avatar from '../assets/usuario-demo.png';
+import avatarDemo from '../assets/usuario-demo.png';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import './components.css';
 
@@ -11,6 +11,7 @@ export default function Header() {
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef(null);
   const location = useLocation();
+  const userAvatar = user?.avatar || avatarDemo;
 
   useEffect(() => {
     setMenuOpen(false);
@@ -44,7 +45,7 @@ export default function Header() {
       <header>
         <div className="header-container">
           <NavLink to="/" className="logo">
-            <img className="logo" src={logo} alt="Photograpp"/>
+            <img className="logo" src={logo} alt="Photograpp" />
           </NavLink>
           <div className="login">
             <nav>
@@ -127,7 +128,7 @@ export default function Header() {
             onClick={toggleProfile}
             aria-label="Menu do perfil"
           >
-            <img src={avatar} alt="Avatar" />
+            <img src={userAvatar} alt="Avatar do usuário" />
           </button>
 
           {profileOpen && (
