@@ -160,6 +160,56 @@ As seguintes funcionalidades serão implementadas nas próximas etapas do projet
 
 ---
 
+## Como Executar o Projeto
+
+### Pré-requisitos
+
+Antes de executar o projeto, certifique-se de ter o Node.js instalado em sua máquina.
+
+#### Instalação do Node.js
+
+1. **macOS**: 
+   - Usando Homebrew: `brew install node`
+   - Ou baixe o instalador em: [https://nodejs.org/](https://nodejs.org/)
+
+2. **Windows/Linux**: 
+   - Baixe o instalador em: [https://nodejs.org/](https://nodejs.org/)
+   - Recomenda-se a versão LTS (Long Term Support)
+
+3. **Verificar instalação**:
+   ```bash
+   node --version
+   npm --version
+   ```
+
+### Passos para Executar
+
+1. **Clone o repositório** (se ainda não tiver feito):
+   ```bash
+   git clone https://github.com/seu-usuario/photograpp.git
+   ```
+
+2. **Navegue até a pasta do código-fonte**:
+   ```bash
+   cd photograpp/codigo-fonte
+   ```
+
+3. **Instale as dependências**:
+   ```bash
+   npm install
+   ```
+
+4. **Execute o projeto em modo de desenvolvimento**:
+   ```bash
+   npm run dev
+   ```
+
+5. **Acesse a aplicação**:
+   - Abra seu navegador e acesse: `http://localhost:5173`
+   - O Vite exibirá a URL exata no terminal após iniciar
+
+---
+
 ## Links Úteis
 
 - [Trabalhando com HTML5 Local Storage e JSON](https://www.devmedia.com.br/trabalhando-com-html5-local-storage-e-json/29045)
