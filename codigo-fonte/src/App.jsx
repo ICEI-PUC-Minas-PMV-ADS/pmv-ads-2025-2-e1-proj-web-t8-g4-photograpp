@@ -22,17 +22,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/:slug" element={<PublicProfile />} />
+
         <Route path="/" element={<Layout />}>
-          {/* Públicas */}
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="email-checker" element={<EmailChecker />} />
           <Route path="registrar" element={<Register />} />
 
-          {/* Página pública do fotógrafo (/arnaldo-quintela etc) */}
-          <Route path=":slug" element={<PublicProfile />} /> {/* ⬅️ NOVA ROTA */}
-
-          {/* Privadas */}
           <Route element={<PrivateRoute />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="projetos" element={<Projects />} />

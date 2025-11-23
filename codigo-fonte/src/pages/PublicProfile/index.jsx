@@ -7,6 +7,10 @@ export default function PublicProfile() {
   const [data, setData] = useState(null);
   const [notFound, setNotFound] = useState(false);
 
+  const [activeGallery, setActiveGallery] = useState(null);
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+
+  // Carrega snapshot salvo no localStorage
   useEffect(() => {
     if (!slug) return;
     const key = `public_profile_${slug}`;
@@ -25,15 +29,31 @@ export default function PublicProfile() {
     }
   }, [slug]);
 
+  // Define galeria ativa inicial (primeira com fotos)
+  useEffect(() => {
+    if (!data) return;
+    const galleries = data.galleries || [];
+    const firstWithPhotos = galleries.find(
+      (g) => g.photos && g.photos.length > 0
+    );
+    if (firstWithPhotos) {
+      setActiveGallery(firstWithPhotos);
+      setActivePhotoIndex(0);
+    } else {
+      setActiveGallery(null);
+      setActivePhotoIndex(0);
+    }
+  }, [data]);
+
   if (notFound) {
     return (
       <main className="public-profile-page">
-        <section className="public-profile-header">
+        <section className="public-profile-notfound">
           <h1>Perfil não encontrado</h1>
           <p>
             Não encontramos nenhum perfil salvo para <code>{slug}</code>.
           </p>
-          <p style={{ marginTop: "0.5rem", fontSize: ".9rem", opacity: 0.8 }}>
+          <p className="public-profile-notfound-note">
             Lembre-se: como os dados ficam no <strong>localStorage</strong>, a
             página pública só funciona neste mesmo navegador onde o perfil foi
             configurado.
@@ -51,78 +71,173 @@ export default function PublicProfile() {
     );
   }
 
-  const { profile, galleries } = data || {};
-  const hasAddress =
-    profile?.street ||
-    profile?.neighborhood ||
-    profile?.uf ||
-    profile?.cep;
-
+  const { profile, galleries = [] } = data || {};
   const services = profile?.services || [];
+
+  const currentPhotos = activeGallery?.photos || [];
+  const currentPhoto =
+    currentPhotos && currentPhotos.length > 0
+      ? currentPhotos[activePhotoIndex]
+      : null;
+
+  const visibleGalleries = galleries.slice(0, 8); // 4 colunas x 2 linhas
+
+  // Navegação do carrossel
+  const handleNextPhoto = () => {
+    if (!currentPhotos.length) return;
+    setActivePhotoIndex((prev) => (prev + 1) % currentPhotos.length);
+  };
+
+  const handlePrevPhoto = () => {
+    if (!currentPhotos.length) return;
+    setActivePhotoIndex(
+      (prev) => (prev - 1 + currentPhotos.length) % currentPhotos.length
+    );
+  };
+
+  // Clicar em uma galeria -> atualizar carrossel pra fotos dela
+  const handleSelectGallery = (gallery) => {
+    if (!gallery || !gallery.photos || gallery.photos.length === 0) return;
+    setActiveGallery(gallery);
+    setActivePhotoIndex(0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Botões "Quero um orçamento" / "Contratar"
+  const handleRequestQuote = () => {
+    const defaultMessage =
+      "Olá, vi seu portfólio no Photograpp e gostaria de um orçamento.";
+
+    if (profile?.whatsapp) {
+      const phone = profile.whatsapp.replace(/\D/g, "").trim();
+      const text = encodeURIComponent(defaultMessage);
+      window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
+      return;
+    }
+
+    if (profile?.email) {
+      const subject = encodeURIComponent("Pedido de orçamento");
+      const body = encodeURIComponent(defaultMessage);
+      window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+      return;
+    }
+
+    alert("Informações de contato não disponíveis para orçamento.");
+  };
 
   return (
     <main className="public-profile-page">
-      {/* Cabeçalho com logo + nome */}
+      {/* ================= HERO / CARROSSEL ================= */}
       <section className="public-profile-hero">
-        {profile?.logo && (
-          <div className="public-profile-logo">
-            <img src={profile.logo} alt={profile.publicName} />
-          </div>
-        )}
-
-        <div className="public-profile-info">
-          <h1>{profile?.publicName || "Fotógrafo(a) sem nome"}</h1>
-
-          {profile?.bio && (
-            <p className="public-profile-bio">{profile.bio}</p>
-          )}
-
-          <div className="public-profile-contact">
-            {profile?.email && (
-              <p>
-                <strong>E-mail:</strong>{" "}
-                <a href={`mailto:${profile.email}`}>{profile.email}</a>
-              </p>
+        <div className="public-profile-hero-inner">
+          <div className="public-profile-hero-media">
+            {currentPhoto ? (
+              <img
+                src={currentPhoto.url || currentPhoto.coverUrl}
+                alt={activeGallery?.name || "Foto do portfólio"}
+              />
+            ) : (
+              <div className="public-profile-hero-placeholder">
+                Nenhuma foto publicada ainda.
+              </div>
             )}
-            {profile?.phone && (
-              <p>
-                <strong>Telefone:</strong> {profile.phone}
-              </p>
-            )}
-            {profile?.whatsapp && (
-              <p>
-                <strong>WhatsApp:</strong>{" "}
-                <a
-                  href={`https://wa.me/${profile.whatsapp
-                    .replace(/\D/g, "")
-                    .trim()}`}
-                  target="_blank"
-                  rel="noreferrer"
+
+            {/* Overlay com título + botão (igual à referência) */}
+            <div className="public-profile-hero-overlay">
+              <h2>Transformando sonhos em imagens</h2>
+              <button
+                type="button"
+                className="public-profile-hero-btn"
+                onClick={handleRequestQuote}
+              >
+                Contratar
+              </button>
+            </div>
+
+            {/* Navegação do carrossel (se tiver mais de uma foto) */}
+            {currentPhotos.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  className="public-profile-carousel-nav prev"
+                  onClick={handlePrevPhoto}
+                  aria-label="Foto anterior"
                 >
-                  Chamar no WhatsApp
-                </a>
-              </p>
-            )}
-
-            {hasAddress && (
-              <p className="public-profile-address">
-                <strong>Atende em:</strong>{" "}
-                {[profile.street, profile.neighborhood, profile.uf]
-                  .filter(Boolean)
-                  .join(" - ")}
-                {profile.cep ? ` · CEP: ${profile.cep}` : ""}
-              </p>
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  className="public-profile-carousel-nav next"
+                  onClick={handleNextPhoto}
+                  aria-label="Próxima foto"
+                >
+                  ›
+                </button>
+              </>
             )}
           </div>
         </div>
       </section>
 
-      {/* Serviços */}
+      {/* ================= DESCRIÇÃO ================= */}
+      <section className="public-profile-about">
+        {profile?.bio ? (
+          <p>{profile.bio}</p>
+        ) : (
+          <p>
+            Este fotógrafo ainda não preencheu a descrição. Assim que o perfil
+            estiver completo, você poderá saber mais sobre o estilo e os tipos
+            de ensaio oferecidos.
+          </p>
+        )}
+      </section>
+
+      {/* ================= GALERIAS (4x2) ================= */}
+      <section className="public-profile-recent">
+        <header className="public-profile-section-head">
+          <h2>Conheça nossos trabalhos recentes</h2>
+        </header>
+
+        {visibleGalleries.length === 0 && (
+          <p className="public-profile-empty">
+            Nenhuma galeria publicada ainda.
+          </p>
+        )}
+
+        <div className="public-profile-gallery-grid">
+          {visibleGalleries.map((gallery) => (
+            <article
+              key={gallery.id}
+              className="public-profile-gallery-card"
+              onClick={() => handleSelectGallery(gallery)}
+            >
+              {gallery.coverUrl && (
+                <div className="public-profile-gallery-cover">
+                  <img src={gallery.coverUrl} alt={gallery.name} />
+                </div>
+              )}
+              <h3>{gallery.name}</h3>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ================= CTA: QUERO UM ORÇAMENTO ================= */}
+      <section className="public-profile-quote-section">
+        <button
+          type="button"
+          className="public-profile-cta-btn"
+          onClick={handleRequestQuote}
+        >
+          Quero um orçamento
+        </button>
+      </section>
+
+      {/* ================= SERVIÇOS OFERECIDOS ================= */}
       {services.length > 0 && (
         <section className="public-profile-services">
-          <header className="public-profile-services-head">
-            <h2>Serviços</h2>
-            <p>Pacotes e valores de referência.</p>
+          <header className="public-profile-section-head">
+            <h2>Serviços oferecidos</h2>
           </header>
 
           <div className="public-profile-services-grid">
@@ -140,47 +255,18 @@ export default function PublicProfile() {
               </article>
             ))}
           </div>
+
+          <div className="public-profile-services-cta">
+            <button
+              type="button"
+              className="public-profile-cta-btn public-profile-cta-btn--secondary"
+              onClick={handleRequestQuote}
+            >
+              Contratar
+            </button>
+          </div>
         </section>
       )}
-
-      {/* Portfólio */}
-      <section className="public-profile-portfolio">
-        <header className="public-profile-portfolio-head">
-          <h2>Portfólio</h2>
-          <p>Alguns ensaios já realizados.</p>
-        </header>
-
-        {(!galleries || galleries.length === 0) && (
-          <p>Nenhuma galeria publicada ainda.</p>
-        )}
-
-        <div className="public-profile-gallery-grid">
-          {galleries?.map((gallery) => (
-            <article key={gallery.id} className="public-profile-gallery-card">
-              {gallery.coverUrl && (
-                <div className="public-profile-gallery-cover">
-                  <img src={gallery.coverUrl} alt={gallery.name} />
-                </div>
-              )}
-              <h3>{gallery.name}</h3>
-
-              {/* mini grid com fotos da galeria */}
-              {gallery.photos && gallery.photos.length > 0 && (
-                <div className="public-profile-gallery-photos">
-                  {gallery.photos.slice(0, 6).map((photo) => (
-                    <div
-                      key={photo.id}
-                      className="public-profile-gallery-photo"
-                    >
-                      <img src={photo.url} alt={gallery.name} />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </article>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }

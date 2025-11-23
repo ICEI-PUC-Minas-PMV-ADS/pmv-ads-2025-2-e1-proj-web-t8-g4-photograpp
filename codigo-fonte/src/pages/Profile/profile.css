@@ -358,3 +358,131 @@
     opacity: 1;
   }
 }
+
+.thumb {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative; /* 👈 necessário pro botão absoluto */
+}
+
+.thumb-delete-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.thumb-delete-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.services {
+  margin-top: 32px;
+}
+
+.services__head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.services__head h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.services__head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.services__form {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.services__button-wrap {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.services__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.services__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+
+.services__item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.services__item-name {
+  font-weight: 500;
+}
+
+.services__item-price {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.services__empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.services__remove-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--muted);
+  padding: 4px 6px;
+}
+
+.services__remove-btn:hover {
+  color: var(--danger, #e53935);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .services__form {
+    grid-template-columns: 1fr;
+  }
+
+  .services__button-wrap {
+    justify-content: flex-start;
+  }
+}
