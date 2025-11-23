@@ -1,3 +1,4 @@
+import { usersMock } from '../utils/mocks/usersMock';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const AuthContext = createContext(null);
@@ -18,20 +19,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const existingUsers = localStorage.getItem(STORAGE_KEYS.USERS);
     if (!existingUsers) {
-      const defaultUsers = [
-        {
-          id: 1,
-          name: 'Usuário Demo',
-          email: 'demo@teste.com',
-          password: '123456',
-        },
-        {
-          id: 2,
-          name: 'Demo Dois',
-          email: 'demo2@teste.com',
-          password: '123456',
-        },
-      ];
+      const defaultUsers = usersMock;
       localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(defaultUsers));
     }
   }, []);

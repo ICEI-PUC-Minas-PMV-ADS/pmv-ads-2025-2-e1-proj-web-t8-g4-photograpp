@@ -1,31 +1,30 @@
 :root {
-  --bg: #0F1F25;
-  --card: #142A31;
-  --text: #EAF2F4;
-  --muted: rgba(255, 255, 255, .55);
-  --border: rgba(255, 255, 255, .12);
-  --accent: #FFB417;
-  --soft: rgba(255, 255, 255, .06);
+  --bg: #0f1f25;
+  --card: #142a31;
+  --text: #eaf2f4;
+  --muted: rgba(255, 255, 255, 0.55);
+  --border: rgba(255, 255, 255, 0.12);
+  --accent: #ffb417;
+  --soft: rgba(255, 255, 255, 0.06);
   --radius: 14px;
-  --accent-bg-hover: rgba(255, 180, 23, .16);
-  --accent-bg-active: rgba(255, 180, 23, .26);
+  --accent-bg-hover: rgba(255, 180, 23, 0.16);
+  --accent-bg-active: rgba(255, 180, 23, 0.26);
 }
 
-.dash-title {
+.dashboard__title {
   margin-bottom: 40px;
 }
 
 /* ===== Layout principal (flex) ===== */
-.dash-flex {
+.dashboard__flex {
   display: flex;
   flex-direction: row;
   align-items: stretch;
   gap: 20px;
   flex-wrap: nowrap;
-  /* <- importante */
 }
 
-.main-left {
+.dashboard__main-left {
   flex: 75%;
   min-width: 0;
   display: flex;
@@ -34,14 +33,14 @@
 }
 
 /* ===== Card base ===== */
-.card {
+.dashboard__card {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 12px;
 }
 
-.card-head {
+.dashboard__card-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,18 +48,18 @@
   margin-bottom: 8px;
 }
 
-.card-head h2 {
+.dashboard__card-head h2 {
   margin: 0;
   font-size: 26px;
 }
 
-.card-head .sub {
+.dashboard__card-head .dashboard__sub {
   color: var(--muted);
   font-size: 12px;
 }
 
-/* Botão texto “Ver agenda” (sem hover visual) */
-.see-agenda-link {
+/* Botão texto "Ver agenda" (sem hover visual) */
+.dashboard__see-agenda-link {
   padding: 0;
   border: none;
   background: transparent;
@@ -69,9 +68,9 @@
   cursor: pointer;
 }
 
-.see-agenda-link:hover,
-.see-agenda-link:active,
-.see-agenda-link:focus {
+.dashboard__see-agenda-link:hover,
+.dashboard__see-agenda-link:active,
+.dashboard__see-agenda-link:focus {
   color: var(--accent);
   background: transparent;
   text-decoration: none;
@@ -80,7 +79,7 @@
 }
 
 /* ===== Barra central da semana ===== */
-.week-center {
+.dashboard__week-center {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -88,13 +87,13 @@
   margin-bottom: 8px;
 }
 
-.week-center .range {
+.dashboard__week-center .dashboard__range {
   font-weight: 500;
   color: var(--muted);
 }
 
 /* ===== Navegação (chevrons) unificada ===== */
-.nav-arrows {
+.dashboard__nav-arrows {
   display: grid;
   grid-template-columns: repeat(2, 40px);
   gap: 10px;
@@ -102,7 +101,7 @@
   justify-items: center;
 }
 
-.nav-arrows .chev {
+.dashboard__nav-arrows .dashboard__chev {
   width: 40px;
   height: 40px;
   display: inline-flex;
@@ -114,11 +113,11 @@
   color: var(--accent);
   padding: 0;
   cursor: pointer;
-  transition: background-color .15s ease, transform .06s ease;
+  transition: background-color 0.15s ease, transform 0.06s ease;
   margin-top: 0;
 }
 
-.nav-arrows .chev svg {
+.dashboard__nav-arrows .dashboard__chev svg {
   width: 20px;
   height: 20px;
   stroke: currentColor;
@@ -126,23 +125,23 @@
   fill: none;
 }
 
-.nav-arrows .chev:hover {
+.dashboard__nav-arrows .dashboard__chev:hover {
   background: var(--accent-bg-hover);
 }
 
-.nav-arrows .chev:active {
+.dashboard__nav-arrows .dashboard__chev:active {
   background: var(--accent-bg-active);
   transform: translateY(1px);
 }
 
-.nav-arrows .chev:focus-visible {
-  outline: 2px solid rgba(255, 180, 23, .6);
+.dashboard__nav-arrows .dashboard__chev:focus-visible {
+  outline: 2px solid rgba(255, 180, 23, 0.6);
   outline-offset: 2px;
 }
 
 /* ===== Agenda ===== */
-.agenda {
-  background: #1E3842;
+.dashboard__agenda {
+  background: #1e3842;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 12px;
@@ -151,23 +150,23 @@
   min-width: 0;
 }
 
-.week-grid {
+.dashboard__week-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px;
   margin-top: 8px;
 }
 
-.day-col {
+.dashboard__day-col {
   display: flex;
   flex-direction: column;
-  background: #0F1F25;
+  background: #0f1f25;
   border: 1px solid #a5a5a5;
   border-radius: 12px;
   overflow: hidden;
 }
 
-.day-col-head {
+.dashboard__day-col-head {
   padding: 8px 10px;
   font-size: 12px;
   font-weight: 400;
@@ -175,57 +174,95 @@
   text-align: center;
 }
 
-.day-col-body {
+.dashboard__day-col-body {
   min-height: 180px;
-  background: #0E2026;
+  background: #0e2026;
+  padding: 4px;
+}
+
+/* ===== Badges/Chips para compromissos  ===== */
+.dashboard__badge {
+  display: block;
+  padding: 6px 8px;
+  margin: 4px 2px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+  border: none;
+  text-align: left;
+}
+
+.dashboard__badge:hover {
+  filter: brightness(1.1);
+}
+
+.dashboard__badge--note {
+  background: #dcccff;
+  color: #2b1d47;
+}
+
+.dashboard__badge--task {
+  background: #c6faf6;
+  color: #0b3b39;
+}
+
+.dashboard__badge--event {
+  background: #ffb417;
+  color: #4a2d00;
 }
 
 /* ===== Tarefas (aside) ===== */
-.tasks {
+.dashboard__tasks {
   flex: 25%;
   align-self: stretch;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: #1E3842;
+  background: #1e3842;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 12px;
 }
 
-.task-card {
+.dashboard__task-card {
   border: 1px solid #a5a5a5;
-  background: #0E2026;
+  background: #0e2026;
   border-radius: 12px;
   padding: 12px;
 }
 
-.task-card h3 {
+.dashboard__task-card h3 {
   margin: 0 0 8px;
   font-size: 14px;
 }
 
-.kv {
+.dashboard__kv {
   font-size: 12px;
   margin: 4px 0;
 }
 
-.kv strong {
+.dashboard__kv strong {
   font-weight: 600;
 }
 
-.select-wrap {
+.dashboard__select-wrap {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-top: 8px;
 }
 
-.select-wrap select {
+.dashboard__select-wrap select {
   height: 34px;
   border-radius: 10px;
   border: 1px solid #a5a5a5;
-  background: #0E2026;
+  background: #0e2026;
   color: var(--text);
   padding: 0 10px;
   -webkit-appearance: none;
@@ -237,57 +274,57 @@
 }
 
 /* ===== Linha dos 3 cards ===== */
-.last-blocks {
+.dashboard__last-blocks {
   display: flex;
   gap: 20px;
 }
 
-.last-blocks>.card {
+.dashboard__last-blocks > .dashboard__card {
   flex: 1 1 0;
   display: flex;
   flex-direction: column;
 }
 
-.finance,
-.last-messages,
-.last-requests {
-  background: #1E3842;
+.dashboard__finance,
+.dashboard__last-messages,
+.dashboard__last-requests {
+  background: #1e3842;
   border: none;
   border-radius: var(--radius);
   padding: 12px;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
-.eq {
+.dashboard__eq {
   min-height: 220px;
   display: flex;
   flex-direction: column;
 }
 
 /* Conteúdos internos dos 3 cards */
-.finance-grid {
+.dashboard__finance-grid {
   display: flex;
   flex-direction: column;
   margin-top: 4px;
 }
 
-.finance-grid-block {
+.dashboard__finance-grid-block {
   display: flex;
   align-items: center;
   gap: 50px;
 }
 
-.finance .label {
+.dashboard__finance .dashboard__label {
   font-size: 12px;
   color: var(--muted);
 }
 
-.finance .value {
+.dashboard__finance .dashboard__value {
   font-weight: 600;
   margin-top: 4px;
 }
 
-.list.simple {
+.dashboard__list {
   list-style: none;
   margin: 6px 0 0;
   padding: 0;
@@ -295,40 +332,71 @@
   gap: 8px;
 }
 
-.list.simple li {
-  background: #0E2026;
+.dashboard__list li {
+  background: #0e2026;
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px;
   font-size: 13px;
 }
 
-.request {
-  background: #0E2026;
+.dashboard__request {
+  background: #0e2026;
   border: 1px solid #a5a5a5;
   border-radius: 12px;
   padding: 12px;
 }
 
-.request h3 {
+.dashboard__request h3 {
   margin: 0 0 8px;
   font-size: 14px;
 }
 
 /* ===== Responsivo ===== */
-@media (max-width:1100px) {
-  .dash-flex {
+@media (max-width: 1100px) {
+  .dashboard__flex {
     flex-direction: column;
   }
 
-  .tasks {
+  .dashboard__tasks {
     flex: 1 1 auto;
-    width: 95%;
+    width: 100%;
   }
 
-  .last-blocks {
+  .dashboard__last-blocks {
     flex-direction: column;
     box-sizing: border-box;
-    width: 95%;
+    width: 100%;
   }
+
+  .dashboard__week-grid {
+    grid-template-columns: repeat(7, minmax(80px, 1fr));
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard__week-grid {
+    grid-template-columns: repeat(7, 100px);
+  }
+}
+
+/* ===== Mensagens ===== */
+.dashboard__message {
+  padding: 12px 0;
+}
+
+.dashboard__message h5 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.dashboard__message-text {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  opacity: 0.9;
 }

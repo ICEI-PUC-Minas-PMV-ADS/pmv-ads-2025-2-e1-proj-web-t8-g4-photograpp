@@ -1,19 +1,45 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom"; // <— ADICIONE isto se usa React Router
-import Breadcrumb from "../../components/Breadcrumb";
-import { STATUS_OPTIONS, SALES_STAGE_OPTIONS  } from "./constants/dropdown"
-import "./styles.css";
+import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Breadcrumb from '../../components/Breadcrumb';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { financeMock } from '../../utils/mocks/financeMock';
+import { defaultMessages } from '../../utils/mocks/messagesMock';
+import { defaultProjects } from '../../utils/mocks/projectsMock';
+import { defaultTasks } from '../../utils/mocks/tasksMock';
+import AppointmentModal from '../Calendar/components/AppointmentModal';
+import { SALES_STAGE_OPTIONS, STATUS_OPTIONS } from './constants/dropdown';
+import './styles.css';
 
 export default function Dashboard() {
-  const weekDays = ["DOMINGO", "SEGUNDA", "TERÇA", "QUARTA", "QUINTA", "SEXTA", "SÁBADO"];
+  const weekDays = [
+    'DOMINGO',
+    'SEGUNDA',
+    'TERÇA',
+    'QUARTA',
+    'QUINTA',
+    'SEXTA',
+    'SÁBADO',
+  ];
+  const navigate = useNavigate?.();
 
-  // ---- Navegação para /agenda ----
-  const navigate = useNavigate?.(); // se não houver router, ficará undefined
+  // ---- Carregar dados do localStorage ----
+  const [calendarItems, setCalendarItems] = useLocalStorage(
+    'calendar_appointments',
+    defaultTasks,
+    true
+  );
+  const [projects] = useLocalStorage('projects', defaultProjects, true);
+  const [financeEntries] = useLocalStorage('financeEntries', financeMock, true);
+  const [messages] = useLocalStorage('messages', defaultMessages, true);
+
+  // ---- Modal ----
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentItem, setCurrentItem] = useState(null);
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
   // ---- Semana (baseada no dia atual; setas +/- semana) ----
-  const [weekOffset, setWeekOffset] = useState(0); // em semanas; 0 = semana atual
+  const [weekOffset, setWeekOffset] = useState(0);
 
-  // data de referência = hoje + (weekOffset * 7 dias)
   const refDate = useMemo(() => {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -21,64 +47,199 @@ export default function Dashboard() {
     return d;
   }, [weekOffset]);
 
-  // início (domingo) e fim (sábado) da semana
   const { weekStart, weekEnd, rangeLabel } = useMemo(() => {
-    // getDay(): 0=Dom ... 6=Sáb
     const start = new Date(refDate);
-    start.setDate(start.getDate() - start.getDay()); // volta até domingo
+    start.setDate(start.getDate() - start.getDay());
     const end = new Date(start);
-    end.setDate(start.getDate() + 6); // sábado
+    end.setDate(start.getDate() + 6);
 
     const fmt = (d) =>
-      d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+      d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
 
     return {
       weekStart: start,
       weekEnd: end,
-      rangeLabel: `${fmt(start)} a ${fmt(end)}`
+      rangeLabel: `${fmt(start)} a ${fmt(end)}`,
     };
   }, [refDate]);
 
-  // handlers das setas (opcional, já que você as tem na UI)
+  // ---- Filtrar compromissos da semana (excluir tarefas) ----
+  const weekAppointments = useMemo(() => {
+    const convertBRDateToISO = (brDate) => {
+      if (!brDate) return null;
+      const parts = brDate.split('/');
+      if (parts.length !== 3) return null;
+      const [day, month, year] = parts;
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    };
+
+    const allAppointments = [
+      ...calendarItems,
+      ...projects
+        .filter((p) => p.dataSessao)
+        .map((p) => ({
+          id: `project-${p.id}`,
+          title: p.titulo,
+          date: convertBRDateToISO(p.dataSessao),
+          type: 'event',
+          isProject: true,
+        })),
+    ];
+
+    return allAppointments.filter((item) => {
+      if (!item.date) return false;
+      const itemDate = new Date(item.date + 'T00:00:00');
+      return itemDate >= weekStart && itemDate <= weekEnd;
+    });
+  }, [calendarItems, projects, weekStart, weekEnd]);
+
+  // ---- Filtrar tarefas da semana ----
+  const weekTasks = useMemo(() => {
+    const filtered = calendarItems.filter((task) => {
+      if (task.type !== 'task') {
+        return false;
+      }
+      if (!task.date) {
+        return false;
+      }
+
+      const taskDate = new Date(task.date + 'T00:00:00');
+
+      return taskDate >= weekStart && taskDate <= weekEnd;
+    });
+
+    return filtered;
+  }, [calendarItems, weekStart, weekEnd]);
+
+  // ---- Calcular dados financeiros (igual à página Finance) ----
+  const financeData = useMemo(() => {
+    // Totais gerais (todos os meses)
+    const totalEntradas = financeEntries
+      .filter((e) => e.type === 'entrada')
+      .reduce((sum, e) => sum + Number(e.value || 0), 0);
+
+    const totalSaidas = financeEntries
+      .filter((e) => e.type === 'saida')
+      .reduce((sum, e) => sum + Number(e.value || 0), 0);
+
+    const totalEmCaixa = totalEntradas - totalSaidas;
+
+    return {
+      totalEmCaixa,
+      totalEntradas,
+      totalSaidas,
+    };
+  }, [financeEntries]);
+
   const prevWeek = () => setWeekOffset((n) => n - 1);
   const nextWeek = () => setWeekOffset((n) => n + 1);
-
-  // clique do “Ver agenda”
   const goToAgenda = () => {
-    if (navigate) navigate("/agenda");
-    else window.location.href = "/agenda"; // fallback sem router
+    if (navigate) navigate('/agenda');
+    else window.location.href = '/agenda';
   };
 
+  const truncate = (str, maxLen = 18) => {
+    if (!str) return '';
+    return str.length > maxLen ? str.slice(0, maxLen - 1) + '…' : str;
+  };
+
+  const handleBadgeClick = (item) => {
+    if (item.isProject) {
+      return;
+    }
+    setCurrentItem(item);
+    setModalOpen(true);
+  };
+
+  const handleSave = (data) => {
+    if (currentItem) {
+      setCalendarItems((prev) =>
+        prev.map((it) => (it.id === currentItem.id ? data : it))
+      );
+    } else {
+      setCalendarItems((prev) => [...prev, data]);
+    }
+  };
+
+  const handleDelete = (id) => {
+    setCalendarItems((prev) => prev.filter((it) => it.id !== id));
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setCurrentItem(null);
+  };
+
+  const handleStatusChange = (taskId, newStatus) => {
+    setCalendarItems((prev) =>
+      prev.map((task) =>
+        task.id === taskId ? { ...task, status: newStatus } : task
+      )
+    );
+  };
+
+  const getProjectName = (projectId) => {
+    if (!projectId) return 'Sem projeto';
+    const project = projects.find((p) => String(p.id) === String(projectId));
+    return project ? project.titulo : 'Sem projeto';
+  };
+
+  const handlePrevMessage = () => {
+    setCurrentMessageIndex((prev) =>
+      prev === 0 ? messages.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextMessage = () => {
+    setCurrentMessageIndex((prev) =>
+      prev === messages.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const currentMessage = messages[currentMessageIndex] || null;
+
   return (
-    <div className="dash-wrap">
-      <div className="dash-title">
+    <div className="dashboard__wrap">
+      <div className="dashboard__title">
         <h1>Dashboard</h1>
         <Breadcrumb />
       </div>
 
-      <main className="dash-flex">
-        {/* ESQUERDA: Agenda + faixa de 3 cards */}
-        <div className="main-left">
-          <section className="agenda" aria-label="Agenda semanal">
-            <div className="card-head head-ends">
+      <main className="dashboard__flex">
+        <div className="dashboard__main-left">
+          <section className="dashboard__agenda" aria-label="Agenda semanal">
+            <div className="dashboard__card-head dashboard__head-ends">
               <h2>Agenda</h2>
-              <button className="see-agenda-link" type="button" onClick={goToAgenda}>
+              <button
+                className="dashboard__see-agenda-link"
+                type="button"
+                onClick={goToAgenda}
+              >
                 Ver agenda
               </button>
             </div>
 
-            <div className="week-center">
-              <span className="sub">Compromissos da semana</span>
-              <span className="range">{rangeLabel}</span>
+            <div className="dashboard__week-center">
+              <span className="dashboard__sub">Compromissos da semana</span>
+              <span className="dashboard__range">{rangeLabel}</span>
 
-              {/* setas reutilizáveis */}
-              <div className="nav-arrows">
-                <button className="chev" aria-label="Semana anterior" type="button" onClick={prevWeek}>
+              <div className="dashboard__nav-arrows">
+                <button
+                  className="dashboard__chev"
+                  aria-label="Semana anterior"
+                  type="button"
+                  onClick={prevWeek}
+                >
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M15 18l-6-6 6-6" />
                   </svg>
                 </button>
-                <button className="chev" aria-label="Próxima semana" type="button" onClick={nextWeek}>
+                <button
+                  className="dashboard__chev"
+                  aria-label="Próxima semana"
+                  type="button"
+                  onClick={nextWeek}
+                >
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M9 6l6 6-6 6" />
                   </svg>
@@ -86,68 +247,147 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="week-grid">
-              {weekDays.map((d) => (
-                <div key={d} className="day-col">
-                  <div className="day-col-head">{d}</div>
-                  <div className="day-col-body" />
-                </div>
-              ))}
+            <div className="dashboard__week-grid">
+              {weekDays.map((dayName, idx) => {
+                const dayDate = new Date(weekStart);
+                dayDate.setDate(weekStart.getDate() + idx);
+
+                const dayAppointments = weekAppointments.filter((item) => {
+                  const itemDate = new Date(item.date + 'T00:00:00');
+                  return itemDate.toDateString() === dayDate.toDateString();
+                });
+
+                return (
+                  <div key={dayName} className="dashboard__day-col">
+                    <div className="dashboard__day-col-head">{dayName}</div>
+                    <div className="dashboard__day-col-body">
+                      {dayAppointments.map((item, i) => (
+                        <div
+                          key={i}
+                          className={`dashboard__badge dashboard__badge--${item.type}`}
+                          title={item.title}
+                          onClick={() => handleBadgeClick(item)}
+                          style={{
+                            cursor: item.isProject ? 'default' : 'pointer',
+                          }}
+                        >
+                          {truncate(item.title)}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </section>
 
-          {/* TRÊS CARDS */}
-          <div className="last-blocks">
-            <section className="card finance eq" aria-label="Financeiro">
-              <div className="card-head">
+          <div className="dashboard__last-blocks">
+            <section
+              className="dashboard__card dashboard__finance dashboard__eq"
+              aria-label="Financeiro"
+            >
+              <div className="dashboard__card-head">
                 <h2>Financeiro</h2>
               </div>
-              <div className="finance-grid">
-                <div className="block">
-                  <div className="label">Faturamento do mês:</div>
-                  <div className="value">R$ 20.000,00</div>
-                </div>
-                <div className="finance-grid-block">
-                  <div className="block">
-                    <div className="label">A receber:</div>
-                    <div className="value">R$ 3.000,00</div>
+              <div className="dashboard__finance-grid">
+                <div className="dashboard__block">
+                  <div className="dashboard__label">Total em caixa:</div>
+                  <div className="dashboard__value">
+                    R${' '}
+                    {financeData.totalEmCaixa.toLocaleString('pt-BR', {
+                      minimumFractionDigits: 2,
+                    })}
                   </div>
-                  <div className="block">
-                    <div className="label">A pagar:</div>
-                    <div className="value">R$ 500,00</div>
+                </div>
+                <div className="dashboard__finance-grid-block">
+                  <div className="dashboard__block">
+                    <div className="dashboard__label">Total de entradas:</div>
+                    <div className="dashboard__value">
+                      R${' '}
+                      {financeData.totalEntradas.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 2,
+                      })}
+                    </div>
+                  </div>
+                  <div className="dashboard__block">
+                    <div className="dashboard__label">Total de saídas:</div>
+                    <div className="dashboard__value">
+                      R${' '}
+                      {financeData.totalSaidas.toLocaleString('pt-BR', {
+                        minimumFractionDigits: 2,
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section className="card last-messages eq" aria-label="Últimas mensagens">
-              <div className="card-head">
+            <section
+              className="dashboard__card dashboard__last-messages dashboard__eq"
+              aria-label="Últimas mensagens"
+            >
+              <div className="dashboard__card-head">
                 <h2>Últimas mensagens</h2>
-                <div className="nav-arrows">
-                  <button className="chev" aria-label="Anterior" type="button">
+                <div className="dashboard__nav-arrows">
+                  <button
+                    className="dashboard__chev"
+                    aria-label="Anterior"
+                    type="button"
+                    onClick={handlePrevMessage}
+                  >
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M15 18l-6-6 6-6" />
                     </svg>
                   </button>
-                  <button className="chev" aria-label="Próximo" type="button">
+                  <button
+                    className="dashboard__chev"
+                    aria-label="Próximo"
+                    type="button"
+                    onClick={handleNextMessage}
+                  >
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M9 6l6 6-6 6" />
                     </svg>
                   </button>
                 </div>
               </div>
+              {currentMessage && (
+                <div className="dashboard__message">
+                  <h5>{currentMessage.sender}</h5>
+                  <div className="dashboard__kv">
+                    <strong>Data:</strong> {currentMessage.date}
+                  </div>
+                  <div className="dashboard__kv">
+                    <strong>Assunto:</strong> {currentMessage.subject}
+                  </div>
+                  <p className="dashboard__message-text">
+                    {currentMessage.message}
+                  </p>
+                </div>
+              )}
             </section>
 
-            <section className="card last-requests eq" aria-label="Últimas solicitações">
-              <div className="card-head">
+            <section
+              className="dashboard__card dashboard__last-requests dashboard__eq"
+              aria-label="Últimas solicitações"
+            >
+              <div className="dashboard__card-head">
                 <h2>Últimas solicitações</h2>
-                <div className="nav-arrows">
-                  <button className="chev" aria-label="Anterior" type="button">
+                <div className="dashboard__nav-arrows">
+                  <button
+                    className="dashboard__chev"
+                    aria-label="Anterior"
+                    type="button"
+                  >
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M15 18l-6-6 6-6" />
                     </svg>
                   </button>
-                  <button className="chev" aria-label="Próximo" type="button">
+                  <button
+                    className="dashboard__chev"
+                    aria-label="Próximo"
+                    type="button"
+                  >
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M9 6l6 6-6 6" />
                     </svg>
@@ -155,16 +395,24 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="request">
+              <div className="dashboard__request">
                 <h3>Ensaio Carina</h3>
-                <div className="kv"><strong>Data da sessão:</strong> 10/10/2025</div>
-                <div className="kv"><strong>Pacote:</strong> Ensaio profissional</div>
-                <div className="kv"><strong>Cliente:</strong> Carina Souza</div>
-                <label className="select-wrap">
+                <div className="dashboard__kv">
+                  <strong>Data da sessão:</strong> 10/10/2025
+                </div>
+                <div className="dashboard__kv">
+                  <strong>Pacote:</strong> Ensaio profissional
+                </div>
+                <div className="dashboard__kv">
+                  <strong>Cliente:</strong> Carina Souza
+                </div>
+                <label className="dashboard__select-wrap">
                   <span>Status</span>
-                  <select defaultValue="andamento">
-                    {STATUS_OPTIONS.map(opt => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  <select defaultValue="lead">
+                    {SALES_STAGE_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
                     ))}
                   </select>
                 </label>
@@ -173,17 +421,29 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* DIREITA: Tarefas */}
-        <aside className="card tasks" aria-label="Tarefas da semana">
-          <div className="card-head">
+        <aside
+          className="dashboard__card dashboard__tasks"
+          aria-label="Tarefas da semana"
+        >
+          <div className="dashboard__card-head">
             <h2>Tarefas</h2>
-            <div className="nav-arrows">
-              <button className="chev" aria-label="Anterior" type="button">
+            <div className="dashboard__nav-arrows">
+              <button
+                className="dashboard__chev"
+                aria-label="Anterior"
+                type="button"
+                onClick={prevWeek}
+              >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
               </button>
-              <button className="chev" aria-label="Próximo" type="button">
+              <button
+                className="dashboard__chev"
+                aria-label="Próximo"
+                type="button"
+                onClick={nextWeek}
+              >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M9 6l6 6-6 6" />
                 </svg>
@@ -191,36 +451,61 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="task-card">
-            <h3>Preparar materiais para a sessão</h3>
-            <div className="kv"><strong>Deadline:</strong> 05/10/2025</div>
-            <div className="kv"><strong>Responsável:</strong> Cláudio Augusto</div>
-            <div className="kv"><strong>Projeto:</strong> Ensaio – Ana Paula</div>
-            <label className="select-wrap">
-              <span>Status</span>
-              <select defaultValue="afazer">
-                {STATUS_OPTIONS.map(opt => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
-            </label>
-          </div>
-
-          <div className="task-card">
-            <h3>Pagamento de entrada</h3>
-            <div className="kv"><strong>Deadline:</strong> 10/10/2025</div>
-            <div className="kv"><strong>Responsável:</strong> Antoni Carvalho</div>
-            <div className="kv"><strong>Projeto:</strong> Ensaio – Gosmig</div>
-            <label className="select-wrap">
-              <select defaultValue="lead">
-                {SALES_STAGE_OPTIONS.map(opt => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
-            </label>
-          </div>
+          {weekTasks.length === 0 ? (
+            <p style={{ textAlign: 'center', opacity: 0.7, padding: '20px' }}>
+              Nenhuma tarefa nesta semana
+            </p>
+          ) : (
+            weekTasks.map((task) => (
+              <div key={task.id} className="dashboard__task-card">
+                <h3>{task.title}</h3>
+                {task.desc && (
+                  <div className="dashboard__kv">
+                    <strong>Descrição:</strong> {task.desc}
+                  </div>
+                )}
+                <div className="dashboard__kv">
+                  <strong>Deadline:</strong>{' '}
+                  {new Date(task.date + 'T00:00:00').toLocaleDateString(
+                    'pt-BR'
+                  )}
+                </div>
+                {task.responsible && (
+                  <div className="dashboard__kv">
+                    <strong>Responsável:</strong> {task.responsible}
+                  </div>
+                )}
+                <div className="dashboard__kv">
+                  <strong>Projeto:</strong> {getProjectName(task.projectId)}
+                </div>
+                <label className="dashboard__select-wrap">
+                  <span>Status</span>
+                  <select
+                    value={task.status || 'afazer'}
+                    onChange={(e) =>
+                      handleStatusChange(task.id, e.target.value)
+                    }
+                  >
+                    {STATUS_OPTIONS.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            ))
+          )}
         </aside>
       </main>
+
+      <AppointmentModal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        onSave={handleSave}
+        onDelete={handleDelete}
+        item={currentItem}
+      />
     </div>
   );
 }

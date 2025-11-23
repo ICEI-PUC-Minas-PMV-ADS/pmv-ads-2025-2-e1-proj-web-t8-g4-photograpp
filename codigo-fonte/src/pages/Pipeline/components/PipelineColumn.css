@@ -65,7 +65,12 @@
   width: 100%;
   flex-shrink: 0;
   position: relative;
-  z-index: 2;
+  z-index: 1;
+}
+.pipeline-column__card-wrapper:has(
+    .project-card__status[aria-expanded='true']
+  ) {
+  z-index: 100;
 }
 
 .pipeline-column__card-wrapper .project-card {
@@ -75,7 +80,7 @@
   cursor: grab;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
-  z-index: 3;
+  z-index: inherit;
 }
 
 .pipeline-column__card-wrapper .project-card:hover {
@@ -98,7 +103,7 @@
 
 .pipeline-column__card-wrapper .project-card__menu {
   position: absolute;
-  z-index: 100;
+  z-index: 1000;
   left: 0;
   right: 0;
   top: calc(100% + 4px);

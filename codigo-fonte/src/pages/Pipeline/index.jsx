@@ -2,16 +2,18 @@ import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import Breadcrumb from '../../components/Breadcrumb';
 import { STATUS_OPTIONS } from '../../utils/constants/projectStatus';
-import NewProjectModal from '../Projects/components/NewProjectModal';
+import NewProjectModal from '../Projects/components/ProjectModal';
 import { useProjects } from '../Projects/hooks/useProjects';
 import PipelineColumn from './components/PipelineColumn';
 import './styles.css';
 
 export default function Pipeline() {
-  const { projects, addProject, updateProjectStatus, isInitialized } =
+  const { projects, addProject, updateProject, updateProjectStatus, deleteProject, isInitialized } =
     useProjects();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+
 
   if (!isInitialized) {
     return (
@@ -41,8 +43,35 @@ export default function Pipeline() {
     updateProjectStatus(projectId, newStatus);
   };
 
-  const handleNewProject = (newProject) => {
-    addProject(newProject);
+  const handleNewProject = () => {
+    setSelectedProject(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditProject = (project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveProject = (projectData) => {
+    if (selectedProject) {
+      updateProject(projectData.id, projectData);
+    } else {
+      addProject(projectData);
+    }
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
+
+  const handleDeleteProject = (projectId) => {
+    deleteProject(projectId);
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
   };
 
   return (
@@ -65,7 +94,7 @@ export default function Pipeline() {
           </div>
           <button
             className="pipeline__button pipeline__button--primary"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleNewProject}
           >
             Novo projeto
           </button>
@@ -79,14 +108,17 @@ export default function Pipeline() {
             title={status}
             projects={getProjectsByStatus(status)}
             onStatusChange={handleStatusChange}
+            onCardClick={handleEditProject}
           />
         ))}
       </div>
 
       <NewProjectModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleNewProject}
+        onClose={handleCloseModal}
+        onSave={handleSaveProject}
+        onDelete={handleDeleteProject}
+        project={selectedProject}
       />
     </div>
   );

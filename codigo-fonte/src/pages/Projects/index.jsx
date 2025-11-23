@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import Breadcrumb from '../../components/Breadcrumb';
-import NewProjectModal from './components/NewProjectModal';
+import ProjectModal from './components/ProjectModal';
 import ProjectCard from './components/ProjectCard';
 import { useProjects } from './hooks/useProjects';
 import './styles.css';
 
 export default function Projects() {
-  const { projects, addProject, updateProjectStatus, isInitialized } =
+  const { projects, addProject, updateProject, updateProjectStatus, deleteProject, isInitialized } =
     useProjects();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   if (!isInitialized) {
@@ -38,8 +39,31 @@ export default function Projects() {
     updateProjectStatus(projectId, newStatus);
   }
 
-  function handleNewProject(newProject) {
-    addProject(newProject);
+  function handleSaveProject(projectData) {
+    if (selectedProject) {
+      updateProject(projectData.id, projectData);
+    } else {
+      addProject(projectData);
+    }
+  }
+
+  function handleDeleteProject(projectId) {
+    deleteProject(projectId);
+  }
+
+  function handleCardClick(project) {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  }
+
+  function handleNewProject() {
+    setSelectedProject(null);
+    setIsModalOpen(true);
+  }
+
+  function handleCloseModal() {
+    setIsModalOpen(false);
+    setSelectedProject(null);
   }
 
   return (
@@ -62,7 +86,7 @@ export default function Projects() {
           </div>
           <button
             className="projects__button projects__button--primary"
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleNewProject}
           >
             Novo projeto
           </button>
@@ -77,14 +101,17 @@ export default function Projects() {
             onStatusChange={(newStatus) =>
               handleStatusChange(project.id, newStatus)
             }
+            onClick={() => handleCardClick(project)}
           />
         ))}
       </section>
 
-      <NewProjectModal
+      <ProjectModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleNewProject}
+        onClose={handleCloseModal}
+        onSave={handleSaveProject}
+        onDelete={handleDeleteProject}
+        project={selectedProject}
       />
     </div>
   );

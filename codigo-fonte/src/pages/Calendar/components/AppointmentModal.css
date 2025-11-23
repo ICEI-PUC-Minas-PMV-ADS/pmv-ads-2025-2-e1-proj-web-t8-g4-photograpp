@@ -1,0 +1,207 @@
+.appointment-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.appointment-modal__content {
+  position: relative;
+  width: min(640px, 92vw);
+  max-height: 80vh;
+  overflow: auto;
+  background: #0f1f25;
+  color: #eaf2f4;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.appointment-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.appointment-modal__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #eaf2f4;
+}
+
+.appointment-modal__close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: #eaf2f4;
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.appointment-modal__close-btn-icon {
+  transform: translateY(-1px);
+  font-size: 24px;
+}
+
+.appointment-modal__close-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.appointment-modal__close-btn:focus-visible {
+  outline: 2px solid #ffc107;
+  outline-offset: 2px;
+}
+
+.appointment-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.appointment-modal__label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #eaf2f4;
+  width: 100%;
+  min-width: 0;
+}
+
+.appointment-modal__input,
+.appointment-modal__select,
+.appointment-modal__textarea {
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  background: #142a31;
+  color: #eaf2f4;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+  margin-top: 2px;
+}
+
+.appointment-modal__input:focus,
+.appointment-modal__select:focus,
+.appointment-modal__textarea:focus {
+  border-color: #ffb417;
+}
+
+.appointment-modal__textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.appointment-modal__form-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
+@media (max-width: 640px) {
+  .appointment-modal__form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.appointment-modal__input--date,
+.appointment-modal__select {
+  height: 45px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  line-height: 1.2;
+}
+
+.appointment-modal__select {
+  padding: 10px 12px;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='%23EAF2F4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+}
+
+.appointment-modal__input--date::-webkit-datetime-edit {
+  padding: 0;
+  line-height: calc(45px - 2px);
+}
+
+.appointment-modal__input--date::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.appointment-modal__actions {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.appointment-modal__actions-left {
+  position: absolute;
+  left: 0;
+}
+
+.appointment-modal__actions-center {
+  display: flex;
+  gap: 10px;
+}
+
+.appointment-modal__btn {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.appointment-modal__btn--primary {
+  background: #ffb417;
+  color: #1b1b1b;
+  border: none;
+}
+
+.appointment-modal__btn--primary:hover {
+  filter: brightness(0.95);
+}
+
+.appointment-modal__btn--danger {
+  border: 1px solid #ff5c5c;
+  background: rgba(255, 92, 92, 0.08);
+  color: #ffecec;
+}
+
+.appointment-modal__btn--danger:hover {
+  background: rgba(255, 92, 92, 0.15);
+}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ProjectCard from '../../Projects/components/ProjectCard';
 import './PipelineColumn.css';
 
-export default function PipelineColumn({ title, projects, onStatusChange }) {
+export default function PipelineColumn({ title, projects, onStatusChange, onCardClick }) {
   const [isDragOver, setIsDragOver] = useState(false);
 
   const handleDragStart = (e, project) => {
@@ -73,9 +73,8 @@ export default function PipelineColumn({ title, projects, onStatusChange }) {
                 pacote={project.pacote}
                 cliente={project.cliente}
                 status={project.status}
-                onStatusChange={(newStatus) =>
-                  onStatusChange(project.id, newStatus)
-                }
+                onStatusChange={(newStatus) => onStatusChange(project.id, newStatus)}
+                onClick={() => onCardClick(project)}
               />
             </div>
           ))

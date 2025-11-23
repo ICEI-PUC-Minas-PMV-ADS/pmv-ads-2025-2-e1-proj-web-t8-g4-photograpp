@@ -1,12 +1,19 @@
+import { useEffect } from 'react';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import { defaultProjects } from '../../../utils/mocks/projectsMock';
 
 export function useProjects() {
-  const [projects, setProjects, isInitialized] = useLocalStorage(
+  const [projects, setProjects, clearProjects, isInitialized] = useLocalStorage(
     'projects',
     defaultProjects,
     true
   );
+
+  useEffect(() => {
+    if (isInitialized && projects.length === 0) {
+      setProjects(defaultProjects);
+    }
+  }, [isInitialized, projects.length, setProjects]);
 
   const addProject = (newProject) => {
     if (!isInitialized) return;
@@ -48,6 +55,7 @@ export function useProjects() {
     getProjectById,
     getProjectsByStatus,
     setProjects,
+    clearProjects,
     isInitialized,
   };
 }
