@@ -1,14 +1,55 @@
+import avatarDemo from '../../assets/avatar-demo.png';
+
 export const usersMock = [
   {
     id: 1,
-    name: 'Usuário Demo',
+    name: 'Cláudio Augusto',
     email: 'demo@teste.com',
     password: '123456',
+    avatar: avatarDemo,
+    telefone: '(31) 9 8765-4321',
+    cpf: '123.456.789-00',
+    endereco: {
+      cep: '30140-071',
+      rua: 'Av. Afonso Pena',
+      numero: '1234',
+      complemento: 'Sala 101',
+      bairro: 'Centro',
+      cidade: 'Belo Horizonte',
+      uf: 'MG',
+    },
+    empresa: {
+      razaoSocial: 'Demo Fotografia LTDA',
+      cnpj: '12.345.678/0001-90',
+      email: 'contato@demofoto.com',
+      telefone: '(31) 3333-4444',
+      endereco: {
+        cep: '30140-071',
+        rua: 'Av. Afonso Pena',
+        numero: '5678',
+        complemento: 'Andar 2',
+        bairro: 'Centro',
+        cidade: 'Belo Horizonte',
+        uf: 'MG',
+      },
+    },
   },
   {
     id: 2,
-    name: 'Demo Dois',
+    name: 'Augosto Cláudio',
     email: 'demo2@teste.com',
     password: '123456',
+    avatar: avatarDemo,
+    telefone: '(11) 9 1234-5678',
+    cpf: '987.654.321-00',
+    endereco: {
+      cep: '01310-100',
+      rua: 'Av. Paulista',
+      numero: '1000',
+      complemento: '',
+      bairro: 'Bela Vista',
+      cidade: 'São Paulo',
+      uf: 'SP',
+    },
   },
 ];

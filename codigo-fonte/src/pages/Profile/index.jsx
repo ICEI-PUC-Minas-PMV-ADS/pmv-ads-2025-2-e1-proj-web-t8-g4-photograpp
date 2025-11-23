@@ -1,29 +1,29 @@
-import Breadcrumb from "../../components/Breadcrumb";
-import { useState } from "react";
-import "./profile.css";
+import { useState } from 'react';
+import Breadcrumb from '../../components/Breadcrumb';
+import { statesList } from '../../utils/constants/statesList';
+import GalleryViewModal from './components/GalleryViewModal';
+import NewGalleryModal from './components/NewGalleryModal';
+import { useGalleries } from './hooks/useGalleries';
+import { useProfile } from './hooks/useProfile';
+import './profile.css';
 
 export default function Profile() {
-  const [logo, setLogo] = useState(null);
-  
-  // Novos estados para o Modal
-  const [showModal, setShowModal] = useState(false);
-  const [galleryPhotos, setGalleryPhotos] = useState([]);
+  const { formData, logo, handleChange, handleSubmit, handleLogoChange } =
+    useProfile();
+  const { galleries, addGallery, isInitialized } = useGalleries();
 
-  // Função para simular adição de fotos no modal
-  const handleAddPhotos = (e) => {
-    if (e.target.files) {
-      const newPhotos = Array.from(e.target.files).map(file => ({
-        id: Date.now() + Math.random(),
-        url: URL.createObjectURL(file)
-      }));
-      setGalleryPhotos([...galleryPhotos, ...newPhotos]);
-    }
+  const [showNewGalleryModal, setShowNewGalleryModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [selectedGallery, setSelectedGallery] = useState(null);
+
+  const handleGalleryClick = (gallery) => {
+    setSelectedGallery(gallery);
+    setShowViewModal(true);
   };
 
-  // Função para remover foto da lista
-  const removePhoto = (id) => {
-    setGalleryPhotos(galleryPhotos.filter(p => p.id !== id));
-  };
+  if (!isInitialized) {
+    return <div>Carregando...</div>;
+  }
 
   return (
     <main className="profile-page">
@@ -34,20 +34,39 @@ export default function Profile() {
             <Breadcrumb />
           </div>
         </div>
-        <button className="btn btn-primary-outline">Ver página pública</button>
+        <div className='actionButtons'>
+        <button
+          className="btn btn-seconday-outline"
+          onClick={() => alert('Em breve...')}
+        >
+          Ver página pública
+        </button>
+        <button type="submit" className="btn btn-primary btn-save">
+              Salvar alterações
+            </button>
+        </div>
       </div>
 
-      {/* Card: Formulário principal */}
       <section className="profile-form">
-        <form className="form-grid" onSubmit={(e) => e.preventDefault()}>
+        <form className="form-grid" onSubmit={handleSubmit}>
           <div className="field span-2">
             <label>Nome público da empresa:</label>
-            <input type="text" placeholder="" />
+            <input
+              type="text"
+              name="nomePublico"
+              value={formData.nomePublico}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="field">
             <label>URL da página:</label>
-            <input type="text" placeholder="" />
+            <input
+              type="text"
+              name="urlPagina"
+              value={formData.urlPagina}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="field logo-field">
@@ -55,7 +74,9 @@ export default function Profile() {
             <label className="logo-drop" htmlFor="logo-input">
               {logo ? (
                 <img
-                  src={URL.createObjectURL(logo)}
+                  src={
+                    typeof logo === 'string' ? logo : URL.createObjectURL(logo)
+                  }
                   alt="Logo"
                   className="logo-preview"
                 />
@@ -67,57 +88,128 @@ export default function Profile() {
               id="logo-input"
               type="file"
               accept="image/*"
-              onChange={(e) => setLogo(e.target.files?.[0] || null)}
+              onChange={handleLogoChange}
               hidden
             />
           </div>
 
           <div className="field">
             <label>E-mail para contato:</label>
-            <input type="email" />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
           </div>
           <div className="field">
             <label>Telefone:</label>
-            <input type="tel" />
+            <input
+              type="tel"
+              name="telefone"
+              placeholder="(00) 0 0000-0000"
+              value={formData.telefone}
+              onChange={handleChange}
+            />
           </div>
           <div className="field">
             <label>WhatsApp:</label>
-            <input type="tel" />
+            <input
+              type="tel"
+              name="whatsapp"
+              placeholder="(00) 0 0000-0000"
+              value={formData.whatsapp}
+              onChange={handleChange}
+            />
           </div>
 
-          {/* Endereço */}
           <div className="field">
             <label>Endereço:</label>
-            <input type="text" placeholder="CEP" />
+            <input
+              type="text"
+              name="cep"
+              placeholder="CEP"
+              value={formData.cep}
+              onChange={handleChange}
+            />
           </div>
 
-          <div className="field span-3 rua-field">
+          <div className="field span-2 rua-field">
             <label>&nbsp;</label>
-            <input type="text" placeholder="Rua, avenida..." />
+            <input
+              type="text"
+              name="rua"
+              placeholder="Rua, avenida..."
+              value={formData.rua}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="field">
-            <input type="text" placeholder="Número" />
+            <label>&nbsp;</label>
+            <input
+              type="text"
+              name="numero"
+              placeholder="Número"
+              value={formData.numero}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="field">
-            <input type="text" placeholder="Complemento" />
+            <input
+              type="text"
+              name="complemento"
+              placeholder="Complemento"
+              value={formData.complemento}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="field">
-            <input type="text" placeholder="Bairro" />
+            <input
+              type="text"
+              name="bairro"
+              placeholder="Bairro"
+              value={formData.bairro}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="field">
-            <div className="">
-              <select className="uf" defaultValue="">
-                <option value="" disabled>UF</option>
-                {["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"].map((uf) => (
-                  <option key={uf} value={uf}>{uf}</option>
-                ))}
-              </select>
-            </div>
+            <input
+              type="text"
+              name="cidade"
+              placeholder="Cidade"
+              value={formData.cidade}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="field">
+            <select
+              className="uf"
+              name="uf"
+              value={formData.uf}
+              onChange={handleChange}
+            >
+              <option value="">UF</option>
+              {statesList.map((uf) => (
+                <option key={uf} value={uf}>
+                  {uf}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="field span-4">
             <label>Biografia:</label>
-            <textarea rows={6} />
+            <textarea
+              rows={6}
+              name="biografia"
+              value={formData.biografia}
+              onChange={handleChange}
+            />
           </div>
         </form>
       </section>
@@ -128,99 +220,57 @@ export default function Profile() {
             <h2>Portfólio</h2>
             <p>Adicione suas melhores fotos para encantar seus clientes.</p>
           </div>
-          {/* Botão que abre o Modal */}
-          <button 
-            className="btn btn-primary" 
-            onClick={() => setShowModal(true)}
+          <button
+            className="btn btn-primary"
+            onClick={() => setShowNewGalleryModal(true)}
           >
             Nova Galeria
           </button>
         </div>
 
         <div className="gallery">
-          <figure className="thumb">
-            <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop" alt="" />
-            <figcaption>Casamento Maria Luisa e Cláudio</figcaption>
-          </figure>
-          <figure className="thumb">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop" alt="" />
-            <figcaption>Ensaio Ana Paula</figcaption>
-          </figure>
+          {galleries.length === 0 ? (
+            <div
+              style={{
+                gridColumn: '1/-1',
+                textAlign: 'center',
+                padding: '40px',
+                color: 'var(--muted)',
+              }}
+            >
+              Nenhuma galeria criada ainda. Clique em "Nova Galeria" para
+              começar.
+            </div>
+          ) : (
+            galleries.map((gallery) => (
+              <figure
+                key={gallery.id}
+                className="thumb"
+                onClick={() => handleGalleryClick(gallery)}
+                style={{ cursor: 'pointer' }}
+              >
+                <img src={gallery.photos[0].url} alt={gallery.name} />
+                <figcaption>{gallery.name}</figcaption>
+              </figure>
+            ))
+          )}
         </div>
       </section>
 
-      {/* --- INÍCIO POO-PUP --- */}
-      {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
-          {/* stopPropagation evita que clicar no modal feche ele */}
-          <div className="modal-box" onClick={e => e.stopPropagation()}>
-            
-            <div className="modal-header">
-              <h3>Nova galeria</h3>
-              <button className="close-btn" onClick={() => setShowModal(false)}>×</button>
-            </div>
+      <NewGalleryModal
+        isOpen={showNewGalleryModal}
+        onClose={() => setShowNewGalleryModal(false)}
+        onSave={addGallery}
+      />
 
-            <div className="modal-body">
-              {/* Campo Nome */}
-              <div className="field">
-                <label>Nome do ensaio:</label>
-                <input type="text" placeholder="Ex: Ensaio Gestante" />
-              </div>
-
-              {/* Seção de Fotos */}
-              <div>
-                <div className="photos-header">
-                  <label style={{color: 'var(--muted)', fontSize:'.95rem'}}>Fotos:</label>
-                  
-                  <label className="btn btn-primary" style={{fontSize: '.85rem', padding: '6px 12px', cursor: 'pointer'}}>
-                    Enviar fotos
-                    <input 
-                      type="file" 
-                      multiple 
-                      accept="image/*" 
-                      hidden 
-                      onChange={handleAddPhotos}
-                    />
-                  </label>
-                </div>
-
-                {/* Grid de pré-visualização */}
-                <div className="photos-grid">
-                  {/* Se não tiver fotos, mostra mensagem ou estado vazio (deu bug 2x) */}
-                  {galleryPhotos.length === 0 && (
-                     <div style={{gridColumn: '1/-1', textAlign:'center', padding:'20px', border:'1px dashed var(--line)', borderRadius:'8px', color:'var(--muted)'}}>
-                       Nenhuma foto selecionada.
-                     </div>
-                  )}
-
-                  {galleryPhotos.map(photo => (
-                    <div key={photo.id} className="photo-item">
-                      <img src={photo.url} alt="Preview" />
-                      <div className="photo-actions">
-                        {/* Ícone de Lixeira (deu bug) */}
-                        <span className="action-icon" onClick={() => removePhoto(photo.id)} title="Excluir">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                        </span>
-                        {/* Ícone de Editar */}
-                        <span className="action-icon" title="Editar">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="modal-footer">
-              <button className="btn-primary" onClick={() => setShowModal(false)}>Cancelar</button>
-              <button className="btn-primary">Salvar</button>
-            </div>
-
-          </div>
-        </div>
-      )}
-
+      <GalleryViewModal
+        isOpen={showViewModal}
+        onClose={() => {
+          setShowViewModal(false);
+          setSelectedGallery(null);
+        }}
+        gallery={selectedGallery}
+      />
     </main>
   );
 }
