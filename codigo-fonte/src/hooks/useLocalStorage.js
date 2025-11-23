@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 export function useLocalStorage(key, defaultValue, userSpecific = true) {
   const { user, isAuthenticated } = useAuth();
   const [value, setValue] = useState(defaultValue);
   const [isInitialized, setIsInitialized] = useState(false);
+  const defaultValueRef = useRef(defaultValue);
 
   const getStorageKey = useCallback(() => {
     return userSpecific && user?.id ? `${key}_${user.id}` : key;
@@ -24,25 +25,21 @@ export function useLocalStorage(key, defaultValue, userSpecific = true) {
         const parsedValue = JSON.parse(savedValue);
         setValue(parsedValue);
       } else {
-        setValue(defaultValue);
-        if (defaultValue !== undefined) {
-          localStorage.setItem(storageKey, JSON.stringify(defaultValue));
+        setValue(defaultValueRef.current);
+        if (defaultValueRef.current !== undefined) {
+          localStorage.setItem(
+            storageKey,
+            JSON.stringify(defaultValueRef.current)
+          );
         }
       }
       setIsInitialized(true);
     } catch (error) {
       console.error('Erro ao carregar dados do localStorage:', error);
-      setValue(defaultValue);
+      setValue(defaultValueRef.current);
       setIsInitialized(true);
     }
-  }, [
-    user?.id,
-    isAuthenticated,
-    key,
-    userSpecific,
-    getStorageKey,
-    defaultValue,
-  ]);
+  }, [user?.id, isAuthenticated, key, userSpecific, getStorageKey]);
 
   useEffect(() => {
     if (!isInitialized) return;
@@ -78,11 +75,11 @@ export function useLocalStorage(key, defaultValue, userSpecific = true) {
     try {
       const storageKey = getStorageKey();
       localStorage.removeItem(storageKey);
-      setValue(defaultValue);
+      setValue(defaultValueRef.current);
     } catch (error) {
       console.error('Erro ao limpar dados do localStorage:', error);
     }
-  }, [getStorageKey, defaultValue]);
+  }, [getStorageKey]);
 
   return [value, updateValue, clearValue, isInitialized];
 }

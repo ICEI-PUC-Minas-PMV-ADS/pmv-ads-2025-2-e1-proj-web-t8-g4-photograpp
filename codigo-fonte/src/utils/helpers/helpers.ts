@@ -1,29 +1,29 @@
 export const isValidCPF = (cpf) => {
-    cpf = cpf.replace(/[^\d]+/g, "");
-    if (cpf.length !== 11) return false;
+  cpf = cpf.replaceAll(/[^\d]+/g, '');
+  if (cpf.length !== 11) return false;
 
-    if (/^(\d)\1{10}$/.test(cpf)) return false;
+  if (/^(\d)\1{10}$/.test(cpf)) return false;
 
-    let soma = 0;
-    let resto;
+  let soma = 0;
+  let resto;
 
-    for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf[9])) return false;
+  for (let i = 1; i <= 9; i++) soma += Number.parseInt(cpf[i - 1]) * (11 - i);
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  if (resto !== Number.parseInt(cpf[9])) return false;
 
-    soma = 0;
+  soma = 0;
 
-    for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf[10])) return false;
+  for (let i = 1; i <= 10; i++) soma += Number.parseInt(cpf[i - 1]) * (12 - i);
+  resto = (soma * 10) % 11;
+  if (resto === 10 || resto === 11) resto = 0;
+  if (resto !== Number.parseInt(cpf[10])) return false;
 
-    return true;
-  };
+  return true;
+};
 
-  export function isValidCNPJ(cnpj) {
-  cnpj = cnpj.replace(/\D/g, "");
+export function isValidCNPJ(cnpj) {
+  cnpj = cnpj.replaceAll(/\D/g, '');
 
   if (cnpj.length !== 14) return false;
 
@@ -58,3 +58,23 @@ export const isValidCPF = (cpf) => {
 
   return true;
 }
+
+export const formatDateToInput = (dateStr) => {
+  if (!dateStr) return '';
+  const parts = dateStr.split('/');
+  if (parts.length === 3) {
+    const [day, month, year] = parts;
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  }
+  return dateStr;
+};
+
+export const formatDateToBR = (dateStr) => {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length === 3) {
+    const [year, month, day] = parts;
+    return `${day}/${month}/${year}`;
+  }
+  return dateStr;
+};

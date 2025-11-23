@@ -10,6 +10,7 @@ export default function ProjectCard({
   cliente,
   status,
   onStatusChange,
+  onClick,
 }) {
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState(status || STATUS_OPTIONS[0]);
@@ -49,8 +50,18 @@ export default function ProjectCard({
     onStatusChange?.(next);
   }
 
+  function handleCardClick(e) {
+    if (
+      btnRef.current?.contains(e.target) ||
+      menuRef.current?.contains(e.target)
+    ) {
+      return;
+    }
+    onClick?.();
+  }
+
   return (
-    <article className="project-card">
+    <article className="project-card" onClick={handleCardClick}>
       <h3 className="project-card__title">{titulo}</h3>
 
       <p className="project-card__line">

@@ -1,0 +1,154 @@
+.project-view-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.project-view-modal__content {
+  position: relative;
+  width: min(640px, 92vw);
+  max-height: 80vh;
+  overflow: auto;
+  background: #0f1f25;
+  color: #eaf2f4;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.project-view-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.project-view-modal__title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #eaf2f4;
+}
+
+.project-view-modal__close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: #eaf2f4;
+  font-family: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.project-view-modal__close-btn-icon {
+  transform: translateY(-1px);
+  font-size: 24px;
+}
+
+.project-view-modal__close-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.project-view-modal__close-btn:focus-visible {
+  outline: 2px solid #ffc107;
+  outline-offset: 2px;
+}
+
+.project-view-modal__alert {
+  background: rgba(255, 180, 23, 0.1);
+  border: 1px solid rgba(255, 180, 23, 0.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  color: #ffb417;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.project-view-modal__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.project-view-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.project-view-modal__field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(234, 242, 244, 0.7);
+}
+
+.project-view-modal__value {
+  background: #142a31;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #eaf2f4;
+}
+
+.project-view-modal__actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.project-view-modal__btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.project-view-modal__btn--primary {
+  background: #ffb417;
+  color: #1b1b1b;
+}
+
+.project-view-modal__btn--primary:hover {
+  filter: brightness(0.95);
+}
+
+.appointment-modal__actions {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.appointment-modal__actions-left {
+  position: static;
+}
+
+.appointment-modal__actions-right {
+  margin-left: auto;
+}
