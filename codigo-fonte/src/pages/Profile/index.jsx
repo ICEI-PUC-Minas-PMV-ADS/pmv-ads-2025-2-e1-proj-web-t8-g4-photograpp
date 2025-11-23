@@ -76,6 +76,7 @@ export default function Profile() {
       uf: "",
       bio: "",
       logo: null, // dataURL base64
+      services: [], // ⬅️ novo campo
     })
   );
 
@@ -89,6 +90,10 @@ export default function Profile() {
   const [editingGalleryId, setEditingGalleryId] = useState(null);
   const [galleryName, setGalleryName] = useState("");
   const [galleryPhotos, setGalleryPhotos] = useState([]);
+
+  // ===== Serviços (form de criação) =====
+  const [serviceName, setServiceName] = useState("");
+  const [servicePrice, setServicePrice] = useState("");
 
   // --------- Persistência no localStorage ---------
   useEffect(() => {
@@ -116,6 +121,54 @@ export default function Profile() {
       }));
     };
     reader.readAsDataURL(file);
+  };
+
+  // ================= HANDLERS SERVIÇOS =================
+  const handleServicePriceChange = (e) => {
+    const digits = e.target.value.replace(/\D/g, ""); // só números
+    if (!digits) {
+      setServicePrice("");
+      return;
+    }
+    const formatted = formatBRLFromDigits(digits);
+    setServicePrice(formatted);
+  };
+
+  const handleAddService = (e) => {
+    e.preventDefault();
+    const name = serviceName.trim();
+    const price = servicePrice.trim(); // agora já vem como "R$ 40,00"
+
+    if (!name || !price) {
+      alert("Preencha o nome do serviço e o valor 🙂");
+      return;
+    }
+
+    const id =
+      (window.crypto && crypto.randomUUID && crypto.randomUUID()) ||
+      `${Date.now()}-${Math.random()}`;
+
+    setProfileData((prev) => ({
+      ...prev,
+      services: [
+        ...(prev.services || []),
+        {
+          id,
+          name,
+          price,
+        },
+      ],
+    }));
+
+    setServiceName("");
+    setServicePrice("");
+  };
+
+  const handleRemoveService = (id) => {
+    setProfileData((prev) => ({
+      ...prev,
+      services: (prev.services || []).filter((s) => s.id !== id),
+    }));
   };
 
   // ================= HANDLERS GALERIAS =================
@@ -172,11 +225,11 @@ export default function Profile() {
         return prev.map((g) =>
           g.id === editingGalleryId
             ? {
-                ...g,
-                name: galleryName.trim(),
-                photos: galleryPhotos,
-                coverUrl: galleryPhotos[0]?.url || g.coverUrl,
-              }
+              ...g,
+              name: galleryName.trim(),
+              photos: galleryPhotos,
+              coverUrl: galleryPhotos[0]?.url || g.coverUrl,
+            }
             : g
         );
       }
@@ -199,6 +252,26 @@ export default function Profile() {
     setShowModal(false);
   };
 
+  function formatBRLFromDigits(digits) {
+    const clean = String(digits).replace(/\D/g, "");
+    if (!clean) return "";
+
+    const int = parseInt(clean, 10);
+    if (isNaN(int)) return "";
+
+    const cents = int.toString().padStart(3, "0");
+    const centsPart = cents.slice(-2);
+    let integerPart = cents.slice(0, -2);
+
+    if (!integerPart) integerPart = "0";
+
+    // separador de milhar com ponto
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    return `R$ ${integerPart},${centsPart}`;
+  }
+
+
   // ================= PÁGINA PÚBLICA =================
   const handleGoToPublicPage = () => {
     const slug = slugify(
@@ -216,6 +289,8 @@ export default function Profile() {
     // navega para /arnaldo-quintela
     navigate(`/${slug}`);
   };
+
+  const services = profileData.services || [];
 
   return (
     <main className="profile-page">
@@ -405,6 +480,71 @@ export default function Profile() {
         </form>
       </section>
 
+      {/* ================= SERVIÇOS ================= */}
+      <section className="services">
+        <div className="services__head">
+          <h2>Serviços oferecidos</h2>
+          <p>Cadastre seus pacotes e valores de referência.</p>
+        </div>
+
+        <form className="services__form" onSubmit={handleAddService}>
+          <div className="field">
+            <label>Nome do serviço</label>
+            <input
+              type="text"
+              placeholder="Ex: Ensaio gestante"
+              value={serviceName}
+              onChange={(e) => setServiceName(e.target.value)}
+            />
+          </div>
+          <div className="field">
+            <label>Valor</label>
+            <input
+              type="text"
+              placeholder="Ex: R$ 400,00"
+              value={servicePrice}
+              onChange={handleServicePriceChange}
+              inputMode="numeric" // ajuda no mobile a mostrar teclado numérico
+            />
+          </div>
+          <div className="field services__button-wrap">
+            <button type="submit" className="btn btn-primary">
+              Adicionar serviço
+            </button>
+          </div>
+        </form>
+
+        <div className="services__list">
+          {services.length === 0 && (
+            <p className="services__empty">
+              Nenhum serviço cadastrado ainda.
+            </p>
+          )}
+
+          {services.map((service) => (
+            <div key={service.id} className="services__item">
+              <div className="services__item-main">
+                <div className="services__item-name">{service.name}</div>
+                {service.price && (
+                  <div className="services__item-price">
+                    A partir de {service.price}
+                  </div>
+                )}
+              </div>
+              <button
+                type="button"
+                className="btn-ghost services__remove-btn"
+                onClick={() => handleRemoveService(service.id)}
+                aria-label="Remover serviço"
+              >
+                ×
+              </button>
+            </div>
+          ))}
+
+        </div>
+      </section>
+
       {/* ================= PORTFÓLIO ================= */}
       <section className="portfolio">
         <div className="portfolio__head">
@@ -516,7 +656,7 @@ export default function Profile() {
                           onClick={() => removePhoto(photo.id)}
                           title="Excluir"
                         >
-                          {/* lixeira */}  
+                          {/* lixeira */}
                           <svg
                             width="16"
                             height="16"

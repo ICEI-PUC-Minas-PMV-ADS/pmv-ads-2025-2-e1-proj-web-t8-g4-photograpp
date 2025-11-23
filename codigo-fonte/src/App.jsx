@@ -16,6 +16,7 @@ import Services from './pages/Services';
 import Tasks from './pages/Tasks';
 import PrivateRoute from './routes/PrivateRoute';
 import EmailChecker from './pages/email-checker';
+import PublicProfile from './pages/PublicProfile'
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="email-checker" element={<EmailChecker />} />
           <Route path="registrar" element={<Register />} />
+
+          {/* Página pública do fotógrafo (/arnaldo-quintela etc) */}
+          <Route path=":slug" element={<PublicProfile />} /> {/* ⬅️ NOVA ROTA */}
 
           {/* Privadas */}
           <Route element={<PrivateRoute />}>

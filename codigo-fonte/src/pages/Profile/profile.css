@@ -310,3 +310,142 @@
 .btn-ghost:hover { color: var(--text); }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ================== SERVIÇOS (seção nova) ================== */
+
+.services {
+  margin-top: 40px; /* afasta da seção de biografia/form */
+}
+
+.services__head h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.services__head p {
+  margin: 4px 0 16px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Grid do form de serviços */
+.services__form {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr auto; /* nome | valor | botão */
+  gap: 16px 20px; /* mais espaço entre os campos */
+  align-items: flex-end;
+}
+
+/* Só na seção de serviços aumentamos o espaço label/input */
+.services .field {
+  gap: 10px;
+}
+
+.services__button-wrap {
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Botão não tão colado dos outros campos */
+.services__button-wrap .btn {
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .services__form {
+    grid-template-columns: 1fr;
+  }
+
+  .services__button-wrap {
+    align-items: stretch;
+  }
+
+  .services__button-wrap .btn {
+    width: 100%;
+  }
+}
+
+.services__list {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(140px, 1fr)); /* 4 “quadrados” por linha */
+  gap: 12px;
+}
+
+.services__empty {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Card de cada serviço (ensaio) */
+.services__item {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--card);
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;       /* texto em cima, X embaixo */
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  min-height: 90px;             /* dá uma cara de “quadradinho” */
+}
+
+/* bloco texto (nome + preço) centralizado */
+.services__item > div {
+  text-align: center;
+}
+
+.services__item-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.services__item-name {
+  font-weight: 500;
+}
+
+.services__item-price {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+
+.services__remove-btn {
+  margin-top: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.services__remove-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 1024px) {
+  .services__list {
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .services__list {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .services__list {
+    grid-template-columns: 1fr;
+  }
+}
