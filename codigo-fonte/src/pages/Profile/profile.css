@@ -7,6 +7,24 @@
   width: 100%;
 }
 
+.actionButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.btn-seconday-outline {
+  background-color: #13262d;
+  color: #ffb417;
+  border: 1px solid #ffb417;
+}
+
+.btn-seconday-outline:hover {
+  background-color: #1e3842;
+  color: #ffb417;
+  border: 1px solid #ffb417;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -25,7 +43,6 @@
   width: 100%;
   box-sizing: border-box;
 }
-
 
 .span-2 {
   grid-column: span 2;
@@ -50,7 +67,7 @@
   min-height: 141px;
   border: 1px solid #a5a5a5;
   border-radius: 10px;
-  background: #1E3842;
+  background: #1e3842;
   cursor: pointer;
   text-align: center;
   padding: 10px;
@@ -58,17 +75,16 @@
 
 .logo-hint {
   color: #87a0a6;
-  font-size: .9rem
+  font-size: 0.9rem;
 }
 
 .logo-preview {
   max-width: 100%;
   max-height: 160px;
   object-fit: contain;
-  border-radius: 8px
+  border-radius: 8px;
 }
 
-/* Select with chevron */
 .select-wrap {
   position: relative;
 }
@@ -83,7 +99,6 @@
   font-size: 14px;
 }
 
-/* Portfólio */
 .portfolio {
   margin-top: 28px;
 }
@@ -97,19 +112,19 @@
 
 .portfolio h2 {
   margin: 0 0 6px;
-  font-size: 35px
+  font-size: 35px;
 }
 
 .portfolio p {
   margin: 0;
   color: var(--muted);
-  font-size: .95rem
+  font-size: 0.95rem;
 }
 
 .gallery {
   display: grid;
   grid-template-columns: repeat(6, minmax(120px, 1fr));
-  gap: 16px
+  gap: 16px;
 }
 
 .thumb {
@@ -123,16 +138,15 @@
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover
+  object-fit: cover;
 }
 
 .thumb figcaption {
   padding: 8px 10px;
-  font-size: .85rem;
-  color: var(--muted)
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
-/* Responsividade */
 @media (max-width: 1024px) {
   .form-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -175,7 +189,7 @@
     grid-column: auto;
   }
 
-  .rua-field label{
+  .rua-field label {
     display: none;
   }
 
@@ -205,10 +219,9 @@
   }
 }
 
-/* Fundo escuro atrás do modal */
 .modal-overlay {
   position: fixed;
-  inset: 0; /* ocupa a tela toda */
+  inset: 0;
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(4px);
   z-index: 1000;
@@ -216,23 +229,21 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: fadeIn .2s ease;
+  animation: fadeIn 0.2s ease;
 }
 
-/* A caixa do modal em si */
 .modal-box {
   background: var(--bg);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   width: 100%;
-  max-width: 800px; /* Largura similar à imagem de referência */
+  max-width: 800px;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  max-height: 90vh; /* Evita que estoure a altura em telas pequenas */
+  max-height: 90vh;
 }
 
-/* Cabeçalho do Modal */
 .modal-header {
   padding: 20px 24px;
   border-bottom: 1px solid var(--line);
@@ -240,23 +251,31 @@
   justify-content: space-between;
   align-items: center;
 }
-.modal-header h3 { margin: 0; font-size: 1.25rem; }
-.close-btn {
-  background: transparent; border: none; color: var(--muted);
-  cursor: pointer; font-size: 1.5rem; padding: 0; line-height: 1;
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
 }
-.close-btn:hover { color: var(--text); }
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0;
+  line-height: 1;
+}
+.close-btn:hover {
+  color: var(--text);
+}
 
-/* Corpo do Modal (onde ficam os inputs) */
 .modal-body {
   padding: 24px;
-  overflow-y: auto; /* Permite rolar se tiver muitas fotos */
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* Área de upload de fotos dentro do modal */
 .photos-header {
   display: flex;
   justify-content: space-between;
@@ -269,7 +288,6 @@
   gap: 12px;
 }
 
-/* Card de cada foto no modal */
 .photo-item {
   position: relative;
   aspect-ratio: 4/3;
@@ -278,11 +296,15 @@
   border: 1px solid var(--line);
 }
 .photo-item img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .photo-actions {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: rgba(13, 36, 42, 0.9);
   padding: 6px;
   display: flex;
@@ -290,11 +312,14 @@
   border-top: 1px solid var(--line);
 }
 .action-icon {
-  cursor: pointer; color: var(--brand); font-size: 14px;
+  cursor: pointer;
+  color: var(--brand);
+  font-size: 14px;
 }
-.action-icon:hover { color: #fff; }
+.action-icon:hover {
+  color: #fff;
+}
 
-/* Rodapé do Modal (Botões Salvar/Cancelar) */
 .modal-footer {
   padding: 20px 24px;
   border-top: 1px solid var(--line);
@@ -304,9 +329,32 @@
 }
 
 .btn-ghost {
-  background: transparent; border: none; color: var(--muted);
-  font-weight: 600; cursor: pointer; padding: 10px 18px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 18px;
 }
-.btn-ghost:hover { color: var(--text); }
+.btn-ghost:hover {
+  color: var(--text);
+}
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.save-button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.btn-save {
+  align-self: flex-end;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

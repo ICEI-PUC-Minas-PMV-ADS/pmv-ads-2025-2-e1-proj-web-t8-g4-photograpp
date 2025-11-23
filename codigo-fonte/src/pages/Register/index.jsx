@@ -1,12 +1,17 @@
-import { useState, useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext.jsx";
-import "./styles.css";
-import photograppSymbol from "../../assets/avatar-placeholder.svg";
-import camera from "../../assets/camera.svg";
-import { statesList } from "../../utils/constants/statesList.js";
-import { isValidCPF } from "../../utils/helpers/helpers.js";
-import { isValidCNPJ } from "../../utils/helpers/helpers.js";
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import photograppSymbol from '../../assets/avatar-placeholder.svg';
+import camera from '../../assets/camera.svg';
+import { useAuth } from '../../contexts/AuthContext.jsx';
+import { statesList } from '../../utils/constants/statesList.js';
+import { isValidCNPJ, isValidCPF } from '../../utils/helpers/helpers.js';
+import {
+  applyCEPMask,
+  applyCNPJMask,
+  applyCPFMask,
+  applyPhoneMask,
+} from '../../utils/helpers/masks';
+import './styles.css';
 
 export default function Register() {
   const fileInputRef = useRef(null);
@@ -26,31 +31,31 @@ export default function Register() {
   const { register } = useAuth();
 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    primeiroNome: "",
-    sobrenome: "",
-    telefone: "",
-    cpf: "",
-    cep: "",
-    rua: "",
-    numero: "",
-    complemento: "",
-    bairro: "",
-    cidade: "",
-    uf: "",
-    razaoSocial: "",
-    cnpj: "",
-    emailEmpresa: "",
-    telefoneEmpresa: "",
-    cepEmpresa: "",
-    ruaEmpresa: "",
-    numeroEmpresa: "",
-    complementoEmpresa: "",
-    bairroEmpresa: "",
-    cidadeEmpresa: "",
-    ufEmpresa: "",
+    email: '',
+    password: '',
+    confirmPassword: '',
+    primeiroNome: '',
+    sobrenome: '',
+    telefone: '',
+    cpf: '',
+    cep: '',
+    rua: '',
+    numero: '',
+    complemento: '',
+    bairro: '',
+    cidade: '',
+    uf: '',
+    razaoSocial: '',
+    cnpj: '',
+    emailEmpresa: '',
+    telefoneEmpresa: '',
+    cepEmpresa: '',
+    ruaEmpresa: '',
+    numeroEmpresa: '',
+    complementoEmpresa: '',
+    bairroEmpresa: '',
+    cidadeEmpresa: '',
+    ufEmpresa: '',
   });
 
   const location = useLocation();
@@ -64,7 +69,7 @@ export default function Register() {
     }
   }, [location.state]);
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isCNPJ, setIsCNPJ] = useState(true);
 
@@ -72,7 +77,7 @@ export default function Register() {
 
   const fetchAddressByCep = async (cep, isCompany = false) => {
     try {
-      const cleanCep = cep.replace(/\D/g, "");
+      const cleanCep = cep.replace(/\D/g, '');
       if (cleanCep.length !== 8) return;
 
       const res = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
@@ -82,82 +87,94 @@ export default function Register() {
 
       setFormData((prev) => ({
         ...prev,
-        [isCompany ? "ruaEmpresa" : "rua"]: data.logradouro || "",
-        [isCompany ? "bairroEmpresa" : "bairro"]: data.bairro || "",
-        [isCompany ? "cidadeEmpresa" : "cidade"]: data.localidade || "",
-        [isCompany ? "ufEmpresa" : "uf"]: data.uf || "",
+        [isCompany ? 'ruaEmpresa' : 'rua']: data.logradouro || '',
+        [isCompany ? 'bairroEmpresa' : 'bairro']: data.bairro || '',
+        [isCompany ? 'cidadeEmpresa' : 'cidade']: data.localidade || '',
+        [isCompany ? 'ufEmpresa' : 'uf']: data.uf || '',
       }));
     } catch (error) {
-      console.error("Erro ao buscar CEP:", error);
+      console.error('Erro ao buscar CEP:', error);
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let maskedValue = value;
+
+    // Aplicar máscaras
+    if (name === 'telefone' || name === 'telefoneEmpresa') {
+      maskedValue = applyPhoneMask(value);
+    } else if (name === 'cpf') {
+      maskedValue = applyCPFMask(value);
+    } else if (name === 'cnpj') {
+      maskedValue = applyCNPJMask(value);
+    } else if (name === 'cep' || name === 'cepEmpresa') {
+      maskedValue = applyCEPMask(value);
+    }
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: maskedValue,
     }));
 
-    if (error) setError("");
+    if (error) setError('');
 
-    if (name === "cpf") {
-      const digits = value.replace(/\D/g, "");
+    if (name === 'cpf') {
+      const digits = maskedValue.replace(/\D/g, '');
 
       if (digits.length === 11) {
         if (!isValidCPF(digits)) {
-          setCpfError("CPF inválido.");
+          setCpfError('CPF inválido.');
         } else {
-          setCpfError("");
+          setCpfError('');
         }
       } else {
-        setCpfError("Informe os 11 dígitos do CPF.");
+        setCpfError('Informe os 11 dígitos do CPF.');
       }
     }
 
-    if (name === "cnpj") {
-      const digits = value.replace(/\D/g, "");
+    if (name === 'cnpj') {
+      const digits = maskedValue.replace(/\D/g, '');
 
       if (digits.length === 14) {
         if (!isValidCNPJ(digits)) {
-          setCnpjError("CNPJ inválido.");
+          setCnpjError('CNPJ inválido.');
         } else {
-          setCnpjError("");
+          setCnpjError('');
         }
       } else {
-        setCnpjError("Informe os 14 dígitos do CNPJ.");
+        setCnpjError('Informe os 14 dígitos do CNPJ.');
       }
     }
 
-    if (name === "cep" && value.replace(/\D/g, "").length === 8) {
-      fetchAddressByCep(value);
+    if (name === 'cep' && maskedValue.replace(/\D/g, '').length === 8) {
+      fetchAddressByCep(maskedValue);
     }
 
-    if (name === "cepEmpresa" && value.replace(/\D/g, "").length === 8) {
-      fetchAddressByCep(value, true);
+    if (name === 'cepEmpresa' && maskedValue.replace(/\D/g, '').length === 8) {
+      fetchAddressByCep(maskedValue, true);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
+    setError('');
 
     if (formData.password !== formData.confirmPassword) {
-      setError("As senhas não coincidem.");
+      setError('As senhas não coincidem.');
       setIsLoading(false);
       return;
     }
 
     if (formData.password.length < 6) {
-      setError("A senha deve ter no mínimo 6 caracteres.");
+      setError('A senha deve ter no mínimo 6 caracteres.');
       setIsLoading(false);
       return;
     }
 
     if (!formData.primeiroNome || !formData.sobrenome || !formData.email) {
-      setError("Preencha todos os campos obrigatórios.");
+      setError('Preencha todos os campos obrigatórios.');
       setIsLoading(false);
       return;
     }
@@ -200,20 +217,22 @@ export default function Register() {
 
       const res = register(userData);
       if (res.ok) {
-        navigate("/login", { state: { email: userData.email, avatar: userData.avatar } });
+        navigate('/login', {
+          state: { email: userData.email, avatar: userData.avatar },
+        });
       } else {
         setError(res.error);
       }
     } catch (err) {
       console.error(err);
-      setError("Erro inesperado. Tente novamente.");
+      setError('Erro inesperado. Tente novamente.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const [cpfError, setCpfError] = useState("");
-  const [cnpjError, setCnpjError] = useState("");
+  const [cpfError, setCpfError] = useState('');
+  const [cnpjError, setCnpjError] = useState('');
 
   return (
     <section className="register-center">
@@ -225,7 +244,7 @@ export default function Register() {
               ref={fileInputRef}
               accept="image/*"
               onChange={handleAvatarChange}
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
             />
             <figure className="avatar-figure">
               <button
@@ -260,7 +279,7 @@ export default function Register() {
         <form
           className="register-form"
           onSubmit={handleSubmit}
-          style={{ display: "grid", gap: 12 }}
+          style={{ display: 'grid', gap: 12 }}
         >
           <div className="form-row">
             <div className="form-column">
@@ -335,7 +354,7 @@ export default function Register() {
                 <input
                   type="text"
                   name="telefone"
-                  placeholder="(00) 0 00000-0000"
+                  placeholder="(00) 0 0000-0000"
                   value={formData.telefone}
                   onChange={handleChange}
                   disabled={isLoading}
@@ -495,7 +514,7 @@ export default function Register() {
                   <input
                     type="text"
                     name="telefoneEmpresa"
-                    placeholder="(00) 0 00000-0000"
+                    placeholder="(00) 0 0000-0000"
                     value={formData.telefoneEmpresa}
                     onChange={handleChange}
                     disabled={isLoading}
@@ -630,7 +649,7 @@ export default function Register() {
           <div className="form-row">
             <div className="form-column">
               <button type="submit" disabled={isLoading}>
-                {isLoading ? "Criando conta..." : "Registrar"}
+                {isLoading ? 'Criando conta...' : 'Registrar'}
               </button>
             </div>
           </div>
