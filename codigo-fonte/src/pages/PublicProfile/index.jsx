@@ -7,8 +7,12 @@ export default function PublicProfile() {
   const [data, setData] = useState(null);
   const [notFound, setNotFound] = useState(false);
 
-  const [activeGallery, setActiveGallery] = useState(null);
+  // carrossel global (todas as fotos de todas as galerias)
+  const [allPhotos, setAllPhotos] = useState([]);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+
+  // modal da galeria clicada
+  const [modalGallery, setModalGallery] = useState(null);
 
   // Carrega snapshot salvo no localStorage
   useEffect(() => {
@@ -23,26 +27,32 @@ export default function PublicProfile() {
       }
       const parsed = JSON.parse(raw);
       setData(parsed);
+      setNotFound(false);
     } catch (err) {
       console.error("Erro lendo perfil público:", err);
       setNotFound(true);
     }
   }, [slug]);
 
-  // Define galeria ativa inicial (primeira com fotos)
+  // Monta lista com TODAS as fotos de TODAS as galerias
   useEffect(() => {
-    if (!data) return;
-    const galleries = data.galleries || [];
-    const firstWithPhotos = galleries.find(
-      (g) => g.photos && g.photos.length > 0
-    );
-    if (firstWithPhotos) {
-      setActiveGallery(firstWithPhotos);
+    if (!data) {
+      setAllPhotos([]);
       setActivePhotoIndex(0);
-    } else {
-      setActiveGallery(null);
-      setActivePhotoIndex(0);
+      return;
     }
+
+    const galleries = data.galleries || [];
+    const flat = galleries.flatMap((g) =>
+      (g.photos || []).map((p) => ({
+        ...p,
+        galleryId: g.id,
+        galleryName: g.name,
+      }))
+    );
+
+    setAllPhotos(flat);
+    setActivePhotoIndex(0);
   }, [data]);
 
   if (notFound) {
@@ -74,67 +84,53 @@ export default function PublicProfile() {
   const { profile, galleries = [] } = data || {};
   const services = profile?.services || [];
 
-  const currentPhotos = activeGallery?.photos || [];
   const currentPhoto =
-    currentPhotos && currentPhotos.length > 0
-      ? currentPhotos[activePhotoIndex]
-      : null;
+    allPhotos.length > 0 ? allPhotos[activePhotoIndex] : null;
 
   const visibleGalleries = galleries.slice(0, 8); // 4 colunas x 2 linhas
 
-  // Navegação do carrossel
+  // Navegação do carrossel (todas as fotos)
   const handleNextPhoto = () => {
-    if (!currentPhotos.length) return;
-    setActivePhotoIndex((prev) => (prev + 1) % currentPhotos.length);
+    if (!allPhotos.length) return;
+    setActivePhotoIndex((prev) => (prev + 1) % allPhotos.length);
   };
 
   const handlePrevPhoto = () => {
-    if (!currentPhotos.length) return;
+    if (!allPhotos.length) return;
     setActivePhotoIndex(
-      (prev) => (prev - 1 + currentPhotos.length) % currentPhotos.length
+      (prev) => (prev - 1 + allPhotos.length) % allPhotos.length
     );
   };
 
-  // Clicar em uma galeria -> atualizar carrossel pra fotos dela
-  const handleSelectGallery = (gallery) => {
+  // Clicar em uma galeria -> abre modal com fotos dessa galeria
+  const handleOpenGalleryModal = (gallery) => {
     if (!gallery || !gallery.photos || gallery.photos.length === 0) return;
-    setActiveGallery(gallery);
-    setActivePhotoIndex(0);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setModalGallery(gallery);
+  };
+
+  const handleCloseGalleryModal = () => {
+    setModalGallery(null);
   };
 
   // Botões "Quero um orçamento" / "Contratar"
   const handleRequestQuote = () => {
-    const defaultMessage =
-      "Olá, vi seu portfólio no Photograpp e gostaria de um orçamento.";
-
-    if (profile?.whatsapp) {
-      const phone = profile.whatsapp.replace(/\D/g, "").trim();
-      const text = encodeURIComponent(defaultMessage);
-      window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
-      return;
-    }
-
-    if (profile?.email) {
-      const subject = encodeURIComponent("Pedido de orçamento");
-      const body = encodeURIComponent(defaultMessage);
-      window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
-      return;
-    }
-
-    alert("Informações de contato não disponíveis para orçamento.");
+    alert(
+      "Funcionalidade de contato em desenvolvimento.\n\n" +
+        "Em breve você poderá solicitar um orçamento por aqui. 😊\n\n" +
+        "No aguardo!"
+    );
   };
 
   return (
     <main className="public-profile-page">
-      {/* ================= HERO / CARROSSEL ================= */}
+      {/* ================= HERO / CARROSSEL (FULL WIDTH) ================= */}
       <section className="public-profile-hero">
         <div className="public-profile-hero-inner">
           <div className="public-profile-hero-media">
             {currentPhoto ? (
               <img
                 src={currentPhoto.url || currentPhoto.coverUrl}
-                alt={activeGallery?.name || "Foto do portfólio"}
+                alt={currentPhoto.galleryName || "Foto do portfólio"}
               />
             ) : (
               <div className="public-profile-hero-placeholder">
@@ -142,7 +138,7 @@ export default function PublicProfile() {
               </div>
             )}
 
-            {/* Overlay com título + botão (igual à referência) */}
+            {/* Overlay com título + botão */}
             <div className="public-profile-hero-overlay">
               <h2>Transformando sonhos em imagens</h2>
               <button
@@ -155,7 +151,7 @@ export default function PublicProfile() {
             </div>
 
             {/* Navegação do carrossel (se tiver mais de uma foto) */}
-            {currentPhotos.length > 1 && (
+            {allPhotos.length > 1 && (
               <>
                 <button
                   type="button"
@@ -209,7 +205,7 @@ export default function PublicProfile() {
             <article
               key={gallery.id}
               className="public-profile-gallery-card"
-              onClick={() => handleSelectGallery(gallery)}
+              onClick={() => handleOpenGalleryModal(gallery)}
             >
               {gallery.coverUrl && (
                 <div className="public-profile-gallery-cover">
@@ -266,6 +262,42 @@ export default function PublicProfile() {
             </button>
           </div>
         </section>
+      )}
+
+      {/* ================= MODAL DE GALERIA ================= */}
+      {modalGallery && (
+        <div
+          className="public-profile-modal-overlay"
+          onClick={handleCloseGalleryModal}
+        >
+          <div
+            className="public-profile-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <header className="public-profile-modal-header">
+              <h3>{modalGallery.name}</h3>
+              <button
+                type="button"
+                className="public-profile-modal-close"
+                onClick={handleCloseGalleryModal}
+                aria-label="Fechar galeria"
+              >
+                ×
+              </button>
+            </header>
+
+            <div className="public-profile-modal-grid">
+              {(modalGallery.photos || []).map((photo) => (
+                <div
+                  key={photo.id}
+                  className="public-profile-modal-photo"
+                >
+                  <img src={photo.url} alt={modalGallery.name} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );

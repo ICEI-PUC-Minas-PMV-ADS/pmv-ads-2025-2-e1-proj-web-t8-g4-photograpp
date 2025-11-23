@@ -27,8 +27,9 @@
 }
 
 .public-profile-hero-inner {
-  max-width: 1100px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;      /* não limita mais a 1100px */
+  margin: 0;
 }
 
 .public-profile-hero-media {
@@ -39,6 +40,7 @@
   max-height: 520px;
   overflow: hidden;
 }
+
 
 .public-profile-hero-media img {
   width: 100%;
@@ -315,4 +317,102 @@
   .public-profile-section-head h2 {
     font-size: 1.2rem;
   }
+}
+
+
+/* ================= MODAL GALERIA ================= */
+
+.public-profile-hero-overlay {
+  position: absolute;
+  left: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(15, 23, 42, 0.85);
+  padding: 18px 22px;
+  border-radius: 14px;
+  max-width: 360px;
+  z-index: 2;                 /* overlay acima da imagem */
+}
+
+.public-profile-carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;                 /* botões acima do overlay */
+}
+/* =============== MODAL DE GALERIA (PÚBLICA) =============== */
+
+.public-profile-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.public-profile-modal {
+  background: var(--bg);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  max-width: 960px;
+  width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.public-profile-modal-header {
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.public-profile-modal-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.public-profile-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.public-profile-modal-close:hover {
+  color: var(--text);
+}
+
+.public-profile-modal-grid {
+  padding: 14px 16px 16px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.public-profile-modal-photo img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--line);
 }
