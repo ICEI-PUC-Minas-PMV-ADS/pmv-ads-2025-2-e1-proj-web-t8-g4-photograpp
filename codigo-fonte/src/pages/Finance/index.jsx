@@ -77,7 +77,7 @@ export default function Finance() {
   };
 
   const filteredEntries = entries.filter((entry) => {
-    const d = new Date(entry.date);
+    const d = new Date(entry.date + "T00:00:00");
     return (
       d.getMonth() + 1 === selectedMonth && d.getFullYear() === selectedYear
     );
@@ -88,7 +88,7 @@ export default function Finance() {
     const previousYear = selectedMonth === 1 ? selectedYear - 1 : selectedYear;
 
     const entriesPreviousMonth = entries.filter((entry) => {
-      const d = new Date(entry.date);
+      const d = new Date(entry.date + "T00:00:00"); 
       return (
         d.getMonth() + 1 === previousMonth && d.getFullYear() === previousYear
       );
@@ -105,7 +105,6 @@ export default function Finance() {
 
     return saldo;
   }
-
   const saldoAnterior = getSaldoAnterior();
 
   // Totais gerais (todos os meses)
@@ -160,19 +159,23 @@ export default function Finance() {
           onEdit={(updatedEntry) => {
             const updatedList = entries.map((e, i) =>
               i === editIdx
-                ? { ...updatedEntry, value: Number(updatedEntry.value) }
+                ? {
+                    ...updatedEntry,
+                    value: Number(updatedEntry.value),
+                    id: e.id,
+                  }
                 : e
             );
 
             updatedList.sort(
               (a, b) =>
-                new Date(String(a.date)).getTime() -
-                new Date(String(b.date)).getTime()
+                new Date(String(a.date) + "T00:00:00").getTime() -
+                new Date(String(b.date) + "T00:00:00").getTime()
             );
 
             setEntries(updatedList);
             setEditIdx(null);
-            setTimeout(() => setModalOpen(false), 0);
+            setModalOpen(false);
           }}
         />
       )}
@@ -275,7 +278,9 @@ export default function Finance() {
                     <tr key={entry.id}>
                       <td>
                         {entry.date
-                          ? new Date(entry.date).toLocaleDateString("pt-BR")
+                          ? new Date(
+                              entry.date + "T00:00:00"
+                            ).toLocaleDateString("pt-BR")
                           : ""}
                       </td>
                       <td>{entry.description}</td>
