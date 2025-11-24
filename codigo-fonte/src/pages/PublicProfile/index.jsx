@@ -7,14 +7,14 @@ export default function PublicProfile() {
   const [data, setData] = useState(null);
   const [notFound, setNotFound] = useState(false);
 
-  // carrossel global (todas as fotos de todas as galerias)
+  
   const [allPhotos, setAllPhotos] = useState([]);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
 
-  // modal da galeria clicada
+  
   const [modalGallery, setModalGallery] = useState(null);
 
-  // Carrega snapshot salvo no localStorage
+  
   useEffect(() => {
     if (!slug) return;
     const key = `public_profile_${slug}`;
@@ -34,7 +34,7 @@ export default function PublicProfile() {
     }
   }, [slug]);
 
-  // Monta lista com TODAS as fotos de TODAS as galerias
+  
   useEffect(() => {
     if (!data) {
       setAllPhotos([]);
@@ -87,9 +87,9 @@ export default function PublicProfile() {
   const currentPhoto =
     allPhotos.length > 0 ? allPhotos[activePhotoIndex] : null;
 
-  const visibleGalleries = galleries.slice(0, 8); // 4 colunas x 2 linhas
+  const visibleGalleries = galleries.slice(0, 8); 
 
-  // Navegação do carrossel (todas as fotos)
+  
   const handleNextPhoto = () => {
     if (!allPhotos.length) return;
     setActivePhotoIndex((prev) => (prev + 1) % allPhotos.length);
@@ -102,7 +102,7 @@ export default function PublicProfile() {
     );
   };
 
-  // Clicar em uma galeria -> abre modal com fotos dessa galeria
+  
   const handleOpenGalleryModal = (gallery) => {
     if (!gallery || !gallery.photos || gallery.photos.length === 0) return;
     setModalGallery(gallery);
@@ -112,7 +112,7 @@ export default function PublicProfile() {
     setModalGallery(null);
   };
 
-  // Botões "Quero um orçamento" / "Contratar"
+  
   const handleRequestQuote = () => {
     alert(
       "Funcionalidade de contato em desenvolvimento.\n\n" +

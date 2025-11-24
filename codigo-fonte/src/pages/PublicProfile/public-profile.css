@@ -1,6 +1,4 @@
 :root {
-  /* fallback caso as vars globais não existam */
-  --bg: #020617;
   --card: #0b1924;
   --line: #1f2937;
   --text: #f9fafb;
@@ -8,44 +6,47 @@
   --brand: #facc15;
 }
 
-/* Container geral */
 .public-profile-page {
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
   padding-bottom: 3rem;
+  overflow-x: hidden;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0;
 }
-
-/* ================= HERO / CARROSSEL ================= */
 
 .public-profile-hero {
   position: relative;
-  width: 100vw;            /* ocupa largura total */
-  margin-left: 50%;
-  transform: translateX(-50%);
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
   background: #000;
+  padding: 0;
 }
 
 .public-profile-hero-inner {
   width: 100%;
-  max-width: 100%;      /* não limita mais a 1100px */
+  max-width: 100%;
   margin: 0;
+  padding: 0;
 }
 
 .public-profile-hero-media {
   position: relative;
   width: 100%;
-  height: 60vh;
-  min-height: 260px;
-  max-height: 520px;
+  height: 70vh;
+  min-height: 600px;
+  max-height: 700px;
   overflow: hidden;
 }
-
 
 .public-profile-hero-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 30%;
 }
 
 .public-profile-hero-placeholder {
@@ -58,7 +59,6 @@
   font-size: 1rem;
 }
 
-/* Overlay com texto + botão (lado esquerdo) */
 .public-profile-hero-overlay {
   position: absolute;
   left: 8%;
@@ -68,6 +68,7 @@
   padding: 18px 22px;
   border-radius: 14px;
   max-width: 360px;
+  z-index: 2;
 }
 
 .public-profile-hero-overlay h2 {
@@ -91,7 +92,6 @@
   filter: brightness(1.05);
 }
 
-/* Navegação do carrossel */
 .public-profile-carousel-nav {
   position: absolute;
   top: 50%;
@@ -107,6 +107,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 3;
 }
 
 .public-profile-carousel-nav.prev {
@@ -121,8 +122,6 @@
   background: rgba(0, 0, 0, 0.65);
 }
 
-/* ================= DESCRIÇÃO ================= */
-
 .public-profile-about {
   max-width: 900px;
   margin: 32px auto 40px;
@@ -133,8 +132,6 @@
   line-height: 1.6;
 }
 
-/* ================= SEÇÕES COMUNS ================= */
-
 .public-profile-section-head {
   text-align: center;
   margin-bottom: 16px;
@@ -144,8 +141,6 @@
   margin: 0;
   font-size: 1.4rem;
 }
-
-/* ================= GALERIAS (trabalhos recentes) ================= */
 
 .public-profile-recent {
   max-width: 1100px;
@@ -193,8 +188,6 @@
   font-size: 0.9rem;
 }
 
-/* ================= CTA "QUERO UM ORÇAMENTO" ================= */
-
 .public-profile-quote-section {
   text-align: center;
   margin: 24px 0 32px;
@@ -220,8 +213,6 @@
   color: var(--brand);
   border: 1px solid var(--brand);
 }
-
-/* ================= SERVIÇOS ================= */
 
 .public-profile-services {
   max-width: 1100px;
@@ -259,8 +250,6 @@
   text-align: center;
 }
 
-/* ================= ESTADOS ESPECIAIS ================= */
-
 .public-profile-notfound {
   padding: 4rem 1.5rem 2rem;
 }
@@ -274,84 +263,6 @@
   font-size: 0.9rem;
   opacity: 0.8;
 }
-
-/* ================= RESPONSIVIDADE ================= */
-
-@media (max-width: 1024px) {
-  .public-profile-hero-media {
-    height: 50vh;
-  }
-
-  .public-profile-gallery-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .public-profile-hero-media {
-    height: 46vh;
-  }
-
-  .public-profile-hero-overlay {
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 80%;
-    text-align: center;
-  }
-
-  .public-profile-gallery-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .public-profile-hero-media {
-    height: 42vh;
-    min-height: 220px;
-  }
-
-  .public-profile-gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .public-profile-section-head h2 {
-    font-size: 1.2rem;
-  }
-}
-
-
-/* ================= MODAL GALERIA ================= */
-
-.public-profile-hero-overlay {
-  position: absolute;
-  left: 8%;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(15, 23, 42, 0.85);
-  padding: 18px 22px;
-  border-radius: 14px;
-  max-width: 360px;
-  z-index: 2;                 /* overlay acima da imagem */
-}
-
-.public-profile-carousel-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: none;
-  background: rgba(0, 0, 0, 0.45);
-  color: #fff;
-  font-size: 1.6rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;                 /* botões acima do overlay */
-}
-/* =============== MODAL DE GALERIA (PÚBLICA) =============== */
 
 .public-profile-modal-overlay {
   position: fixed;
@@ -415,4 +326,48 @@
   object-fit: cover;
   border-radius: 10px;
   border: 1px solid var(--line);
+}
+
+@media (max-width: 1024px) {
+  .public-profile-hero-media {
+    height: 60vh;
+    min-height: 350px;
+  }
+
+  .public-profile-gallery-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .public-profile-hero-media {
+    height: 50vh;
+    min-height: 300px;
+  }
+
+  .public-profile-hero-overlay {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
+    text-align: center;
+  }
+
+  .public-profile-gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .public-profile-hero-media {
+    height: 45vh;
+    min-height: 250px;
+  }
+
+  .public-profile-gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .public-profile-section-head h2 {
+    font-size: 1.2rem;
+  }
 }
