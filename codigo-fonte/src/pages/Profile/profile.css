@@ -359,14 +359,6 @@
   }
 }
 
-.thumb {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative; /* 👈 necessário pro botão absoluto */
-}
-
 .thumb-delete-btn {
   position: absolute;
   top: 6px;
@@ -476,7 +468,6 @@
   color: var(--danger, #e53935);
 }
 
-/* Responsivo */
 @media (max-width: 768px) {
   .services__form {
     grid-template-columns: 1fr;

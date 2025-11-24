@@ -1,13 +1,13 @@
-// @ts-nocheck
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumb';
+import { useAuth } from '../../contexts/AuthContext';
 import { statesList } from '../../utils/constants/statesList';
 import GalleryViewModal from './components/GalleryViewModal';
 import NewGalleryModal from './components/NewGalleryModal';
 import { useGalleries } from './hooks/useGalleries';
 import { useProfile } from './hooks/useProfile';
 import './profile.css';
-import { useNavigate } from 'react-router-dom';
 
 function slugify(str) {
   return (str || 'perfil')
@@ -20,80 +20,18 @@ function slugify(str) {
     .replace(/-+/g, '-');
 }
 
-function formatBRL(value) {
-  const digits = value.replace(/\D/g, '');
-  if (!digits) return '';
-  const number = Number(digits) / 100;
-  return number.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  });
-}
-
 export default function Profile() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { formData, logo, handleChange, handleSubmit, handleLogoChange } =
     useProfile();
-  const { galleries, addGallery, isInitialized, deleteGallery } = useGalleries();
+  const { galleries, addGallery, isInitialized, deleteGallery } =
+    useGalleries();
 
   const [showNewGalleryModal, setShowNewGalleryModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedGallery, setSelectedGallery] = useState(null);
 
-  // ============ SERVIÇOS ============
-  const [serviceName, setServiceName] = useState('');
-  const [servicePrice, setServicePrice] = useState('');
-  const [services, setServices] = useState(() => {
-    try {
-      const raw = localStorage.getItem('profile_services');
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  });
-
-  useEffect(() => {
-    localStorage.setItem('profile_services', JSON.stringify(services));
-  }, [services]);
-
-  const handleAddService = (e) => {
-    e.preventDefault();
-    const name = serviceName.trim();
-    const price = servicePrice.trim();
-
-    if (!name || !price) {
-      alert('Preencha o nome do serviço e o valor 🙂');
-      return;
-    }
-
-    const id =
-      (window.crypto && crypto.randomUUID && crypto.randomUUID()) ||
-      `${Date.now()}-${Math.random()}`;
-
-    setServices((prev) => [
-      ...prev,
-      {
-        id,
-        name,
-        price,
-      },
-    ]);
-
-    setServiceName('');
-    setServicePrice('');
-  };
-
-  const handleRemoveService = (id) => {
-    setServices((prev) => prev.filter((s) => s.id !== id));
-  };
-
-  const handleServicePriceChange = (e) => {
-    const raw = e.target.value;
-    const formatted = formatBRL(raw);
-    setServicePrice(formatted);
-  };
-
-  // ============ GALERIAS ============
   const handleGalleryClick = (gallery) => {
     setSelectedGallery(gallery);
     setShowViewModal(true);
@@ -115,7 +53,6 @@ export default function Profile() {
     }
   };
 
-  // ============ PÁGINA PÚBLICA ============
   const handleGoToPublicPage = () => {
     const slug = slugify(
       formData.nomePublico || formData.urlPagina || 'perfil'
@@ -123,6 +60,7 @@ export default function Profile() {
 
     const publicData = {
       profile: {
+        userId: user?.id,
         publicName: formData.nomePublico,
         pageUrl: formData.urlPagina,
         email: formData.email,
@@ -137,8 +75,6 @@ export default function Profile() {
         uf: formData.uf,
         bio: formData.biografia,
         logo: typeof logo === 'string' ? logo : null,
-        // 👇 agora vindo do state de serviços
-        services,
       },
       galleries: galleries.map((g) => ({
         id: g.id,
@@ -150,6 +86,9 @@ export default function Profile() {
         })),
       })),
     };
+
+    console.log('Salvando perfil público com userId:', user?.id);
+    console.log('Dados públicos:', publicData);
 
     localStorage.setItem(`public_profile_${slug}`, JSON.stringify(publicData));
     navigate(`/${slug}`);
@@ -186,13 +125,8 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* ========== FORM PERFIL ========== */}
       <section className="profile-form">
-        <form
-          className="form-grid"
-          onSubmit={handleSubmit}
-          id="profile-form"
-        >
+        <form className="form-grid" onSubmit={handleSubmit} id="profile-form">
           <div className="field span-2">
             <label>Nome público da empresa:</label>
             <input
@@ -225,9 +159,7 @@ export default function Profile() {
                   className="logo-preview"
                 />
               ) : (
-                <span className="logo-hint">
-                  Arraste ou clique para enviar
-                </span>
+                <span className="logo-hint">Arraste ou clique para enviar</span>
               )}
             </label>
             <input
@@ -360,70 +292,6 @@ export default function Profile() {
         </form>
       </section>
 
-      {/* ========== SERVIÇOS ========== */}
-      <section className="services">
-        <div className="services__head">
-          <h2>Serviços oferecidos</h2>
-          <p>Cadastre seus pacotes e valores de referência.</p>
-        </div>
-
-        <form className="services__form" onSubmit={handleAddService}>
-          <div className="field">
-            <label>Nome do serviço</label>
-            <input
-              type="text"
-              placeholder="Ex: Ensaio gestante"
-              value={serviceName}
-              onChange={(e) => setServiceName(e.target.value)}
-            />
-          </div>
-          <div className="field">
-            <label>Valor</label>
-            <input
-              type="text"
-              placeholder="Ex: R$ 400"
-              value={servicePrice}
-              onChange={handleServicePriceChange}
-            />
-          </div>
-          <div className="field services__button-wrap">
-            <button type="submit" className="btn btn-primary">
-              Adicionar serviço
-            </button>
-          </div>
-        </form>
-
-        <div className="services__list">
-          {services.length === 0 && (
-            <p className="services__empty">
-              Nenhum serviço cadastrado ainda.
-            </p>
-          )}
-
-          {services.map((service) => (
-            <div key={service.id} className="services__item">
-              <div className="services__item-main">
-                <div className="services__item-name">{service.name}</div>
-                {service.price && (
-                  <div className="services__item-price">
-                    A partir de {service.price}
-                  </div>
-                )}
-              </div>
-              <button
-                type="button"
-                className="btn-ghost services__remove-btn"
-                onClick={() => handleRemoveService(service.id)}
-                aria-label="Remover serviço"
-              >
-                ×
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ========== PORTFÓLIO ========== */}
       <section className="portfolio">
         <div className="portfolio__head">
           <div>

@@ -1,20 +1,15 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import "./public-profile.css";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import './public-profile.css';
 
 export default function PublicProfile() {
   const { slug } = useParams();
   const [data, setData] = useState(null);
   const [notFound, setNotFound] = useState(false);
-
-  
   const [allPhotos, setAllPhotos] = useState([]);
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
-
-  
   const [modalGallery, setModalGallery] = useState(null);
 
-  
   useEffect(() => {
     if (!slug) return;
     const key = `public_profile_${slug}`;
@@ -26,15 +21,50 @@ export default function PublicProfile() {
         return;
       }
       const parsed = JSON.parse(raw);
+
+      console.log('Dados do perfil:', parsed);
+
+      let userId = parsed.profile?.userId;
+
+      if (!userId) {
+        const allKeys = Object.keys(localStorage);
+        const serviceKeys = allKeys.filter((k) => k.startsWith('services_'));
+        console.log('Chaves de serviços encontradas:', serviceKeys);
+
+        if (serviceKeys.length > 0) {
+          const firstServiceKey = serviceKeys[0];
+          userId = firstServiceKey.replace('services_', '');
+          console.log('Usando userId:', userId);
+        }
+      }
+
+      if (userId) {
+        const servicesKey = `services_${userId}`;
+        console.log('Procurando serviços em:', servicesKey);
+        const servicesRaw = localStorage.getItem(servicesKey);
+        console.log('Serviços encontrados:', servicesRaw);
+
+        if (servicesRaw) {
+          const services = JSON.parse(servicesRaw);
+          console.log('Serviços parseados:', services);
+          parsed.profile.services = services;
+        } else {
+          console.log('Nenhum serviço encontrado no localStorage');
+          parsed.profile.services = [];
+        }
+      } else {
+        console.log('userId não encontrado');
+        parsed.profile.services = [];
+      }
+
       setData(parsed);
       setNotFound(false);
     } catch (err) {
-      console.error("Erro lendo perfil público:", err);
+      console.error('Erro lendo perfil público:', err);
       setNotFound(true);
     }
   }, [slug]);
 
-  
   useEffect(() => {
     if (!data) {
       setAllPhotos([]);
@@ -83,13 +113,12 @@ export default function PublicProfile() {
 
   const { profile, galleries = [] } = data || {};
   const services = profile?.services || [];
-
   const currentPhoto =
     allPhotos.length > 0 ? allPhotos[activePhotoIndex] : null;
+  const visibleGalleries = galleries.slice(0, 8);
 
-  const visibleGalleries = galleries.slice(0, 8); 
+  console.log('Services a serem exibidos:', services);
 
-  
   const handleNextPhoto = () => {
     if (!allPhotos.length) return;
     setActivePhotoIndex((prev) => (prev + 1) % allPhotos.length);
@@ -102,7 +131,6 @@ export default function PublicProfile() {
     );
   };
 
-  
   const handleOpenGalleryModal = (gallery) => {
     if (!gallery || !gallery.photos || gallery.photos.length === 0) return;
     setModalGallery(gallery);
@@ -112,25 +140,23 @@ export default function PublicProfile() {
     setModalGallery(null);
   };
 
-  
   const handleRequestQuote = () => {
     alert(
-      "Funcionalidade de contato em desenvolvimento.\n\n" +
-        "Em breve você poderá solicitar um orçamento por aqui. 😊\n\n" +
-        "No aguardo!"
+      'Funcionalidade de contato em desenvolvimento.\n\n' +
+        'Em breve você poderá solicitar um orçamento por aqui. 😊\n\n' +
+        'No aguardo!'
     );
   };
 
   return (
     <main className="public-profile-page">
-      {/* ================= HERO / CARROSSEL (FULL WIDTH) ================= */}
       <section className="public-profile-hero">
         <div className="public-profile-hero-inner">
           <div className="public-profile-hero-media">
             {currentPhoto ? (
               <img
                 src={currentPhoto.url || currentPhoto.coverUrl}
-                alt={currentPhoto.galleryName || "Foto do portfólio"}
+                alt={currentPhoto.galleryName || 'Foto do portfólio'}
               />
             ) : (
               <div className="public-profile-hero-placeholder">
@@ -138,7 +164,6 @@ export default function PublicProfile() {
               </div>
             )}
 
-            {/* Overlay com título + botão */}
             <div className="public-profile-hero-overlay">
               <h2>Transformando sonhos em imagens</h2>
               <button
@@ -150,7 +175,6 @@ export default function PublicProfile() {
               </button>
             </div>
 
-            {/* Navegação do carrossel (se tiver mais de uma foto) */}
             {allPhotos.length > 1 && (
               <>
                 <button
@@ -175,7 +199,6 @@ export default function PublicProfile() {
         </div>
       </section>
 
-      {/* ================= DESCRIÇÃO ================= */}
       <section className="public-profile-about">
         {profile?.bio ? (
           <p>{profile.bio}</p>
@@ -188,7 +211,6 @@ export default function PublicProfile() {
         )}
       </section>
 
-      {/* ================= GALERIAS (4x2) ================= */}
       <section className="public-profile-recent">
         <header className="public-profile-section-head">
           <h2>Conheça nossos trabalhos recentes</h2>
@@ -218,7 +240,6 @@ export default function PublicProfile() {
         </div>
       </section>
 
-      {/* ================= CTA: QUERO UM ORÇAMENTO ================= */}
       <section className="public-profile-quote-section">
         <button
           type="button"
@@ -229,7 +250,6 @@ export default function PublicProfile() {
         </button>
       </section>
 
-      {/* ================= SERVIÇOS OFERECIDOS ================= */}
       {services.length > 0 && (
         <section className="public-profile-services">
           <header className="public-profile-section-head">
@@ -238,14 +258,16 @@ export default function PublicProfile() {
 
           <div className="public-profile-services-grid">
             {services.map((service) => (
-              <article
-                key={service.id}
-                className="public-profile-service-card"
-              >
-                <h3>{service.name}</h3>
-                {service.price && (
+              <article key={service.id} className="public-profile-service-card">
+                <h3>{service.titulo}</h3>
+                {service.preco && (
                   <p className="public-profile-service-price">
-                    A partir de {service.price}
+                    A partir de {service.preco}
+                  </p>
+                )}
+                {service.numeroFotos && (
+                  <p className="public-profile-service-info">
+                    {service.numeroFotos} fotos
                   </p>
                 )}
               </article>
@@ -264,7 +286,6 @@ export default function PublicProfile() {
         </section>
       )}
 
-      {/* ================= MODAL DE GALERIA ================= */}
       {modalGallery && (
         <div
           className="public-profile-modal-overlay"
@@ -288,10 +309,7 @@ export default function PublicProfile() {
 
             <div className="public-profile-modal-grid">
               {(modalGallery.photos || []).map((photo) => (
-                <div
-                  key={photo.id}
-                  className="public-profile-modal-photo"
-                >
+                <div key={photo.id} className="public-profile-modal-photo">
                   <img src={photo.url} alt={modalGallery.name} />
                 </div>
               ))}
