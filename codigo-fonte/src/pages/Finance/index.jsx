@@ -1,43 +1,43 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   FiChevronLeft,
   FiChevronRight,
   FiEdit,
   FiTrash2,
-} from 'react-icons/fi';
-import Breadcrumb from '../../components/Breadcrumb';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { financeMock } from '../../utils/mocks/financeMock';
-import FinanceForm from './financeForm';
-import './styles.css';
+} from "react-icons/fi";
+import Breadcrumb from "../../components/Breadcrumb";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { financeMock } from "../../utils/mocks/financeMock";
+import FinanceForm from "./financeForm";
+import "./styles.css";
 
 export default function Finance() {
   const [entries, setEntries, , isInitialized] = useLocalStorage(
-    'financeEntries',
+    "financeEntries",
     financeMock,
     true
   );
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalType, setModalType] = useState('entrada');
+  const [modalType, setModalType] = useState("entrada");
 
   const now = new Date();
   const [selectedMonth, setSelectedMonth] = useState(now.getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(now.getFullYear());
 
   const meses = [
-    'janeiro',
-    'fevereiro',
-    'março',
-    'abril',
-    'maio',
-    'junho',
-    'julho',
-    'agosto',
-    'setembro',
-    'outubro',
-    'novembro',
-    'dezembro',
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
   ];
 
   const monthLabel = `${meses[selectedMonth - 1]} de ${selectedYear}`;
@@ -61,7 +61,12 @@ export default function Finance() {
   }
 
   const addEntry = (entry) => {
-    const newList = [...entries, { ...entry, value: Number(entry.value) }];
+    const newEntry = {
+      ...entry,
+      value: Number(entry.value),
+      id: Date.now() + Math.random(), // Adiciona ID único
+    };
+    const newList = [...entries, newEntry];
 
     newList.sort(
       (a, b) =>
@@ -94,7 +99,7 @@ export default function Finance() {
     let saldo = 0;
     entriesPreviousMonth.forEach((e) => {
       const v = Number(e.value);
-      if (e.type === 'entrada') saldo += v;
+      if (e.type === "entrada") saldo += v;
       else saldo -= v;
     });
 
@@ -105,11 +110,11 @@ export default function Finance() {
 
   // Totais gerais (todos os meses)
   const totalEntradas = entries
-    .filter((e) => e.type === 'entrada')
+    .filter((e) => e.type === "entrada")
     .reduce((sum, e) => sum + Number(e.value || 0), 0);
 
   const totalSaidas = entries
-    .filter((e) => e.type === 'saida')
+    .filter((e) => e.type === "saida")
     .reduce((sum, e) => sum + Number(e.value || 0), 0);
 
   const totalEmCaixa = totalEntradas - totalSaidas;
@@ -134,7 +139,7 @@ export default function Finance() {
         <div>
           <button
             onClick={() => {
-              setModalType('entrada');
+              setModalType("entrada");
               setModalOpen(true);
             }}
           >
@@ -176,16 +181,16 @@ export default function Finance() {
         <div className="finance__card">
           <h2>Total em caixa</h2>
           <p>
-            R${' '}
-            {totalEmCaixa.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+            R${" "}
+            {totalEmCaixa.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </p>
         </div>
 
         <div className="finance__card">
           <h2>Total de entradas</h2>
           <p>
-            R${' '}
-            {totalEntradas.toLocaleString('pt-BR', {
+            R${" "}
+            {totalEntradas.toLocaleString("pt-BR", {
               minimumFractionDigits: 2,
             })}
           </p>
@@ -194,8 +199,8 @@ export default function Finance() {
         <div className="finance__card">
           <h2>Total de saídas</h2>
           <p>
-            R${' '}
-            {totalSaidas.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+            R${" "}
+            {totalSaidas.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </p>
         </div>
       </section>
@@ -229,7 +234,7 @@ export default function Finance() {
             <tr>
               <td>{`01/${String(selectedMonth).padStart(
                 2,
-                '0'
+                "0"
               )}/${selectedYear}`}</td>
               <td>
                 <strong>Saldo do mês anterior</strong>
@@ -237,8 +242,8 @@ export default function Finance() {
               <td>-</td>
               <td>-</td>
               <td>
-                R${' '}
-                {saldoAnterior.toLocaleString('pt-BR', {
+                R${" "}
+                {saldoAnterior.toLocaleString("pt-BR", {
                   minimumFractionDigits: 2,
                 })}
               </td>
@@ -247,7 +252,7 @@ export default function Finance() {
 
             {filteredEntries.length === 0 ? (
               <tr>
-                <td colSpan={6} style={{ textAlign: 'center' }}>
+                <td colSpan={6} style={{ textAlign: "center" }}>
                   Ainda não há registros para este mês.
                 </td>
               </tr>
@@ -255,40 +260,45 @@ export default function Finance() {
               (() => {
                 let saldoAcumulado = saldoAnterior;
 
-                return filteredEntries.map((entry, idx) => {
+                return filteredEntries.map((entry) => {
                   const valor = Number(entry.value) || 0;
 
-                  if (entry.type === 'entrada') saldoAcumulado += valor;
-                  else if (entry.type === 'saida') saldoAcumulado -= valor;
+                  if (entry.type === "entrada") saldoAcumulado += valor;
+                  else if (entry.type === "saida") saldoAcumulado -= valor;
+
+                  // Encontra o índice real no array completo usando o ID
+                  const originalIndex = entries.findIndex(
+                    (e) => e.id === entry.id
+                  );
 
                   return (
-                    <tr key={idx}>
+                    <tr key={entry.id}>
                       <td>
                         {entry.date
-                          ? new Date(entry.date).toLocaleDateString('pt-BR')
-                          : ''}
+                          ? new Date(entry.date).toLocaleDateString("pt-BR")
+                          : ""}
                       </td>
                       <td>{entry.description}</td>
 
                       <td>
-                        {entry.type === 'entrada'
-                          ? `R$ ${valor.toLocaleString('pt-BR', {
+                        {entry.type === "entrada"
+                          ? `R$ ${valor.toLocaleString("pt-BR", {
                               minimumFractionDigits: 2,
                             })}`
-                          : 'R$ 0,00'}
+                          : "R$ 0,00"}
                       </td>
 
                       <td>
-                        {entry.type === 'saida'
-                          ? `R$ ${valor.toLocaleString('pt-BR', {
+                        {entry.type === "saida"
+                          ? `R$ ${valor.toLocaleString("pt-BR", {
                               minimumFractionDigits: 2,
                             })}`
-                          : 'R$ 0,00'}
+                          : "R$ 0,00"}
                       </td>
 
                       <td>
-                        R${' '}
-                        {saldoAcumulado.toLocaleString('pt-BR', {
+                        R${" "}
+                        {saldoAcumulado.toLocaleString("pt-BR", {
                           minimumFractionDigits: 2,
                         })}
                       </td>
@@ -297,7 +307,7 @@ export default function Finance() {
                         <div className="action-buttons">
                           <button
                             className="action-button"
-                            onClick={() => deleteEntry(idx)}
+                            onClick={() => deleteEntry(originalIndex)}
                           >
                             <FiTrash2 title="Excluir" />
                           </button>
@@ -305,7 +315,7 @@ export default function Finance() {
                           <button
                             className="action-button"
                             onClick={() => {
-                              setEditIdx(idx);
+                              setEditIdx(originalIndex);
                               setModalType(entry.type);
                               setModalOpen(true);
                             }}
