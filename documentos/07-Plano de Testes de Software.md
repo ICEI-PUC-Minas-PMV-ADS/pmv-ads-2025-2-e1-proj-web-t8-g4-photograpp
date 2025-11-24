@@ -6,6 +6,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir.
 
 > Observação: Devido ao tamanho dos vídeos, eles foram enviados para o Google Drive em vez do GitHub.
 > Link com todos os vídeos dos casos de testes: https://drive.google.com/drive/folders/1CvbOU9Mq8w3N-AF7cix8ULLyajmVNOsj?usp=drive_link
+> Acesse a pasta respectiva de cada funcionalidade para ver a execução dos testes.
 
 ### Funcionalidade Cadastro
 
