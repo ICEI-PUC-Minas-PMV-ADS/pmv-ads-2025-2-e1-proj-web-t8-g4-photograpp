@@ -8,6 +8,22 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir.
 > Acesse a pasta respectiva de cada funcionalidade para ver a execução dos testes.
 > Link com todos os vídeos dos casos de testes: https://drive.google.com/drive/folders/1CvbOU9Mq8w3N-AF7cix8ULLyajmVNOsj?usp=drive_link
 
+> Acesse o site publicado em: https://photograpp.vercel.app/
+
+
+Foram desenvolvidas as funcionalidades:
+Cadastro (Desenvolvido por Ariana),
+Dashboard (Desenvolvido por Yago),
+Projetos (Desenvolvido por Dangeles),
+Pipeline (Desenvolvido por Dangeles),
+Clientes (Desenvolvido por Yuri),
+Agenda (Desenvolvido por Yago),
+Perfil Público (Desenvolvido por Gustavo),
+Galeria (Desenvolvido por Gustavo),
+Serviços (Desesenvolvido por Yuri),
+Financeiro (Desenvolvido por Ariana).
+
+Cada membro do grupo criou os testes e testou 2 funcionalidades de outros membros (ver tabelas):
 
 ### Funcionalidade Cadastro
 
