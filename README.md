@@ -36,7 +36,8 @@ O projeto consiste no desenvolvimento de um sistema web integrado para fotógraf
 
 # Hospedagem
 
-- O link da hospedagem estará disponível assim que o Github Pages for configurado.
+- O Photograpp está hospedado em: [https://photograpp.vercel.app/](https://photograpp.vercel.app/)
+
 
 # Código-Fonte
 
