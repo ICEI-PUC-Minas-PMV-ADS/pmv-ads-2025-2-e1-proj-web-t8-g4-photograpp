@@ -76,22 +76,25 @@ export default function Profile() {
         bio: formData.biografia,
         logo: typeof logo === 'string' ? logo : null,
       },
-      galleries: galleries.map((g) => ({
-        id: g.id,
-        name: g.name,
-        coverUrl: g.photos?.[0]?.url || '',
-        photos: (g.photos || []).map((p) => ({
-          id: p.id,
-          url: p.url,
-        })),
-      })),
+      galleryIds: galleries.map((g) => g.id),
     };
 
-    console.log('Salvando perfil público com userId:', user?.id);
-    console.log('Dados públicos:', publicData);
-
-    localStorage.setItem(`public_profile_${slug}`, JSON.stringify(publicData));
-    navigate(`/${slug}`);
+    try {
+      localStorage.setItem(
+        `public_profile_${slug}`,
+        JSON.stringify(publicData)
+      );
+      navigate(`/${slug}`);
+    } catch (error) {
+      if (error.name === 'QuotaExceededError') {
+        alert(
+          'Erro: Armazenamento local cheio. Tente remover algumas galerias ou fotos antigas.'
+        );
+      } else {
+        alert('Erro ao salvar perfil público: ' + error.message);
+      }
+      console.error('Erro ao salvar perfil público:', error);
+    }
   };
 
   if (!isInitialized) {

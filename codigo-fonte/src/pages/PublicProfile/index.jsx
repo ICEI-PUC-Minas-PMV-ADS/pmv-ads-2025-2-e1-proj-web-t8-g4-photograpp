@@ -21,41 +21,37 @@ export default function PublicProfile() {
         return;
       }
       const parsed = JSON.parse(raw);
-
-      console.log('Dados do perfil:', parsed);
-
-      let userId = parsed.profile?.userId;
+      const userId = parsed.profile?.userId;
 
       if (!userId) {
-        const allKeys = Object.keys(localStorage);
-        const serviceKeys = allKeys.filter((k) => k.startsWith('services_'));
-        console.log('Chaves de serviços encontradas:', serviceKeys);
-
-        if (serviceKeys.length > 0) {
-          const firstServiceKey = serviceKeys[0];
-          userId = firstServiceKey.replace('services_', '');
-          console.log('Usando userId:', userId);
-        }
+        console.error('userId não encontrado no perfil');
+        setNotFound(true);
+        return;
       }
 
-      if (userId) {
-        const servicesKey = `services_${userId}`;
-        console.log('Procurando serviços em:', servicesKey);
-        const servicesRaw = localStorage.getItem(servicesKey);
-        console.log('Serviços encontrados:', servicesRaw);
+      const servicesKey = `services_${userId}`;
+      const servicesRaw = localStorage.getItem(servicesKey);
+      const services = servicesRaw ? JSON.parse(servicesRaw) : [];
 
-        if (servicesRaw) {
-          const services = JSON.parse(servicesRaw);
-          console.log('Serviços parseados:', services);
-          parsed.profile.services = services;
-        } else {
-          console.log('Nenhum serviço encontrado no localStorage');
-          parsed.profile.services = [];
-        }
-      } else {
-        console.log('userId não encontrado');
-        parsed.profile.services = [];
-      }
+      const galleriesKey = `galleries_${userId}`;
+      const galleriesRaw = localStorage.getItem(galleriesKey);
+      const allGalleries = galleriesRaw ? JSON.parse(galleriesRaw) : [];
+
+      const galleryIds = parsed.galleryIds || [];
+      const galleries = allGalleries
+        .filter((g) => galleryIds.includes(g.id))
+        .map((g) => ({
+          id: g.id,
+          name: g.name,
+          coverUrl: g.photos?.[0]?.url || '',
+          photos: (g.photos || []).map((p) => ({
+            id: p.id,
+            url: p.url,
+          })),
+        }));
+
+      parsed.profile.services = services;
+      parsed.galleries = galleries;
 
       setData(parsed);
       setNotFound(false);
@@ -116,8 +112,6 @@ export default function PublicProfile() {
   const currentPhoto =
     allPhotos.length > 0 ? allPhotos[activePhotoIndex] : null;
   const visibleGalleries = galleries.slice(0, 8);
-
-  console.log('Services a serem exibidos:', services);
 
   const handleNextPhoto = () => {
     if (!allPhotos.length) return;
