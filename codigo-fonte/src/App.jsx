@@ -16,19 +16,20 @@ import Services from './pages/Services';
 import Tasks from './pages/Tasks';
 import PrivateRoute from './routes/PrivateRoute';
 import EmailChecker from './pages/email-checker';
+import PublicProfile from './pages/PublicProfile'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/:slug" element={<PublicProfile />} />
+
         <Route path="/" element={<Layout />}>
-          {/* Públicas */}
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="email-checker" element={<EmailChecker />} />
           <Route path="registrar" element={<Register />} />
 
-          {/* Privadas */}
           <Route element={<PrivateRoute />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="projetos" element={<Projects />} />

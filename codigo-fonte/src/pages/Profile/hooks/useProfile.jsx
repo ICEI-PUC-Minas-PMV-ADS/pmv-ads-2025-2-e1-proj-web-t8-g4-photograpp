@@ -107,43 +107,39 @@ export function useProfile() {
     if (formData.cep.replace(/\D/g, '').length === 8) {
       fetchAddressByCep(formData.cep);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData.cep]);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+
+    if (!user) {
+      alert('Usuário não encontrado. Faça login novamente.');
+      return;
+    }
 
     const users = JSON.parse(localStorage.getItem('users') || '[]');
     const userIndex = users.findIndex((u) => u.id === user.id);
 
-    if (userIndex !== -1) {
-      const updatedUser = {
-        ...users[userIndex],
-        biografia: formData.biografia,
-      };
+    let baseUser = userIndex !== -1 ? users[userIndex] : user;
 
-      if (updatedUser.empresa) {
-        updatedUser.empresa = {
-          ...updatedUser.empresa,
-          razaoSocial: formData.nomePublico,
-          email: formData.email,
-          telefone: formData.telefone,
-          logo: typeof logo === 'string' && logo.startsWith('data:')
+    const updatedUser = {
+      ...baseUser,
+      biografia: formData.biografia,
+    };
+
+    if (updatedUser.empresa) {
+      updatedUser.empresa = {
+        ...updatedUser.empresa,
+        razaoSocial: formData.nomePublico,
+        email: formData.email,
+        telefone: formData.telefone,
+        logo:
+          typeof logo === 'string' && logo.startsWith('data:')
             ? logo
             : updatedUser.empresa.logo || null,
-          endereco: {
-            cep: formData.cep,
-            rua: formData.rua,
-            numero: formData.numero,
-            complemento: formData.complemento,
-            bairro: formData.bairro,
-            cidade: formData.cidade,
-            uf: formData.uf,
-          },
-        };
-      } else {
-        updatedUser.telefone = formData.telefone;
-        updatedUser.endereco = {
+        endereco: {
           cep: formData.cep,
           rua: formData.rua,
           numero: formData.numero,
@@ -151,21 +147,73 @@ export function useProfile() {
           bairro: formData.bairro,
           cidade: formData.cidade,
           uf: formData.uf,
-        };
-      }
-
-      users[userIndex] = updatedUser;
-      localStorage.setItem('users', JSON.stringify(users));
-
-      const auth = JSON.parse(localStorage.getItem('auth') || '{}');
-      if (auth.user && auth.user.id === user.id) {
-        const { _, ...userWithoutPassword } = updatedUser;
-        auth.user = userWithoutPassword;
-        localStorage.setItem('auth', JSON.stringify(auth));
-      }
-
-      alert('Perfil atualizado com sucesso!');
+        },
+      };
+    } else {
+      updatedUser.telefone = formData.telefone;
+      updatedUser.endereco = {
+        cep: formData.cep,
+        rua: formData.rua,
+        numero: formData.numero,
+        complemento: formData.complemento,
+        bairro: formData.bairro,
+        cidade: formData.cidade,
+        uf: formData.uf,
+      };
     }
+
+    if (userIndex !== -1) {
+      users[userIndex] = updatedUser;
+    } else {
+      users.push(updatedUser);
+    }
+
+    localStorage.setItem('users', JSON.stringify(users));
+
+    const auth = JSON.parse(localStorage.getItem('auth') || '{}');
+    if (auth.user && auth.user.id === user.id) {
+      const { _, ...userWithoutPassword } = updatedUser;
+      auth.user = userWithoutPassword;
+      localStorage.setItem('auth', JSON.stringify(auth));
+    }
+
+    setFormData({
+      nomePublico: updatedUser.empresa?.razaoSocial || updatedUser.name || '',
+      urlPagina: updatedUser.empresa?.razaoSocial
+        ? updatedUser.empresa.razaoSocial.toLowerCase().replace(/\s+/g, '-')
+        : formData.urlPagina,
+      email: updatedUser.empresa?.email || updatedUser.email || '',
+      telefone: updatedUser.empresa?.telefone || updatedUser.telefone || '',
+      whatsapp: updatedUser.telefone || '',
+      cep:
+        updatedUser.empresa?.endereco?.cep || updatedUser.endereco?.cep || '',
+      rua:
+        updatedUser.empresa?.endereco?.rua || updatedUser.endereco?.rua || '',
+      numero:
+        updatedUser.empresa?.endereco?.numero ||
+        updatedUser.endereco?.numero ||
+        '',
+      complemento:
+        updatedUser.empresa?.endereco?.complemento ||
+        updatedUser.endereco?.complemento ||
+        '',
+      bairro:
+        updatedUser.empresa?.endereco?.bairro ||
+        updatedUser.endereco?.bairro ||
+        '',
+      cidade:
+        updatedUser.empresa?.endereco?.cidade ||
+        updatedUser.endereco?.cidade ||
+        '',
+      uf: updatedUser.empresa?.endereco?.uf || updatedUser.endereco?.uf || '',
+      biografia: updatedUser.biografia || '',
+    });
+
+    if (updatedUser.empresa?.logo) {
+      setLogo(updatedUser.empresa.logo);
+    }
+
+    alert('Perfil atualizado com sucesso!');
   };
 
   const handleLogoChange = (e) => {

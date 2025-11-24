@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumb';
+import { useAuth } from '../../contexts/AuthContext';
 import { statesList } from '../../utils/constants/statesList';
 import GalleryViewModal from './components/GalleryViewModal';
 import NewGalleryModal from './components/NewGalleryModal';
@@ -7,10 +9,24 @@ import { useGalleries } from './hooks/useGalleries';
 import { useProfile } from './hooks/useProfile';
 import './profile.css';
 
+function slugify(str) {
+  return (str || 'perfil')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
 export default function Profile() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const { formData, logo, handleChange, handleSubmit, handleLogoChange } =
     useProfile();
-  const { galleries, addGallery, isInitialized } = useGalleries();
+  const { galleries, addGallery, isInitialized, deleteGallery } =
+    useGalleries();
 
   const [showNewGalleryModal, setShowNewGalleryModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -19,6 +35,66 @@ export default function Profile() {
   const handleGalleryClick = (gallery) => {
     setSelectedGallery(gallery);
     setShowViewModal(true);
+  };
+
+  const handleDeleteGallery = (e, galleryId) => {
+    e.stopPropagation();
+
+    const confirmDelete = window.confirm(
+      'Tem certeza que deseja excluir esta galeria?'
+    );
+    if (!confirmDelete) return;
+
+    deleteGallery(galleryId);
+
+    if (selectedGallery && selectedGallery.id === galleryId) {
+      setSelectedGallery(null);
+      setShowViewModal(false);
+    }
+  };
+
+  const handleGoToPublicPage = () => {
+    const slug = slugify(
+      formData.nomePublico || formData.urlPagina || 'perfil'
+    );
+
+    const publicData = {
+      profile: {
+        userId: user?.id,
+        publicName: formData.nomePublico,
+        pageUrl: formData.urlPagina,
+        email: formData.email,
+        phone: formData.telefone,
+        whatsapp: formData.whatsapp,
+        cep: formData.cep,
+        street: formData.rua,
+        number: formData.numero,
+        complement: formData.complemento,
+        neighborhood: formData.bairro,
+        city: formData.cidade,
+        uf: formData.uf,
+        bio: formData.biografia,
+        logo: typeof logo === 'string' ? logo : null,
+      },
+      galleryIds: galleries.map((g) => g.id),
+    };
+
+    try {
+      localStorage.setItem(
+        `public_profile_${slug}`,
+        JSON.stringify(publicData)
+      );
+      navigate(`/${slug}`);
+    } catch (error) {
+      if (error.name === 'QuotaExceededError') {
+        alert(
+          'Erro: Armazenamento local cheio. Tente remover algumas galerias ou fotos antigas.'
+        );
+      } else {
+        alert('Erro ao salvar perfil público: ' + error.message);
+      }
+      console.error('Erro ao salvar perfil público:', error);
+    }
   };
 
   if (!isInitialized) {
@@ -34,21 +110,26 @@ export default function Profile() {
             <Breadcrumb />
           </div>
         </div>
-        <div className='actionButtons'>
-        <button
-          className="btn btn-seconday-outline"
-          onClick={() => alert('Em breve...')}
-        >
-          Ver página pública
-        </button>
-        <button type="submit" className="btn btn-primary btn-save">
-              Salvar alterações
-            </button>
+        <div className="actionButtons">
+          <button
+            type="button"
+            className="btn btn-seconday-outline"
+            onClick={handleGoToPublicPage}
+          >
+            Ver página pública
+          </button>
+          <button
+            type="submit"
+            form="profile-form"
+            className="btn btn-primary btn-save"
+          >
+            Salvar alterações
+          </button>
         </div>
       </div>
 
       <section className="profile-form">
-        <form className="form-grid" onSubmit={handleSubmit}>
+        <form className="form-grid" onSubmit={handleSubmit} id="profile-form">
           <div className="field span-2">
             <label>Nome público da empresa:</label>
             <input
@@ -238,8 +319,8 @@ export default function Profile() {
                 color: 'var(--muted)',
               }}
             >
-              Nenhuma galeria criada ainda. Clique em "Nova Galeria" para
-              começar.
+              Nenhuma galeria criada ainda. Clique em &quot;Nova Galeria&quot;
+              para começar.
             </div>
           ) : (
             galleries.map((gallery) => (
@@ -249,7 +330,18 @@ export default function Profile() {
                 onClick={() => handleGalleryClick(gallery)}
                 style={{ cursor: 'pointer' }}
               >
-                <img src={gallery.photos[0].url} alt={gallery.name} />
+                <button
+                  type="button"
+                  className="thumb-delete-btn"
+                  onClick={(e) => handleDeleteGallery(e, gallery.id)}
+                  aria-label="Excluir galeria"
+                >
+                  ×
+                </button>
+
+                {gallery.photos[0] && (
+                  <img src={gallery.photos[0].url} alt={gallery.name} />
+                )}
                 <figcaption>{gallery.name}</figcaption>
               </figure>
             ))
