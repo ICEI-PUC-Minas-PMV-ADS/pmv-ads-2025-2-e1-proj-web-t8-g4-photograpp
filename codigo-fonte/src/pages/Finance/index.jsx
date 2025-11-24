@@ -77,7 +77,7 @@ export default function Finance() {
   };
 
   const filteredEntries = entries.filter((entry) => {
-    const d = new Date(entry.date + "T00:00:00"); // Adiciona horário para evitar timezone
+    const d = new Date(entry.date + "T00:00:00");
     return (
       d.getMonth() + 1 === selectedMonth && d.getFullYear() === selectedYear
     );
@@ -88,7 +88,7 @@ export default function Finance() {
     const previousYear = selectedMonth === 1 ? selectedYear - 1 : selectedYear;
 
     const entriesPreviousMonth = entries.filter((entry) => {
-      const d = new Date(entry.date + "T00:00:00"); // Adiciona horário para evitar timezone
+      const d = new Date(entry.date + "T00:00:00"); 
       return (
         d.getMonth() + 1 === previousMonth && d.getFullYear() === previousYear
       );
