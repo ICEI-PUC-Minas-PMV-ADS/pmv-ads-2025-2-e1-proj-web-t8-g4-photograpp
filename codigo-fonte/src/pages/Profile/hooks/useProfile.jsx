@@ -107,7 +107,6 @@ export function useProfile() {
     if (formData.cep.replace(/\D/g, '').length === 8) {
       fetchAddressByCep(formData.cep);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData.cep]);
 
   const handleSubmit = (e) => {
@@ -120,13 +119,11 @@ export function useProfile() {
       return;
     }
 
-    // Lê lista de usuários
     const users = JSON.parse(localStorage.getItem('users') || '[]');
     const userIndex = users.findIndex((u) => u.id === user.id);
 
     let baseUser = userIndex !== -1 ? users[userIndex] : user;
 
-    // Monta objeto atualizado
     const updatedUser = {
       ...baseUser,
       biografia: formData.biografia,
@@ -138,7 +135,6 @@ export function useProfile() {
         razaoSocial: formData.nomePublico,
         email: formData.email,
         telefone: formData.telefone,
-        // aqui garantimos que salvamos a logo atual (base64) se existir
         logo:
           typeof logo === 'string' && logo.startsWith('data:')
             ? logo
@@ -152,11 +148,8 @@ export function useProfile() {
           cidade: formData.cidade,
           uf: formData.uf,
         },
-        // se quiser, já salva o slug/url da página aqui
-        // paginaSlug: formData.urlPagina,
       };
     } else {
-      // Usuário sem empresa cadastrada ainda
       updatedUser.telefone = formData.telefone;
       updatedUser.endereco = {
         cep: formData.cep,
@@ -169,7 +162,6 @@ export function useProfile() {
       };
     }
 
-    // Atualiza ou insere usuário em `users`
     if (userIndex !== -1) {
       users[userIndex] = updatedUser;
     } else {
@@ -178,25 +170,25 @@ export function useProfile() {
 
     localStorage.setItem('users', JSON.stringify(users));
 
-    // Atualiza também o `auth.user` no localStorage
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     if (auth.user && auth.user.id === user.id) {
-      const { password, ...userWithoutPassword } = updatedUser;
+      const { _, ...userWithoutPassword } = updatedUser;
       auth.user = userWithoutPassword;
       localStorage.setItem('auth', JSON.stringify(auth));
     }
 
-    // 🔁 "Refresh" do formulário com o que foi realmente salvo
     setFormData({
       nomePublico: updatedUser.empresa?.razaoSocial || updatedUser.name || '',
       urlPagina: updatedUser.empresa?.razaoSocial
         ? updatedUser.empresa.razaoSocial.toLowerCase().replace(/\s+/g, '-')
-        : formData.urlPagina, // ou usa paginaSlug se você salvar
+        : formData.urlPagina,
       email: updatedUser.empresa?.email || updatedUser.email || '',
       telefone: updatedUser.empresa?.telefone || updatedUser.telefone || '',
       whatsapp: updatedUser.telefone || '',
-      cep: updatedUser.empresa?.endereco?.cep || updatedUser.endereco?.cep || '',
-      rua: updatedUser.empresa?.endereco?.rua || updatedUser.endereco?.rua || '',
+      cep:
+        updatedUser.empresa?.endereco?.cep || updatedUser.endereco?.cep || '',
+      rua:
+        updatedUser.empresa?.endereco?.rua || updatedUser.endereco?.rua || '',
       numero:
         updatedUser.empresa?.endereco?.numero ||
         updatedUser.endereco?.numero ||
@@ -223,8 +215,6 @@ export function useProfile() {
 
     alert('Perfil atualizado com sucesso!');
   };
-
-
 
   const handleLogoChange = (e) => {
     const file = e.target.files?.[0];
