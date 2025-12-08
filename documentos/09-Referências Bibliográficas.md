@@ -10,6 +10,6 @@ AMARAL, Vanessa de Araújo; OLIVEIRA, Angela Maria Fleury de; ISONI, Taciana Mar
 
 FACEBOOK. React – A JavaScript library for building user interfaces. Menlo Park, CA: Meta Platforms, Inc., 2025. Disponível em: https://react.dev. Acesso em: out. 2025.
 
-VITE. Vite – Next Generation Frontend Tooling. [S. l.], 2025. Disponível em: https://vitejs.dev. Acesso em: 7 dez. 2025.
+VITE. Vite – Next Generation Frontend Tooling. [S. l.], 2025. Disponível em: https://vitejs.dev. Acesso em: out. 2025.
 
 IBM. IBM Cloud: Test and Dev – Modern testing and quality practices. Armonk, NY: IBM Corporation, 2025. Disponível em: https://www.ibm.com/topics/software-testing. Acesso em: out. 2025.
