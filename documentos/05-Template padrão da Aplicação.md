@@ -30,16 +30,3 @@ A paleta de cores criada para a marca possui 3 cores primárias e 10 cores secun
 
 ![paleta](https://github.com/user-attachments/assets/0a94ed70-2b69-4f5c-bbb7-be1a10bb86c2)
 
-
-
-
-Layout padrão do site (HTML e CSS) que será utilizado em todas as páginas com a definição de identidade visual, aspectos de responsividade e iconografia.
-
-[Apresente a estrutura padrão da sua aplicação.]
-
-> **Links Úteis**:
->
-> - [CSS Website Layout (W3Schools)](https://www.w3schools.com/css/css_website_layout.asp)
-> - [Website Page Layouts](http://www.cellbiol.com/bioinformatics_web_development/chapter-3-your-first-web-page-learning-html-and-css/website-page-layouts/)
-> - [Perfect Liquid Layout](https://matthewjamestaylor.com/perfect-liquid-layouts)
-> - [How and Why Icons Improve Your Web Design](https://usabilla.com/blog/how-and-why-icons-improve-you-web-design/)
