@@ -5,3 +5,11 @@ SEBRAE/PR. *Panorama do mercado fotográfico: tendências e oportunidades*. Publ
 KLAUCK, Fernanda; PINHEIRO, Cristiano Max Pereira; BARTH, Mauricio. Talento sem gestão é apenas diversão: os desafios do ato de empreender na fotografia. *CODS - Colóquio Organizações, Desenvolvimento e Sustentabilidade*, v. 15, n. 1, 2024. Disponível em: <https://codsunama.org/ojs/index.php/br/article/view/83>. Acesso em: 6 set. 2025.
 
 WORLD WIDE WEB CONSORTIUM. *Web Content Accessibility Guidelines (WCAG) 2.1*. Disponível em: <https://www.w3.org/TR/WCAG21/>. Acesso em: 1 set. 2025.
+
+AMARAL, Vanessa de Araújo; OLIVEIRA, Angela Maria Fleury de; ISONI, Taciana Maria. Inovação social e metodologias ágeis: uma história de sucesso. DOM: a revista da Fundação Dom Cabral, Nova Lima, v. 12, n. 38, p. 66-71, set. 2019.
+
+FACEBOOK. React – A JavaScript library for building user interfaces. Menlo Park, CA: Meta Platforms, Inc., 2025. Disponível em: https://react.dev. Acesso em: out. 2025.
+
+VITE. Vite – Next Generation Frontend Tooling. [S. l.], 2025. Disponível em: https://vitejs.dev. Acesso em: 7 dez. 2025.
+
+IBM. IBM Cloud: Test and Dev – Modern testing and quality practices. Armonk, NY: IBM Corporation, 2025. Disponível em: https://www.ibm.com/topics/software-testing. Acesso em: out. 2025.
