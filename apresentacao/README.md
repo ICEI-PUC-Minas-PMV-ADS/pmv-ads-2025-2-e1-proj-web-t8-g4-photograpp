@@ -9,7 +9,7 @@ Link:
 Link:
 [Vídeo de apresentação - Mp4](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e1-proj-web-t8-g4-photograpp/blob/docs/update-docs-2/apresentacao/Photograpp.mp4)
 
-Se não conseguir acessar o link acima, há uma cópia no google drive:
+Obs: Se não conseguir acessar o link acima, há uma cópia no google drive:
 https://drive.google.com/drive/folders/1vtMJeHS790f4kuByLpB9KPpN8DoioS8E
 
 
