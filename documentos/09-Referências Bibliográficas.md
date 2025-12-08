@@ -1,4 +1,4 @@
-### Referências
+# Referências
 
 SEBRAE/PR. *Panorama do mercado fotográfico: tendências e oportunidades*. Publicação Impulsiona. Curitiba: Sebrae/PR, 2024. 42 p. Disponível em: <https://sebraepr.com.br/impulsiona/panorama-do-mercado-fotografico-tendencias-e-oportunidades/>. Acesso em: 24 ago. 2025.
 
