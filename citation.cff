@@ -1,29 +1,28 @@
 message: Please cite this software using these metadata.
-title:
+title: Photograpp - Sistema para Fotógrafos
 authors:
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
-  - family-names: 
-    given-names: 
+  - family-names: de Lima
+    given-names: Ariana da Cunha Ferreira Paz
+  - family-names: de Lima
+    given-names: D'Angeles Lé Pereira
+  - family-names: Barbosa
+    given-names: Gustavo Santiago
+  - family-names: de Morais
+    given-names: Yago Rodrigues
+  - family-names: Silva
+    given-names: Yuri Jardim
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
-  - name-suffix: Professor
-    affiliation: PUC Minas
-    family-names: 
-    given-names: 
+    family-names: Gomes
+    given-names: Luiz Alberto Ferreira
 keywords:
-  - 
-  - 
-repository-code: 
+  - fotografia
+  - gestão de agenda
+  - CRM
+  - pipeline kanban
+  - sistema web
+repository-code: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e1-proj-web-t8-g4-photograpp
 version: 1.0.0
-date-released: 2023-10-31
+
+date-released: 2025-12-09
+
