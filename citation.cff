@@ -13,10 +13,6 @@ authors:
     given-names: Yuri Jardim
   - name-suffix: Professor
     affiliation: PUC Minas
-    family-names: 
-    given-names: 
-  - name-suffix: Professor
-    affiliation: PUC Minas
     family-names: Gomes
     given-names: Luiz Alberto Ferreira
 keywords:
@@ -29,3 +25,4 @@ repository-code: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2025-2-e1-pro
 version: 1.0.0
 
 date-released: 2025-12-09
+
